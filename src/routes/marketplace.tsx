@@ -95,9 +95,7 @@ function MarketplacePage() {
                 <h3 className="font-display font-semibold text-foreground">{p.name}</h3>
                 <p className="mt-1 text-sm text-muted-foreground flex-1">{p.spec}</p>
                 <Button asChild variant="outline" size="sm" className="mt-4">
-                  <Link to="/contact" search={{ product: p.name } as never}>
-                    Request quote
-                  </Link>
+                  <Link to="/contact">Request quote</Link>
                 </Button>
               </div>
             </article>
