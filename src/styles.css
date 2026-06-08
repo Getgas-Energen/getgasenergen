@@ -5,9 +5,9 @@
 @custom-variant dark (&:is(.dark *));
 
 /*
- * Getgas Energen — Modern Industrial / Engineering design system.
- * Deep steel navy, blueprint blue, safety-orange accent.
- * All colors in oklch.
+ * Getgas Energen — Engineering-grade brand system.
+ * Royal Purple #2E006B/#3A0A73, Energen Cyan #25B7E6, White, Graphite #1F2937.
+ * No orange/red — explicitly forbidden by brand guide.
  */
 
 @theme inline {
@@ -37,10 +37,11 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
 
+  /* Legacy semantic aliases kept so existing components don't churn. */
   --color-steel: var(--steel);
   --color-steel-foreground: var(--steel-foreground);
   --color-blueprint: var(--blueprint);
-  --color-flame: var(--flame);
+  --color-flame: var(--accent); /* flame now points at cyan accent — orange removed */
   --color-surface: var(--surface);
 
   --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
@@ -48,61 +49,69 @@
 }
 
 :root {
-  --radius: 0.5rem;
+  --radius: 0.625rem;
 
-  /* Brand: steel navy #0F1B2D, blueprint blue #1E5AA8, flame #F26B1F */
-  --steel: oklch(0.21 0.04 255);
-  --steel-foreground: oklch(0.98 0.005 250);
-  --blueprint: oklch(0.50 0.13 255);
-  --flame: oklch(0.68 0.18 45);
-  --surface: oklch(0.97 0.005 250);
+  /* Brand */
+  --royal-deep: oklch(0.22 0.17 295);     /* #2E006B */
+  --royal: oklch(0.27 0.17 293);          /* #3A0A73 */
+  --cyan: oklch(0.74 0.13 220);           /* #25B7E6 */
+  --graphite: oklch(0.27 0.02 250);       /* #1F2937 */
+  --silver: oklch(0.91 0.005 250);        /* #E5E7EB */
 
-  --background: oklch(0.99 0.003 250);
-  --foreground: oklch(0.18 0.03 255);
+  /* Legacy aliases now mapped to brand */
+  --steel: var(--royal-deep);
+  --steel-foreground: oklch(0.98 0.005 280);
+  --blueprint: var(--cyan);
+  --surface: oklch(0.985 0.005 280);
+
+  --background: oklch(1 0 0);
+  --foreground: var(--graphite);
 
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.18 0.03 255);
+  --card-foreground: var(--graphite);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.18 0.03 255);
+  --popover-foreground: var(--graphite);
 
-  --primary: oklch(0.21 0.04 255);
-  --primary-foreground: oklch(0.98 0.005 250);
+  --primary: var(--royal);
+  --primary-foreground: oklch(0.99 0.005 280);
 
-  --secondary: oklch(0.95 0.01 250);
-  --secondary-foreground: oklch(0.21 0.04 255);
+  --secondary: oklch(0.96 0.01 285);
+  --secondary-foreground: var(--royal-deep);
 
-  --muted: oklch(0.95 0.01 250);
-  --muted-foreground: oklch(0.50 0.02 255);
+  --muted: oklch(0.96 0.008 280);
+  --muted-foreground: oklch(0.48 0.02 270);
 
-  --accent: oklch(0.68 0.18 45);
-  --accent-foreground: oklch(1 0 0);
+  --accent: var(--cyan);
+  --accent-foreground: oklch(0.18 0.03 260);
 
   --destructive: oklch(0.58 0.22 27);
   --destructive-foreground: oklch(1 0 0);
 
-  --border: oklch(0.90 0.01 250);
-  --input: oklch(0.90 0.01 250);
-  --ring: oklch(0.50 0.13 255);
+  --border: var(--silver);
+  --input: var(--silver);
+  --ring: var(--cyan);
+
+  --gradient-royal: linear-gradient(135deg, #2E006B 0%, #3A0A73 55%, #25B7E6 130%);
 }
 
 .dark {
-  --background: oklch(0.15 0.025 255);
-  --foreground: oklch(0.97 0.005 250);
-  --card: oklch(0.21 0.04 255);
-  --card-foreground: oklch(0.97 0.005 250);
-  --popover: oklch(0.21 0.04 255);
-  --popover-foreground: oklch(0.97 0.005 250);
-  --primary: oklch(0.97 0.005 250);
-  --primary-foreground: oklch(0.21 0.04 255);
-  --secondary: oklch(0.27 0.04 255);
-  --secondary-foreground: oklch(0.97 0.005 250);
-  --muted: oklch(0.27 0.04 255);
-  --muted-foreground: oklch(0.70 0.02 255);
-  --accent: oklch(0.68 0.18 45);
-  --accent-foreground: oklch(1 0 0);
-  --border: oklch(1 0 0 / 10%);
+  --background: oklch(0.15 0.03 280);
+  --foreground: oklch(0.97 0.005 280);
+  --card: var(--royal-deep);
+  --card-foreground: oklch(0.97 0.005 280);
+  --popover: var(--royal-deep);
+  --popover-foreground: oklch(0.97 0.005 280);
+  --primary: oklch(0.97 0.005 280);
+  --primary-foreground: var(--royal-deep);
+  --secondary: oklch(0.28 0.08 285);
+  --secondary-foreground: oklch(0.97 0.005 280);
+  --muted: oklch(0.28 0.05 285);
+  --muted-foreground: oklch(0.72 0.02 280);
+  --accent: var(--cyan);
+  --accent-foreground: oklch(0.15 0.03 260);
+  --border: oklch(1 0 0 / 12%);
   --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.55 0.13 255);
+  --ring: var(--cyan);
 }
 
 @layer base {
@@ -126,15 +135,19 @@
 
 @utility blueprint-grid {
   background-image:
-    linear-gradient(to right, color-mix(in oklab, var(--blueprint) 12%, transparent) 1px, transparent 1px),
-    linear-gradient(to bottom, color-mix(in oklab, var(--blueprint) 12%, transparent) 1px, transparent 1px);
+    linear-gradient(to right, color-mix(in oklab, var(--royal) 10%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in oklab, var(--royal) 10%, transparent) 1px, transparent 1px);
   background-size: 32px 32px;
 }
 
 @utility blueprint-grid-dark {
-  background-color: var(--steel);
+  background-color: var(--royal-deep);
   background-image:
-    linear-gradient(to right, color-mix(in oklab, white 8%, transparent) 1px, transparent 1px),
-    linear-gradient(to bottom, color-mix(in oklab, white 8%, transparent) 1px, transparent 1px);
+    linear-gradient(to right, color-mix(in oklab, var(--cyan) 18%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in oklab, var(--cyan) 18%, transparent) 1px, transparent 1px);
   background-size: 40px 40px;
+}
+
+@utility gradient-royal {
+  background-image: var(--gradient-royal);
 }
