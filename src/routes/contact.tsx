@@ -69,14 +69,18 @@ function ContactPage() {
           </div>
           <div className="space-y-2">
             <Label htmlFor="type">Project type</Label>
-            <Select name="type" defaultValue="reticulation">
+            <Select name="type" defaultValue="feasibility">
               <SelectTrigger id="type"><SelectValue /></SelectTrigger>
               <SelectContent>
-                <SelectItem value="reticulation">Gas reticulation design</SelectItem>
-                <SelectItem value="storage">Bulk LPG storage</SelectItem>
-                <SelectItem value="installation">Installation & commissioning</SelectItem>
-                <SelectItem value="maintenance">Inspection & maintenance</SelectItem>
-                <SelectItem value="marketplace">Marketplace / hardware</SelectItem>
+                <SelectItem value="feasibility">Feasibility Study</SelectItem>
+                <SelectItem value="design">Engineering Design</SelectItem>
+                <SelectItem value="reticulation">Gas Reticulation</SelectItem>
+                <SelectItem value="storage">Bulk LPG Storage</SelectItem>
+                <SelectItem value="epc">EPC (Engineering, Procurement, Construction)</SelectItem>
+                <SelectItem value="metering">Smart Metering & Vending</SelectItem>
+                <SelectItem value="safety">Safety Systems</SelectItem>
+                <SelectItem value="om">Operations & Maintenance</SelectItem>
+                <SelectItem value="marketplace">Equipment / Marketplace</SelectItem>
                 <SelectItem value="other">Other</SelectItem>
               </SelectContent>
             </Select>

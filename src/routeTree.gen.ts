@@ -9,16 +9,29 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as SmartMeteringRouteImport } from './routes/smart-metering'
 import { Route as ServicesRouteImport } from './routes/services'
+import { Route as SafetySystemsRouteImport } from './routes/safety-systems'
 import { Route as ProjectsRouteImport } from './routes/projects'
 import { Route as MarketplaceRouteImport } from './routes/marketplace'
+import { Route as IndustriesRouteImport } from './routes/industries'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 
+const SmartMeteringRoute = SmartMeteringRouteImport.update({
+  id: '/smart-metering',
+  path: '/smart-metering',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ServicesRoute = ServicesRouteImport.update({
   id: '/services',
   path: '/services',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SafetySystemsRoute = SafetySystemsRouteImport.update({
+  id: '/safety-systems',
+  path: '/safety-systems',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProjectsRoute = ProjectsRouteImport.update({
@@ -29,6 +42,11 @@ const ProjectsRoute = ProjectsRouteImport.update({
 const MarketplaceRoute = MarketplaceRouteImport.update({
   id: '/marketplace',
   path: '/marketplace',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IndustriesRoute = IndustriesRouteImport.update({
+  id: '/industries',
+  path: '/industries',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContactRoute = ContactRouteImport.update({
@@ -51,26 +69,35 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
+  '/industries': typeof IndustriesRoute
   '/marketplace': typeof MarketplaceRoute
   '/projects': typeof ProjectsRoute
+  '/safety-systems': typeof SafetySystemsRoute
   '/services': typeof ServicesRoute
+  '/smart-metering': typeof SmartMeteringRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
+  '/industries': typeof IndustriesRoute
   '/marketplace': typeof MarketplaceRoute
   '/projects': typeof ProjectsRoute
+  '/safety-systems': typeof SafetySystemsRoute
   '/services': typeof ServicesRoute
+  '/smart-metering': typeof SmartMeteringRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
+  '/industries': typeof IndustriesRoute
   '/marketplace': typeof MarketplaceRoute
   '/projects': typeof ProjectsRoute
+  '/safety-systems': typeof SafetySystemsRoute
   '/services': typeof ServicesRoute
+  '/smart-metering': typeof SmartMeteringRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -78,37 +105,69 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/contact'
+    | '/industries'
     | '/marketplace'
     | '/projects'
+    | '/safety-systems'
     | '/services'
+    | '/smart-metering'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/contact' | '/marketplace' | '/projects' | '/services'
+  to:
+    | '/'
+    | '/about'
+    | '/contact'
+    | '/industries'
+    | '/marketplace'
+    | '/projects'
+    | '/safety-systems'
+    | '/services'
+    | '/smart-metering'
   id:
     | '__root__'
     | '/'
     | '/about'
     | '/contact'
+    | '/industries'
     | '/marketplace'
     | '/projects'
+    | '/safety-systems'
     | '/services'
+    | '/smart-metering'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   ContactRoute: typeof ContactRoute
+  IndustriesRoute: typeof IndustriesRoute
   MarketplaceRoute: typeof MarketplaceRoute
   ProjectsRoute: typeof ProjectsRoute
+  SafetySystemsRoute: typeof SafetySystemsRoute
   ServicesRoute: typeof ServicesRoute
+  SmartMeteringRoute: typeof SmartMeteringRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/smart-metering': {
+      id: '/smart-metering'
+      path: '/smart-metering'
+      fullPath: '/smart-metering'
+      preLoaderRoute: typeof SmartMeteringRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/services': {
       id: '/services'
       path: '/services'
       fullPath: '/services'
       preLoaderRoute: typeof ServicesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/safety-systems': {
+      id: '/safety-systems'
+      path: '/safety-systems'
+      fullPath: '/safety-systems'
+      preLoaderRoute: typeof SafetySystemsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/projects': {
@@ -123,6 +182,13 @@ declare module '@tanstack/react-router' {
       path: '/marketplace'
       fullPath: '/marketplace'
       preLoaderRoute: typeof MarketplaceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/industries': {
+      id: '/industries'
+      path: '/industries'
+      fullPath: '/industries'
+      preLoaderRoute: typeof IndustriesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contact': {
@@ -153,10 +219,23 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   ContactRoute: ContactRoute,
+  IndustriesRoute: IndustriesRoute,
   MarketplaceRoute: MarketplaceRoute,
   ProjectsRoute: ProjectsRoute,
+  SafetySystemsRoute: SafetySystemsRoute,
   ServicesRoute: ServicesRoute,
+  SmartMeteringRoute: SmartMeteringRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
