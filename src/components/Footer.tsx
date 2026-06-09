@@ -51,15 +51,15 @@ export function Footer() {
             <ul className="mt-4 space-y-3 text-sm text-white/70">
               <li className="flex items-start gap-2">
                 <MapPin className="h-4 w-4 mt-0.5 text-accent shrink-0" />
-                <span>Nairobi, Kenya</span>
+                <span>Tatu City, Nairobi, Kenya</span>
               </li>
               <li className="flex items-start gap-2">
                 <Phone className="h-4 w-4 mt-0.5 text-accent shrink-0" />
-                <span>+254 700 000 000</span>
+                <span>+254 702 947 573</span>
               </li>
               <li className="flex items-start gap-2">
                 <Mail className="h-4 w-4 mt-0.5 text-accent shrink-0" />
-                <span>info@getgasenergen.com</span>
+                <span>getgasenergenkenya@gmail.com</span>
               </li>
             </ul>
           </div>
