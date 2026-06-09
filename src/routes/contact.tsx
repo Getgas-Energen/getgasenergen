@@ -2,18 +2,20 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
 import { Mail, Phone, MapPin, Send } from "lucide-react";
 import { toast } from "sonner";
+import { useServerFn } from "@tanstack/react-start";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { SectionHeading } from "@/components/SectionHeading";
+import { submitContactForm } from "@/lib/contact.functions";
 
 export const Route = createFileRoute("/contact")({
   head: () => ({
     meta: [
       { title: "Contact — Request a Quote | Getgas Energen Ltd" },
-      { name: "description", content: "Talk to Getgas Energen about gas reticulation design, bulk storage, installation or marketplace products. Based in Nairobi, Kenya." },
+      { name: "description", content: "Talk to Getgas Energen about gas reticulation design, bulk storage, installation or marketplace products. Based in Tatu City, Nairobi, Kenya." },
       { property: "og:title", content: "Contact Getgas Energen Ltd" },
       { property: "og:description", content: "Request a quote for LPG design, installation or hardware." },
     ],
@@ -23,14 +25,35 @@ export const Route = createFileRoute("/contact")({
 
 function ContactPage() {
   const [submitting, setSubmitting] = useState(false);
+  const [projectType, setProjectType] = useState("feasibility");
+  const submitForm = useServerFn(submitContactForm);
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSubmitting(true);
-    await new Promise((r) => setTimeout(r, 700));
-    setSubmitting(false);
-    (e.target as HTMLFormElement).reset();
-    toast.success("Thanks — we'll get back to you within one business day.");
+
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+
+    try {
+      await submitForm({
+        data: {
+          name: String(formData.get("name") || ""),
+          company: String(formData.get("company") || ""),
+          email: String(formData.get("email") || ""),
+          phone: String(formData.get("phone") || ""),
+          projectType,
+          message: String(formData.get("message") || ""),
+        },
+      });
+      toast.success("Thanks — we'll get back to you within one business day.");
+      form.reset();
+      setProjectType("feasibility");
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Something went wrong. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -69,7 +92,7 @@ function ContactPage() {
           </div>
           <div className="space-y-2">
             <Label htmlFor="type">Project type</Label>
-            <Select name="type" defaultValue="feasibility">
+            <Select name="type" value={projectType} onValueChange={setProjectType}>
               <SelectTrigger id="type"><SelectValue /></SelectTrigger>
               <SelectContent>
                 <SelectItem value="feasibility">Feasibility Study</SelectItem>
