@@ -41,7 +41,7 @@ function AboutPage() {
           </div>
           <dl className="grid grid-cols-3 gap-6 lg:gap-8 border-t border-white/10 pt-6 lg:border-0 lg:pt-0">
             <div><dt className="text-xs uppercase tracking-wider text-white/55">Founded</dt><dd className="mt-1 font-display text-3xl font-bold">2016</dd></div>
-            <div><dt className="text-xs uppercase tracking-wider text-white/55">HQ</dt><dd className="mt-1 font-display text-3xl font-bold">Nairobi</dd></div>
+            <div><dt className="text-xs uppercase tracking-wider text-white/55">HQ</dt><dd className="mt-1 font-display text-3xl font-bold">Tatu City</dd></div>
             <div><dt className="text-xs uppercase tracking-wider text-white/55">Markets</dt><dd className="mt-1 font-display text-3xl font-bold">KE · CA</dd></div>
           </dl>
         </div>
