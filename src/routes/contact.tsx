@@ -103,8 +103,8 @@ function ContactPage() {
                   <MapPin className="h-5 w-5 text-accent" />
                 </span>
                 <div>
-                  <p className="text-xs uppercase tracking-wider text-white/55">Office</p>
-                  <p className="mt-1 text-white/90">Nairobi, Kenya</p>
+                  <p className="text-xs uppercase tracking-wider text-white/55">Headquarters</p>
+                  <p className="mt-1 text-white/90">Tatu City, Nairobi, Kenya</p>
                 </div>
               </li>
               <li className="flex items-start gap-3">
@@ -113,7 +113,16 @@ function ContactPage() {
                 </span>
                 <div>
                   <p className="text-xs uppercase tracking-wider text-white/55">Phone</p>
-                  <a href="tel:+254700000000" className="mt-1 block text-white/90 hover:text-accent">+254 700 000 000</a>
+                  <a href="tel:+254702947573" className="mt-1 block text-white/90 hover:text-accent">+254 702 947 573</a>
+                </div>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="grid h-10 w-10 place-items-center rounded-md bg-white/10 shrink-0">
+                  <Phone className="h-5 w-5 text-accent" />
+                </span>
+                <div>
+                  <p className="text-xs uppercase tracking-wider text-white/55">WhatsApp</p>
+                  <a href="https://wa.me/254747752600" target="_blank" rel="noopener noreferrer" className="mt-1 block text-white/90 hover:text-accent">+254 747 752 600</a>
                 </div>
               </li>
               <li className="flex items-start gap-3">
@@ -122,7 +131,7 @@ function ContactPage() {
                 </span>
                 <div>
                   <p className="text-xs uppercase tracking-wider text-white/55">Email</p>
-                  <a href="mailto:info@getgaske.com" className="mt-1 block text-white/90 hover:text-accent">info@getgaske.com</a>
+                  <a href="mailto:getgasenergenkenya@gmail.com" className="mt-1 block text-white/90 hover:text-accent">getgasenergenkenya@gmail.com</a>
                 </div>
               </li>
             </ul>
