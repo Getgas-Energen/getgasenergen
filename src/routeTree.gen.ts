@@ -32,6 +32,8 @@ import { Route as ProjectsSlugRouteImport } from './routes/projects.$slug'
 import { Route as AuthenticatedConsoleIndexRouteImport } from './routes/_authenticated/console.index'
 import { Route as AuthenticatedConsoleOrdersRouteImport } from './routes/_authenticated/console.orders'
 import { Route as AuthenticatedConsolePostsRouteImport } from './routes/_authenticated/console.posts'
+import { Route as AuthenticatedConsoleProjectsRouteImport } from './routes/_authenticated/console.projects'
+import { Route as AuthenticatedConsoleQuotesRouteImport } from './routes/_authenticated/console.quotes'
 import { Route as AuthenticatedConsoleShopRouteImport } from './routes/_authenticated/console.shop'
 import { Route as AuthenticatedConsoleUsersRouteImport } from './routes/_authenticated/console.users'
 import { Route as ApiPublicEnquiryAttachmentRouteImport } from './routes/api/public/enquiry-attachment'
@@ -157,6 +159,18 @@ const AuthenticatedConsolePostsRoute =
     path: '/posts',
     getParentRoute: () => AuthenticatedConsoleRoute,
   } as any)
+const AuthenticatedConsoleProjectsRoute =
+  AuthenticatedConsoleProjectsRouteImport.update({
+    id: '/projects',
+    path: '/projects',
+    getParentRoute: () => AuthenticatedConsoleRoute,
+  } as any)
+const AuthenticatedConsoleQuotesRoute =
+  AuthenticatedConsoleQuotesRouteImport.update({
+    id: '/quotes',
+    path: '/quotes',
+    getParentRoute: () => AuthenticatedConsoleRoute,
+  } as any)
 const AuthenticatedConsoleShopRoute =
   AuthenticatedConsoleShopRouteImport.update({
     id: '/shop',
@@ -220,6 +234,8 @@ export interface FileRoutesByFullPath {
   '/projects/$slug': typeof ProjectsSlugRoute
   '/console/orders': typeof AuthenticatedConsoleOrdersRoute
   '/console/posts': typeof AuthenticatedConsolePostsRouteWithChildren
+  '/console/projects': typeof AuthenticatedConsoleProjectsRoute
+  '/console/quotes': typeof AuthenticatedConsoleQuotesRoute
   '/console/shop': typeof AuthenticatedConsoleShopRoute
   '/console/users': typeof AuthenticatedConsoleUsersRoute
   '/api/public/enquiry-attachment': typeof ApiPublicEnquiryAttachmentRoute
@@ -250,6 +266,8 @@ export interface FileRoutesByTo {
   '/projects/$slug': typeof ProjectsSlugRoute
   '/console/orders': typeof AuthenticatedConsoleOrdersRoute
   '/console/posts': typeof AuthenticatedConsolePostsRouteWithChildren
+  '/console/projects': typeof AuthenticatedConsoleProjectsRoute
+  '/console/quotes': typeof AuthenticatedConsoleQuotesRoute
   '/console/shop': typeof AuthenticatedConsoleShopRoute
   '/console/users': typeof AuthenticatedConsoleUsersRoute
   '/api/public/enquiry-attachment': typeof ApiPublicEnquiryAttachmentRoute
@@ -283,6 +301,8 @@ export interface FileRoutesById {
   '/projects/$slug': typeof ProjectsSlugRoute
   '/_authenticated/console/orders': typeof AuthenticatedConsoleOrdersRoute
   '/_authenticated/console/posts': typeof AuthenticatedConsolePostsRouteWithChildren
+  '/_authenticated/console/projects': typeof AuthenticatedConsoleProjectsRoute
+  '/_authenticated/console/quotes': typeof AuthenticatedConsoleQuotesRoute
   '/_authenticated/console/shop': typeof AuthenticatedConsoleShopRoute
   '/_authenticated/console/users': typeof AuthenticatedConsoleUsersRoute
   '/api/public/enquiry-attachment': typeof ApiPublicEnquiryAttachmentRoute
@@ -316,6 +336,8 @@ export interface FileRouteTypes {
     | '/projects/$slug'
     | '/console/orders'
     | '/console/posts'
+    | '/console/projects'
+    | '/console/quotes'
     | '/console/shop'
     | '/console/users'
     | '/api/public/enquiry-attachment'
@@ -346,6 +368,8 @@ export interface FileRouteTypes {
     | '/projects/$slug'
     | '/console/orders'
     | '/console/posts'
+    | '/console/projects'
+    | '/console/quotes'
     | '/console/shop'
     | '/console/users'
     | '/api/public/enquiry-attachment'
@@ -378,6 +402,8 @@ export interface FileRouteTypes {
     | '/projects/$slug'
     | '/_authenticated/console/orders'
     | '/_authenticated/console/posts'
+    | '/_authenticated/console/projects'
+    | '/_authenticated/console/quotes'
     | '/_authenticated/console/shop'
     | '/_authenticated/console/users'
     | '/api/public/enquiry-attachment'
@@ -575,6 +601,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedConsolePostsRouteImport
       parentRoute: typeof AuthenticatedConsoleRoute
     }
+    '/_authenticated/console/projects': {
+      id: '/_authenticated/console/projects'
+      path: '/projects'
+      fullPath: '/console/projects'
+      preLoaderRoute: typeof AuthenticatedConsoleProjectsRouteImport
+      parentRoute: typeof AuthenticatedConsoleRoute
+    }
+    '/_authenticated/console/quotes': {
+      id: '/_authenticated/console/quotes'
+      path: '/quotes'
+      fullPath: '/console/quotes'
+      preLoaderRoute: typeof AuthenticatedConsoleQuotesRouteImport
+      parentRoute: typeof AuthenticatedConsoleRoute
+    }
     '/_authenticated/console/shop': {
       id: '/_authenticated/console/shop'
       path: '/shop'
@@ -644,6 +684,8 @@ const AuthenticatedConsolePostsRouteWithChildren =
 interface AuthenticatedConsoleRouteChildren {
   AuthenticatedConsoleOrdersRoute: typeof AuthenticatedConsoleOrdersRoute
   AuthenticatedConsolePostsRoute: typeof AuthenticatedConsolePostsRouteWithChildren
+  AuthenticatedConsoleProjectsRoute: typeof AuthenticatedConsoleProjectsRoute
+  AuthenticatedConsoleQuotesRoute: typeof AuthenticatedConsoleQuotesRoute
   AuthenticatedConsoleShopRoute: typeof AuthenticatedConsoleShopRoute
   AuthenticatedConsoleUsersRoute: typeof AuthenticatedConsoleUsersRoute
   AuthenticatedConsoleIndexRoute: typeof AuthenticatedConsoleIndexRoute
@@ -652,6 +694,8 @@ interface AuthenticatedConsoleRouteChildren {
 const AuthenticatedConsoleRouteChildren: AuthenticatedConsoleRouteChildren = {
   AuthenticatedConsoleOrdersRoute: AuthenticatedConsoleOrdersRoute,
   AuthenticatedConsolePostsRoute: AuthenticatedConsolePostsRouteWithChildren,
+  AuthenticatedConsoleProjectsRoute: AuthenticatedConsoleProjectsRoute,
+  AuthenticatedConsoleQuotesRoute: AuthenticatedConsoleQuotesRoute,
   AuthenticatedConsoleShopRoute: AuthenticatedConsoleShopRoute,
   AuthenticatedConsoleUsersRoute: AuthenticatedConsoleUsersRoute,
   AuthenticatedConsoleIndexRoute: AuthenticatedConsoleIndexRoute,
