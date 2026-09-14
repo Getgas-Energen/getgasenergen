@@ -67,7 +67,7 @@ export const Route = createFileRoute("/api/public/project-pdf/$slug")({
           },
         ]);
 
-        return new Response(bytes, {
+        return new Response(new Blob([bytes as unknown as BlobPart]), {
           headers: {
             "content-type": "application/pdf",
             "content-disposition": `inline; filename="${slug}.pdf"`,
