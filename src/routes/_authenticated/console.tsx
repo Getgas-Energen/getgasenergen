@@ -1,7 +1,7 @@
 import { createFileRoute, Link, Outlet, useNavigate } from "@tanstack/react-router";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { LogOut, Inbox, FileText, Users } from "lucide-react";
+import { LogOut, Inbox, FileText, Users, ShoppingCart, Package } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { getMyAccess } from "@/lib/auth.functions";
 import { Button } from "@/components/ui/button";
@@ -55,6 +55,8 @@ function ConsoleLayout() {
 
   const tabs = [
     { to: "/console", label: "Enquiries", icon: Inbox, exact: true },
+    { to: "/console/orders", label: "Orders", icon: ShoppingCart, exact: false },
+    { to: "/console/shop", label: "Marketplace", icon: Package, exact: false },
     { to: "/console/posts", label: "Insights", icon: FileText, exact: false },
     ...(access.isAdmin ? [{ to: "/console/users", label: "Team", icon: Users, exact: false }] : []),
   ] as const;
