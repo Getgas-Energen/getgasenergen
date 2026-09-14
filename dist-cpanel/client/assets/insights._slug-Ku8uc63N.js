@@ -1,0 +1,1 @@
+import{j as t,L as o}from"./index-DEMA0Sbd.js";const n=()=>t.jsxs("div",{className:"mx-auto max-w-3xl px-4 py-24 text-center",children:[t.jsx("h1",{className:"font-display text-2xl font-semibold",children:"Article not found"}),t.jsx(o,{to:"/insights",className:"mt-4 inline-block text-sm font-semibold text-primary",children:"Back to Insights"})]});export{n as notFoundComponent};
