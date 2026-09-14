@@ -9,49 +9,35 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as SmartMeteringRouteImport } from './routes/smart-metering'
-import { Route as ServicesRouteImport } from './routes/services'
-import { Route as SafetySystemsRouteImport } from './routes/safety-systems'
-import { Route as ProjectsRouteImport } from './routes/projects'
-import { Route as MarketplaceRouteImport } from './routes/marketplace'
-import { Route as IndustriesRouteImport } from './routes/industries'
-import { Route as ContactRouteImport } from './routes/contact'
-import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as AboutRouteImport } from './routes/about'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as IndustriesRouteImport } from './routes/industries'
+import { Route as InsightsRouteImport } from './routes/insights'
+import { Route as MarketplaceRouteImport } from './routes/marketplace'
+import { Route as ProjectsRouteImport } from './routes/projects'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as SafetySystemsRouteImport } from './routes/safety-systems'
+import { Route as ServicesRouteImport } from './routes/services'
+import { Route as SmartMeteringRouteImport } from './routes/smart-metering'
+import { Route as StaffLoginRouteImport } from './routes/staff-login'
+import { Route as AuthenticatedConsoleRouteImport } from './routes/_authenticated/console'
+import { Route as InsightsSlugRouteImport } from './routes/insights.$slug'
+import { Route as AuthenticatedConsoleIndexRouteImport } from './routes/_authenticated/console.index'
+import { Route as AuthenticatedConsolePostsRouteImport } from './routes/_authenticated/console.posts'
+import { Route as AuthenticatedConsoleUsersRouteImport } from './routes/_authenticated/console.users'
+import { Route as ApiPublicEnquiryAttachmentRouteImport } from './routes/api/public/enquiry-attachment'
+import { Route as AuthenticatedConsolePostsIdRouteImport } from './routes/_authenticated/console.posts.$id'
+import { Route as ApiPublicMediaSplatRouteImport } from './routes/api/public/media.$'
 
-const SmartMeteringRoute = SmartMeteringRouteImport.update({
-  id: '/smart-metering',
-  path: '/smart-metering',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ServicesRoute = ServicesRouteImport.update({
-  id: '/services',
-  path: '/services',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SafetySystemsRoute = SafetySystemsRouteImport.update({
-  id: '/safety-systems',
-  path: '/safety-systems',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ProjectsRoute = ProjectsRouteImport.update({
-  id: '/projects',
-  path: '/projects',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const MarketplaceRoute = MarketplaceRouteImport.update({
-  id: '/marketplace',
-  path: '/marketplace',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const IndustriesRoute = IndustriesRouteImport.update({
-  id: '/industries',
-  path: '/industries',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ContactRoute = ContactRouteImport.update({
-  id: '/contact',
-  path: '/contact',
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AboutRoute = AboutRouteImport.update({
@@ -59,9 +45,99 @@ const AboutRoute = AboutRouteImport.update({
   path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IndustriesRoute = IndustriesRouteImport.update({
+  id: '/industries',
+  path: '/industries',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InsightsRoute = InsightsRouteImport.update({
+  id: '/insights',
+  path: '/insights',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MarketplaceRoute = MarketplaceRouteImport.update({
+  id: '/marketplace',
+  path: '/marketplace',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProjectsRoute = ProjectsRouteImport.update({
+  id: '/projects',
+  path: '/projects',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SafetySystemsRoute = SafetySystemsRouteImport.update({
+  id: '/safety-systems',
+  path: '/safety-systems',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServicesRoute = ServicesRouteImport.update({
+  id: '/services',
+  path: '/services',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SmartMeteringRoute = SmartMeteringRouteImport.update({
+  id: '/smart-metering',
+  path: '/smart-metering',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StaffLoginRoute = StaffLoginRouteImport.update({
+  id: '/staff-login',
+  path: '/staff-login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedConsoleRoute = AuthenticatedConsoleRouteImport.update({
+  id: '/console',
+  path: '/console',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const InsightsSlugRoute = InsightsSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => InsightsRoute,
+} as any)
+const AuthenticatedConsoleIndexRoute =
+  AuthenticatedConsoleIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedConsoleRoute,
+  } as any)
+const AuthenticatedConsolePostsRoute =
+  AuthenticatedConsolePostsRouteImport.update({
+    id: '/posts',
+    path: '/posts',
+    getParentRoute: () => AuthenticatedConsoleRoute,
+  } as any)
+const AuthenticatedConsoleUsersRoute =
+  AuthenticatedConsoleUsersRouteImport.update({
+    id: '/users',
+    path: '/users',
+    getParentRoute: () => AuthenticatedConsoleRoute,
+  } as any)
+const ApiPublicEnquiryAttachmentRoute =
+  ApiPublicEnquiryAttachmentRouteImport.update({
+    id: '/api/public/enquiry-attachment',
+    path: '/api/public/enquiry-attachment',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const AuthenticatedConsolePostsIdRoute =
+  AuthenticatedConsolePostsIdRouteImport.update({
+    id: '/$id',
+    path: '/$id',
+    getParentRoute: () => AuthenticatedConsolePostsRoute,
+  } as any)
+const ApiPublicMediaSplatRoute = ApiPublicMediaSplatRouteImport.update({
+  id: '/api/public/media/$',
+  path: '/api/public/media/$',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -70,34 +146,67 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
   '/industries': typeof IndustriesRoute
+  '/insights': typeof InsightsRouteWithChildren
   '/marketplace': typeof MarketplaceRoute
   '/projects': typeof ProjectsRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/safety-systems': typeof SafetySystemsRoute
   '/services': typeof ServicesRoute
   '/smart-metering': typeof SmartMeteringRoute
+  '/staff-login': typeof StaffLoginRoute
+  '/console': typeof AuthenticatedConsoleRouteWithChildren
+  '/insights/$slug': typeof InsightsSlugRoute
+  '/console/posts': typeof AuthenticatedConsolePostsRouteWithChildren
+  '/console/users': typeof AuthenticatedConsoleUsersRoute
+  '/api/public/enquiry-attachment': typeof ApiPublicEnquiryAttachmentRoute
+  '/console/': typeof AuthenticatedConsoleIndexRoute
+  '/console/posts/$id': typeof AuthenticatedConsolePostsIdRoute
+  '/api/public/media/$': typeof ApiPublicMediaSplatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
   '/industries': typeof IndustriesRoute
+  '/insights': typeof InsightsRouteWithChildren
   '/marketplace': typeof MarketplaceRoute
   '/projects': typeof ProjectsRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/safety-systems': typeof SafetySystemsRoute
   '/services': typeof ServicesRoute
   '/smart-metering': typeof SmartMeteringRoute
+  '/staff-login': typeof StaffLoginRoute
+  '/insights/$slug': typeof InsightsSlugRoute
+  '/console/posts': typeof AuthenticatedConsolePostsRouteWithChildren
+  '/console/users': typeof AuthenticatedConsoleUsersRoute
+  '/api/public/enquiry-attachment': typeof ApiPublicEnquiryAttachmentRoute
+  '/console': typeof AuthenticatedConsoleIndexRoute
+  '/console/posts/$id': typeof AuthenticatedConsolePostsIdRoute
+  '/api/public/media/$': typeof ApiPublicMediaSplatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
   '/industries': typeof IndustriesRoute
+  '/insights': typeof InsightsRouteWithChildren
   '/marketplace': typeof MarketplaceRoute
   '/projects': typeof ProjectsRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/safety-systems': typeof SafetySystemsRoute
   '/services': typeof ServicesRoute
   '/smart-metering': typeof SmartMeteringRoute
+  '/staff-login': typeof StaffLoginRoute
+  '/_authenticated/console': typeof AuthenticatedConsoleRouteWithChildren
+  '/insights/$slug': typeof InsightsSlugRoute
+  '/_authenticated/console/posts': typeof AuthenticatedConsolePostsRouteWithChildren
+  '/_authenticated/console/users': typeof AuthenticatedConsoleUsersRoute
+  '/api/public/enquiry-attachment': typeof ApiPublicEnquiryAttachmentRoute
+  '/_authenticated/console/': typeof AuthenticatedConsoleIndexRoute
+  '/_authenticated/console/posts/$id': typeof AuthenticatedConsolePostsIdRoute
+  '/api/public/media/$': typeof ApiPublicMediaSplatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -106,96 +215,100 @@ export interface FileRouteTypes {
     | '/about'
     | '/contact'
     | '/industries'
+    | '/insights'
     | '/marketplace'
     | '/projects'
+    | '/reset-password'
     | '/safety-systems'
     | '/services'
     | '/smart-metering'
+    | '/staff-login'
+    | '/console'
+    | '/insights/$slug'
+    | '/console/posts'
+    | '/console/users'
+    | '/api/public/enquiry-attachment'
+    | '/console/'
+    | '/console/posts/$id'
+    | '/api/public/media/$'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about'
     | '/contact'
     | '/industries'
+    | '/insights'
     | '/marketplace'
     | '/projects'
+    | '/reset-password'
     | '/safety-systems'
     | '/services'
     | '/smart-metering'
+    | '/staff-login'
+    | '/insights/$slug'
+    | '/console/posts'
+    | '/console/users'
+    | '/api/public/enquiry-attachment'
+    | '/console'
+    | '/console/posts/$id'
+    | '/api/public/media/$'
   id:
     | '__root__'
     | '/'
+    | '/_authenticated'
     | '/about'
     | '/contact'
     | '/industries'
+    | '/insights'
     | '/marketplace'
     | '/projects'
+    | '/reset-password'
     | '/safety-systems'
     | '/services'
     | '/smart-metering'
+    | '/staff-login'
+    | '/_authenticated/console'
+    | '/insights/$slug'
+    | '/_authenticated/console/posts'
+    | '/_authenticated/console/users'
+    | '/api/public/enquiry-attachment'
+    | '/_authenticated/console/'
+    | '/_authenticated/console/posts/$id'
+    | '/api/public/media/$'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AboutRoute: typeof AboutRoute
   ContactRoute: typeof ContactRoute
   IndustriesRoute: typeof IndustriesRoute
+  InsightsRoute: typeof InsightsRouteWithChildren
   MarketplaceRoute: typeof MarketplaceRoute
   ProjectsRoute: typeof ProjectsRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
   SafetySystemsRoute: typeof SafetySystemsRoute
   ServicesRoute: typeof ServicesRoute
   SmartMeteringRoute: typeof SmartMeteringRoute
+  StaffLoginRoute: typeof StaffLoginRoute
+  ApiPublicEnquiryAttachmentRoute: typeof ApiPublicEnquiryAttachmentRoute
+  ApiPublicMediaSplatRoute: typeof ApiPublicMediaSplatRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/smart-metering': {
-      id: '/smart-metering'
-      path: '/smart-metering'
-      fullPath: '/smart-metering'
-      preLoaderRoute: typeof SmartMeteringRouteImport
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/services': {
-      id: '/services'
-      path: '/services'
-      fullPath: '/services'
-      preLoaderRoute: typeof ServicesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/safety-systems': {
-      id: '/safety-systems'
-      path: '/safety-systems'
-      fullPath: '/safety-systems'
-      preLoaderRoute: typeof SafetySystemsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/projects': {
-      id: '/projects'
-      path: '/projects'
-      fullPath: '/projects'
-      preLoaderRoute: typeof ProjectsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/marketplace': {
-      id: '/marketplace'
-      path: '/marketplace'
-      fullPath: '/marketplace'
-      preLoaderRoute: typeof MarketplaceRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/industries': {
-      id: '/industries'
-      path: '/industries'
-      fullPath: '/industries'
-      preLoaderRoute: typeof IndustriesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/contact': {
-      id: '/contact'
-      path: '/contact'
-      fullPath: '/contact'
-      preLoaderRoute: typeof ContactRouteImport
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/about': {
@@ -205,26 +318,203 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/industries': {
+      id: '/industries'
+      path: '/industries'
+      fullPath: '/industries'
+      preLoaderRoute: typeof IndustriesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/insights': {
+      id: '/insights'
+      path: '/insights'
+      fullPath: '/insights'
+      preLoaderRoute: typeof InsightsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/marketplace': {
+      id: '/marketplace'
+      path: '/marketplace'
+      fullPath: '/marketplace'
+      preLoaderRoute: typeof MarketplaceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/projects': {
+      id: '/projects'
+      path: '/projects'
+      fullPath: '/projects'
+      preLoaderRoute: typeof ProjectsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/safety-systems': {
+      id: '/safety-systems'
+      path: '/safety-systems'
+      fullPath: '/safety-systems'
+      preLoaderRoute: typeof SafetySystemsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/services': {
+      id: '/services'
+      path: '/services'
+      fullPath: '/services'
+      preLoaderRoute: typeof ServicesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/smart-metering': {
+      id: '/smart-metering'
+      path: '/smart-metering'
+      fullPath: '/smart-metering'
+      preLoaderRoute: typeof SmartMeteringRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/staff-login': {
+      id: '/staff-login'
+      path: '/staff-login'
+      fullPath: '/staff-login'
+      preLoaderRoute: typeof StaffLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/console': {
+      id: '/_authenticated/console'
+      path: '/console'
+      fullPath: '/console'
+      preLoaderRoute: typeof AuthenticatedConsoleRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/insights/$slug': {
+      id: '/insights/$slug'
+      path: '/$slug'
+      fullPath: '/insights/$slug'
+      preLoaderRoute: typeof InsightsSlugRouteImport
+      parentRoute: typeof InsightsRoute
+    }
+    '/_authenticated/console/': {
+      id: '/_authenticated/console/'
       path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+      fullPath: '/console/'
+      preLoaderRoute: typeof AuthenticatedConsoleIndexRouteImport
+      parentRoute: typeof AuthenticatedConsoleRoute
+    }
+    '/_authenticated/console/posts': {
+      id: '/_authenticated/console/posts'
+      path: '/posts'
+      fullPath: '/console/posts'
+      preLoaderRoute: typeof AuthenticatedConsolePostsRouteImport
+      parentRoute: typeof AuthenticatedConsoleRoute
+    }
+    '/_authenticated/console/users': {
+      id: '/_authenticated/console/users'
+      path: '/users'
+      fullPath: '/console/users'
+      preLoaderRoute: typeof AuthenticatedConsoleUsersRouteImport
+      parentRoute: typeof AuthenticatedConsoleRoute
+    }
+    '/api/public/enquiry-attachment': {
+      id: '/api/public/enquiry-attachment'
+      path: '/api/public/enquiry-attachment'
+      fullPath: '/api/public/enquiry-attachment'
+      preLoaderRoute: typeof ApiPublicEnquiryAttachmentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/console/posts/$id': {
+      id: '/_authenticated/console/posts/$id'
+      path: '/$id'
+      fullPath: '/console/posts/$id'
+      preLoaderRoute: typeof AuthenticatedConsolePostsIdRouteImport
+      parentRoute: typeof AuthenticatedConsolePostsRoute
+    }
+    '/api/public/media/$': {
+      id: '/api/public/media/$'
+      path: '/api/public/media/$'
+      fullPath: '/api/public/media/$'
+      preLoaderRoute: typeof ApiPublicMediaSplatRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
 }
 
+interface AuthenticatedConsolePostsRouteChildren {
+  AuthenticatedConsolePostsIdRoute: typeof AuthenticatedConsolePostsIdRoute
+}
+
+const AuthenticatedConsolePostsRouteChildren: AuthenticatedConsolePostsRouteChildren =
+  {
+    AuthenticatedConsolePostsIdRoute: AuthenticatedConsolePostsIdRoute,
+  }
+
+const AuthenticatedConsolePostsRouteWithChildren =
+  AuthenticatedConsolePostsRoute._addFileChildren(
+    AuthenticatedConsolePostsRouteChildren,
+  )
+
+interface AuthenticatedConsoleRouteChildren {
+  AuthenticatedConsolePostsRoute: typeof AuthenticatedConsolePostsRouteWithChildren
+  AuthenticatedConsoleUsersRoute: typeof AuthenticatedConsoleUsersRoute
+  AuthenticatedConsoleIndexRoute: typeof AuthenticatedConsoleIndexRoute
+}
+
+const AuthenticatedConsoleRouteChildren: AuthenticatedConsoleRouteChildren = {
+  AuthenticatedConsolePostsRoute: AuthenticatedConsolePostsRouteWithChildren,
+  AuthenticatedConsoleUsersRoute: AuthenticatedConsoleUsersRoute,
+  AuthenticatedConsoleIndexRoute: AuthenticatedConsoleIndexRoute,
+}
+
+const AuthenticatedConsoleRouteWithChildren =
+  AuthenticatedConsoleRoute._addFileChildren(AuthenticatedConsoleRouteChildren)
+
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedConsoleRoute: typeof AuthenticatedConsoleRouteWithChildren
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedConsoleRoute: AuthenticatedConsoleRouteWithChildren,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
+interface InsightsRouteChildren {
+  InsightsSlugRoute: typeof InsightsSlugRoute
+}
+
+const InsightsRouteChildren: InsightsRouteChildren = {
+  InsightsSlugRoute: InsightsSlugRoute,
+}
+
+const InsightsRouteWithChildren = InsightsRoute._addFileChildren(
+  InsightsRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AboutRoute: AboutRoute,
   ContactRoute: ContactRoute,
   IndustriesRoute: IndustriesRoute,
+  InsightsRoute: InsightsRouteWithChildren,
   MarketplaceRoute: MarketplaceRoute,
   ProjectsRoute: ProjectsRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
   SafetySystemsRoute: SafetySystemsRoute,
   ServicesRoute: ServicesRoute,
   SmartMeteringRoute: SmartMeteringRoute,
+  StaffLoginRoute: StaffLoginRoute,
+  ApiPublicEnquiryAttachmentRoute: ApiPublicEnquiryAttachmentRoute,
+  ApiPublicMediaSplatRoute: ApiPublicMediaSplatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

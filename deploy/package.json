@@ -1,0 +1,13 @@
+{
+  "name": "getgas-energen-site",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Getgas Energen Ltd website — production bundle for cPanel Node.js (Passenger)",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

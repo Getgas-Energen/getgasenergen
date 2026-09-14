@@ -1,0 +1,32 @@
+# Getgas Energen — Apache rules for cPanel (place in public_html)
+#
+# cPanel's "Setup Node.js App" tool writes its own Passenger directives into
+# this file. Keep those lines and keep the blocks below underneath them.
+
+# Force HTTPS on getgas.co.ke
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{HTTPS} !=on
+  RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+</IfModule>
+
+# Security headers
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+
+  # Keep the staff console out of search engines at the server level too
+  <If "%{REQUEST_URI} =~ m#^/(console|staff-login|reset-password)#">
+    Header always set X-Robots-Tag "noindex, nofollow, noarchive"
+  </If>
+</IfModule>
+
+# Long cache for build assets
+<IfModule mod_expires.c>
+  ExpiresActive On
+  <FilesMatch "\.(js|css|woff2|png|jpg|jpeg|webp|svg|ico)$">
+    ExpiresDefault "access plus 1 year"
+  </FilesMatch>
+</IfModule>

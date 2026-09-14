@@ -1,6 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
-import { createClient } from "@supabase/supabase-js";
+import { createPublicServerClient } from "./supabase-public.server";
 
 const contactSchema = z.object({
   name: z.string().min(1).max(100),
@@ -9,21 +9,13 @@ const contactSchema = z.object({
   phone: z.string().min(1).max(50),
   projectType: z.string().min(1).max(100),
   message: z.string().min(1).max(5000),
+  attachmentPath: z.string().max(300).optional().nullable(),
 });
 
 export const submitContactForm = createServerFn({ method: "POST" })
   .inputValidator((data) => contactSchema.parse(data))
   .handler(async ({ data }) => {
-    const SUPABASE_URL = process.env.SUPABASE_URL;
-    const SUPABASE_PUBLISHABLE_KEY = process.env.SUPABASE_PUBLISHABLE_KEY;
-
-    if (!SUPABASE_URL || !SUPABASE_PUBLISHABLE_KEY) {
-      throw new Error("Database configuration missing");
-    }
-
-    const supabase = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
-      auth: { storage: undefined, persistSession: false, autoRefreshToken: false },
-    });
+    const supabase = createPublicServerClient();
 
     const { error } = await supabase.from("contact_submissions").insert({
       name: data.name,
@@ -32,6 +24,7 @@ export const submitContactForm = createServerFn({ method: "POST" })
       phone: data.phone,
       project_type: data.projectType,
       message: data.message,
+      attachment_path: data.attachmentPath || null,
     });
 
     if (error) {
