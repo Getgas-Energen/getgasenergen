@@ -24,6 +24,7 @@ import { Route as SmartMeteringRouteImport } from './routes/smart-metering'
 import { Route as StaffLoginRouteImport } from './routes/staff-login'
 import { Route as AuthenticatedConsoleRouteImport } from './routes/_authenticated/console'
 import { Route as InsightsSlugRouteImport } from './routes/insights.$slug'
+import { Route as ProjectsSlugRouteImport } from './routes/projects.$slug'
 import { Route as AuthenticatedConsoleIndexRouteImport } from './routes/_authenticated/console.index'
 import { Route as AuthenticatedConsoleOrdersRouteImport } from './routes/_authenticated/console.orders'
 import { Route as AuthenticatedConsolePostsRouteImport } from './routes/_authenticated/console.posts'
@@ -109,6 +110,11 @@ const InsightsSlugRoute = InsightsSlugRouteImport.update({
   path: '/$slug',
   getParentRoute: () => InsightsRoute,
 } as any)
+const ProjectsSlugRoute = ProjectsSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => ProjectsRoute,
+} as any)
 const AuthenticatedConsoleIndexRoute =
   AuthenticatedConsoleIndexRouteImport.update({
     id: '/',
@@ -175,7 +181,7 @@ export interface FileRoutesByFullPath {
   '/industries': typeof IndustriesRoute
   '/insights': typeof InsightsRouteWithChildren
   '/marketplace': typeof MarketplaceRoute
-  '/projects': typeof ProjectsRoute
+  '/projects': typeof ProjectsRouteWithChildren
   '/reset-password': typeof ResetPasswordRoute
   '/safety-systems': typeof SafetySystemsRoute
   '/services': typeof ServicesRoute
@@ -183,6 +189,7 @@ export interface FileRoutesByFullPath {
   '/staff-login': typeof StaffLoginRoute
   '/console': typeof AuthenticatedConsoleRouteWithChildren
   '/insights/$slug': typeof InsightsSlugRoute
+  '/projects/$slug': typeof ProjectsSlugRoute
   '/console/orders': typeof AuthenticatedConsoleOrdersRoute
   '/console/posts': typeof AuthenticatedConsolePostsRouteWithChildren
   '/console/shop': typeof AuthenticatedConsoleShopRoute
@@ -201,13 +208,14 @@ export interface FileRoutesByTo {
   '/industries': typeof IndustriesRoute
   '/insights': typeof InsightsRouteWithChildren
   '/marketplace': typeof MarketplaceRoute
-  '/projects': typeof ProjectsRoute
+  '/projects': typeof ProjectsRouteWithChildren
   '/reset-password': typeof ResetPasswordRoute
   '/safety-systems': typeof SafetySystemsRoute
   '/services': typeof ServicesRoute
   '/smart-metering': typeof SmartMeteringRoute
   '/staff-login': typeof StaffLoginRoute
   '/insights/$slug': typeof InsightsSlugRoute
+  '/projects/$slug': typeof ProjectsSlugRoute
   '/console/orders': typeof AuthenticatedConsoleOrdersRoute
   '/console/posts': typeof AuthenticatedConsolePostsRouteWithChildren
   '/console/shop': typeof AuthenticatedConsoleShopRoute
@@ -228,7 +236,7 @@ export interface FileRoutesById {
   '/industries': typeof IndustriesRoute
   '/insights': typeof InsightsRouteWithChildren
   '/marketplace': typeof MarketplaceRoute
-  '/projects': typeof ProjectsRoute
+  '/projects': typeof ProjectsRouteWithChildren
   '/reset-password': typeof ResetPasswordRoute
   '/safety-systems': typeof SafetySystemsRoute
   '/services': typeof ServicesRoute
@@ -236,6 +244,7 @@ export interface FileRoutesById {
   '/staff-login': typeof StaffLoginRoute
   '/_authenticated/console': typeof AuthenticatedConsoleRouteWithChildren
   '/insights/$slug': typeof InsightsSlugRoute
+  '/projects/$slug': typeof ProjectsSlugRoute
   '/_authenticated/console/orders': typeof AuthenticatedConsoleOrdersRoute
   '/_authenticated/console/posts': typeof AuthenticatedConsolePostsRouteWithChildren
   '/_authenticated/console/shop': typeof AuthenticatedConsoleShopRoute
@@ -264,6 +273,7 @@ export interface FileRouteTypes {
     | '/staff-login'
     | '/console'
     | '/insights/$slug'
+    | '/projects/$slug'
     | '/console/orders'
     | '/console/posts'
     | '/console/shop'
@@ -289,6 +299,7 @@ export interface FileRouteTypes {
     | '/smart-metering'
     | '/staff-login'
     | '/insights/$slug'
+    | '/projects/$slug'
     | '/console/orders'
     | '/console/posts'
     | '/console/shop'
@@ -316,6 +327,7 @@ export interface FileRouteTypes {
     | '/staff-login'
     | '/_authenticated/console'
     | '/insights/$slug'
+    | '/projects/$slug'
     | '/_authenticated/console/orders'
     | '/_authenticated/console/posts'
     | '/_authenticated/console/shop'
@@ -336,7 +348,7 @@ export interface RootRouteChildren {
   IndustriesRoute: typeof IndustriesRoute
   InsightsRoute: typeof InsightsRouteWithChildren
   MarketplaceRoute: typeof MarketplaceRoute
-  ProjectsRoute: typeof ProjectsRoute
+  ProjectsRoute: typeof ProjectsRouteWithChildren
   ResetPasswordRoute: typeof ResetPasswordRoute
   SafetySystemsRoute: typeof SafetySystemsRoute
   ServicesRoute: typeof ServicesRoute
@@ -454,6 +466,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/insights/$slug'
       preLoaderRoute: typeof InsightsSlugRouteImport
       parentRoute: typeof InsightsRoute
+    }
+    '/projects/$slug': {
+      id: '/projects/$slug'
+      path: '/$slug'
+      fullPath: '/projects/$slug'
+      preLoaderRoute: typeof ProjectsSlugRouteImport
+      parentRoute: typeof ProjectsRoute
     }
     '/_authenticated/console/': {
       id: '/_authenticated/console/'
@@ -584,6 +603,18 @@ const InsightsRouteWithChildren = InsightsRoute._addFileChildren(
   InsightsRouteChildren,
 )
 
+interface ProjectsRouteChildren {
+  ProjectsSlugRoute: typeof ProjectsSlugRoute
+}
+
+const ProjectsRouteChildren: ProjectsRouteChildren = {
+  ProjectsSlugRoute: ProjectsSlugRoute,
+}
+
+const ProjectsRouteWithChildren = ProjectsRoute._addFileChildren(
+  ProjectsRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
@@ -592,7 +623,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndustriesRoute: IndustriesRoute,
   InsightsRoute: InsightsRouteWithChildren,
   MarketplaceRoute: MarketplaceRoute,
-  ProjectsRoute: ProjectsRoute,
+  ProjectsRoute: ProjectsRouteWithChildren,
   ResetPasswordRoute: ResetPasswordRoute,
   SafetySystemsRoute: SafetySystemsRoute,
   ServicesRoute: ServicesRoute,
