@@ -95,6 +95,70 @@ function ServicesPage() {
         ))}
       </section>
 
+      <section className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
+        <h2 className="font-display text-2xl font-bold">Engineering detail</h2>
+        <p className="mt-2 max-w-2xl text-muted-foreground">
+          Deep dives into how we design, install and document each part of a piped LPG system.
+        </p>
+        <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+          {[
+            {
+              to: "/gas-reticulation" as const,
+              title: "Gas reticulation",
+              body: "Load assessment, pipe sizing, installation, testing and commissioning.",
+            },
+            {
+              to: "/storage-design" as const,
+              title: "Storage design",
+              body: "Tank sizing, siting, foundations, vaporisers and filling points.",
+            },
+            {
+              to: "/safety-systems" as const,
+              title: "Safety systems",
+              body: "Detection, automatic shut-off, emergency stops and fire integration.",
+            },
+            {
+              to: "/technical-specifications" as const,
+              title: "Technical specifications",
+              body: "Pressures, materials, test regimes and the documents you receive.",
+            },
+          ].map((card) => (
+            <Link
+              key={card.to}
+              to={card.to}
+              className="group rounded-xl border border-border bg-card p-6 transition-all hover:shadow-lg"
+            >
+              <h3 className="font-display text-lg font-semibold group-hover:text-primary">
+                {card.title}
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{card.body}</p>
+              <span className="mt-4 inline-flex items-center text-sm font-semibold text-primary">
+                Read more <ArrowRight className="ml-1 h-4 w-4" />
+              </span>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
+        <div className="rounded-2xl border border-border bg-card p-10">
+          <div className="flex flex-wrap items-center justify-between gap-6">
+            <div className="max-w-xl">
+              <h2 className="font-display text-2xl font-bold">Client portal</h2>
+              <p className="mt-2 text-muted-foreground">
+                Building owners can submit their gas system requirements and see an indicative budget
+                immediately, then receive a formal engineered quotation from our team.
+              </p>
+            </div>
+            <Button asChild size="lg">
+              <Link to="/quote">
+                Open the client portal <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </Button>
+          </div>
+        </div>
+      </section>
+
       <section className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-24">
         <div className="rounded-2xl border border-border bg-surface p-10 text-center">
           <h2 className="font-display text-2xl sm:text-3xl font-bold">Ready to scope your system?</h2>
