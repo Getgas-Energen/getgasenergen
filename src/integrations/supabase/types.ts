@@ -59,6 +59,120 @@ export type Database = {
         }
         Relationships: []
       }
+      order_items: {
+        Row: {
+          created_at: string
+          id: string
+          line_total_kes: number
+          order_id: string
+          product_id: string | null
+          product_name: string
+          quantity: number
+          unit_price_kes: number
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          line_total_kes?: number
+          order_id: string
+          product_id?: string | null
+          product_name: string
+          quantity?: number
+          unit_price_kes?: number
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          line_total_kes?: number
+          order_id?: string
+          product_id?: string | null
+          product_name?: string
+          quantity?: number
+          unit_price_kes?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "order_items_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "order_items_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      orders: {
+        Row: {
+          county: string | null
+          created_at: string
+          customer_name: string
+          customer_note: string | null
+          delivery_address: string
+          delivery_fee_kes: number
+          email: string | null
+          id: string
+          internal_note: string | null
+          items_total_kes: number
+          order_no: string
+          payment_provider: string | null
+          payment_reference: string | null
+          payment_status: Database["public"]["Enums"]["payment_status"]
+          phone: string
+          provider_request_id: string | null
+          status: Database["public"]["Enums"]["order_status"]
+          total_kes: number
+          updated_at: string
+        }
+        Insert: {
+          county?: string | null
+          created_at?: string
+          customer_name: string
+          customer_note?: string | null
+          delivery_address: string
+          delivery_fee_kes?: number
+          email?: string | null
+          id?: string
+          internal_note?: string | null
+          items_total_kes?: number
+          order_no?: string
+          payment_provider?: string | null
+          payment_reference?: string | null
+          payment_status?: Database["public"]["Enums"]["payment_status"]
+          phone: string
+          provider_request_id?: string | null
+          status?: Database["public"]["Enums"]["order_status"]
+          total_kes?: number
+          updated_at?: string
+        }
+        Update: {
+          county?: string | null
+          created_at?: string
+          customer_name?: string
+          customer_note?: string | null
+          delivery_address?: string
+          delivery_fee_kes?: number
+          email?: string | null
+          id?: string
+          internal_note?: string | null
+          items_total_kes?: number
+          order_no?: string
+          payment_provider?: string | null
+          payment_reference?: string | null
+          payment_status?: Database["public"]["Enums"]["payment_status"]
+          phone?: string
+          provider_request_id?: string | null
+          status?: Database["public"]["Enums"]["order_status"]
+          total_kes?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       posts: {
         Row: {
           author_id: string | null
@@ -104,6 +218,54 @@ export type Database = {
         }
         Relationships: []
       }
+      products: {
+        Row: {
+          category: Database["public"]["Enums"]["product_category"]
+          created_at: string
+          description: string | null
+          id: string
+          image_url: string | null
+          in_stock: boolean
+          is_active: boolean
+          name: string
+          price_kes: number | null
+          slug: string
+          sort_order: number
+          spec: string | null
+          updated_at: string
+        }
+        Insert: {
+          category?: Database["public"]["Enums"]["product_category"]
+          created_at?: string
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          in_stock?: boolean
+          is_active?: boolean
+          name: string
+          price_kes?: number | null
+          slug: string
+          sort_order?: number
+          spec?: string | null
+          updated_at?: string
+        }
+        Update: {
+          category?: Database["public"]["Enums"]["product_category"]
+          created_at?: string
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          in_stock?: boolean
+          is_active?: boolean
+          name?: string
+          price_kes?: number | null
+          slug?: string
+          sort_order?: number
+          spec?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -127,6 +289,50 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      sms_log: {
+        Row: {
+          body: string
+          created_at: string
+          delivered: boolean
+          error: string | null
+          id: string
+          order_id: string | null
+          phone: string
+          provider: string | null
+          template: string
+        }
+        Insert: {
+          body: string
+          created_at?: string
+          delivered?: boolean
+          error?: string | null
+          id?: string
+          order_id?: string | null
+          phone: string
+          provider?: string | null
+          template: string
+        }
+        Update: {
+          body?: string
+          created_at?: string
+          delivered?: boolean
+          error?: string | null
+          id?: string
+          order_id?: string | null
+          phone?: string
+          provider?: string | null
+          template?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sms_log_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       user_roles: {
         Row: {
@@ -165,8 +371,22 @@ export type Database = {
     }
     Enums: {
       app_role: "admin" | "staff"
+      order_status:
+        | "new"
+        | "confirmed"
+        | "dispatched"
+        | "delivered"
+        | "cancelled"
+      payment_status: "pending" | "paid" | "failed"
       post_category: "news" | "blog"
       post_status: "draft" | "published"
+      product_category:
+        | "pipes"
+        | "regulators"
+        | "fireplaces"
+        | "cylinders"
+        | "safety"
+        | "other"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -295,8 +515,24 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "staff"],
+      order_status: [
+        "new",
+        "confirmed",
+        "dispatched",
+        "delivered",
+        "cancelled",
+      ],
+      payment_status: ["pending", "paid", "failed"],
       post_category: ["news", "blog"],
       post_status: ["draft", "published"],
+      product_category: [
+        "pipes",
+        "regulators",
+        "fireplaces",
+        "cylinders",
+        "safety",
+        "other",
+      ],
     },
   },
 } as const

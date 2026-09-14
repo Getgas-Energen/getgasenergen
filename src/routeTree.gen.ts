@@ -25,9 +25,12 @@ import { Route as StaffLoginRouteImport } from './routes/staff-login'
 import { Route as AuthenticatedConsoleRouteImport } from './routes/_authenticated/console'
 import { Route as InsightsSlugRouteImport } from './routes/insights.$slug'
 import { Route as AuthenticatedConsoleIndexRouteImport } from './routes/_authenticated/console.index'
+import { Route as AuthenticatedConsoleOrdersRouteImport } from './routes/_authenticated/console.orders'
 import { Route as AuthenticatedConsolePostsRouteImport } from './routes/_authenticated/console.posts'
+import { Route as AuthenticatedConsoleShopRouteImport } from './routes/_authenticated/console.shop'
 import { Route as AuthenticatedConsoleUsersRouteImport } from './routes/_authenticated/console.users'
 import { Route as ApiPublicEnquiryAttachmentRouteImport } from './routes/api/public/enquiry-attachment'
+import { Route as ApiPublicKopokopoWebhookRouteImport } from './routes/api/public/kopokopo-webhook'
 import { Route as AuthenticatedConsolePostsIdRouteImport } from './routes/_authenticated/console.posts.$id'
 import { Route as ApiPublicMediaSplatRouteImport } from './routes/api/public/media.$'
 
@@ -111,10 +114,22 @@ const AuthenticatedConsoleIndexRoute =
     path: '/',
     getParentRoute: () => AuthenticatedConsoleRoute,
   } as any)
+const AuthenticatedConsoleOrdersRoute =
+  AuthenticatedConsoleOrdersRouteImport.update({
+    id: '/orders',
+    path: '/orders',
+    getParentRoute: () => AuthenticatedConsoleRoute,
+  } as any)
 const AuthenticatedConsolePostsRoute =
   AuthenticatedConsolePostsRouteImport.update({
     id: '/posts',
     path: '/posts',
+    getParentRoute: () => AuthenticatedConsoleRoute,
+  } as any)
+const AuthenticatedConsoleShopRoute =
+  AuthenticatedConsoleShopRouteImport.update({
+    id: '/shop',
+    path: '/shop',
     getParentRoute: () => AuthenticatedConsoleRoute,
   } as any)
 const AuthenticatedConsoleUsersRoute =
@@ -127,6 +142,12 @@ const ApiPublicEnquiryAttachmentRoute =
   ApiPublicEnquiryAttachmentRouteImport.update({
     id: '/api/public/enquiry-attachment',
     path: '/api/public/enquiry-attachment',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPublicKopokopoWebhookRoute =
+  ApiPublicKopokopoWebhookRouteImport.update({
+    id: '/api/public/kopokopo-webhook',
+    path: '/api/public/kopokopo-webhook',
     getParentRoute: () => rootRouteImport,
   } as any)
 const AuthenticatedConsolePostsIdRoute =
@@ -156,9 +177,12 @@ export interface FileRoutesByFullPath {
   '/staff-login': typeof StaffLoginRoute
   '/console': typeof AuthenticatedConsoleRouteWithChildren
   '/insights/$slug': typeof InsightsSlugRoute
+  '/console/orders': typeof AuthenticatedConsoleOrdersRoute
   '/console/posts': typeof AuthenticatedConsolePostsRouteWithChildren
+  '/console/shop': typeof AuthenticatedConsoleShopRoute
   '/console/users': typeof AuthenticatedConsoleUsersRoute
   '/api/public/enquiry-attachment': typeof ApiPublicEnquiryAttachmentRoute
+  '/api/public/kopokopo-webhook': typeof ApiPublicKopokopoWebhookRoute
   '/console/': typeof AuthenticatedConsoleIndexRoute
   '/console/posts/$id': typeof AuthenticatedConsolePostsIdRoute
   '/api/public/media/$': typeof ApiPublicMediaSplatRoute
@@ -177,9 +201,12 @@ export interface FileRoutesByTo {
   '/smart-metering': typeof SmartMeteringRoute
   '/staff-login': typeof StaffLoginRoute
   '/insights/$slug': typeof InsightsSlugRoute
+  '/console/orders': typeof AuthenticatedConsoleOrdersRoute
   '/console/posts': typeof AuthenticatedConsolePostsRouteWithChildren
+  '/console/shop': typeof AuthenticatedConsoleShopRoute
   '/console/users': typeof AuthenticatedConsoleUsersRoute
   '/api/public/enquiry-attachment': typeof ApiPublicEnquiryAttachmentRoute
+  '/api/public/kopokopo-webhook': typeof ApiPublicKopokopoWebhookRoute
   '/console': typeof AuthenticatedConsoleIndexRoute
   '/console/posts/$id': typeof AuthenticatedConsolePostsIdRoute
   '/api/public/media/$': typeof ApiPublicMediaSplatRoute
@@ -201,9 +228,12 @@ export interface FileRoutesById {
   '/staff-login': typeof StaffLoginRoute
   '/_authenticated/console': typeof AuthenticatedConsoleRouteWithChildren
   '/insights/$slug': typeof InsightsSlugRoute
+  '/_authenticated/console/orders': typeof AuthenticatedConsoleOrdersRoute
   '/_authenticated/console/posts': typeof AuthenticatedConsolePostsRouteWithChildren
+  '/_authenticated/console/shop': typeof AuthenticatedConsoleShopRoute
   '/_authenticated/console/users': typeof AuthenticatedConsoleUsersRoute
   '/api/public/enquiry-attachment': typeof ApiPublicEnquiryAttachmentRoute
+  '/api/public/kopokopo-webhook': typeof ApiPublicKopokopoWebhookRoute
   '/_authenticated/console/': typeof AuthenticatedConsoleIndexRoute
   '/_authenticated/console/posts/$id': typeof AuthenticatedConsolePostsIdRoute
   '/api/public/media/$': typeof ApiPublicMediaSplatRoute
@@ -225,9 +255,12 @@ export interface FileRouteTypes {
     | '/staff-login'
     | '/console'
     | '/insights/$slug'
+    | '/console/orders'
     | '/console/posts'
+    | '/console/shop'
     | '/console/users'
     | '/api/public/enquiry-attachment'
+    | '/api/public/kopokopo-webhook'
     | '/console/'
     | '/console/posts/$id'
     | '/api/public/media/$'
@@ -246,9 +279,12 @@ export interface FileRouteTypes {
     | '/smart-metering'
     | '/staff-login'
     | '/insights/$slug'
+    | '/console/orders'
     | '/console/posts'
+    | '/console/shop'
     | '/console/users'
     | '/api/public/enquiry-attachment'
+    | '/api/public/kopokopo-webhook'
     | '/console'
     | '/console/posts/$id'
     | '/api/public/media/$'
@@ -269,9 +305,12 @@ export interface FileRouteTypes {
     | '/staff-login'
     | '/_authenticated/console'
     | '/insights/$slug'
+    | '/_authenticated/console/orders'
     | '/_authenticated/console/posts'
+    | '/_authenticated/console/shop'
     | '/_authenticated/console/users'
     | '/api/public/enquiry-attachment'
+    | '/api/public/kopokopo-webhook'
     | '/_authenticated/console/'
     | '/_authenticated/console/posts/$id'
     | '/api/public/media/$'
@@ -292,6 +331,7 @@ export interface RootRouteChildren {
   SmartMeteringRoute: typeof SmartMeteringRoute
   StaffLoginRoute: typeof StaffLoginRoute
   ApiPublicEnquiryAttachmentRoute: typeof ApiPublicEnquiryAttachmentRoute
+  ApiPublicKopokopoWebhookRoute: typeof ApiPublicKopokopoWebhookRoute
   ApiPublicMediaSplatRoute: typeof ApiPublicMediaSplatRoute
 }
 
@@ -409,11 +449,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedConsoleIndexRouteImport
       parentRoute: typeof AuthenticatedConsoleRoute
     }
+    '/_authenticated/console/orders': {
+      id: '/_authenticated/console/orders'
+      path: '/orders'
+      fullPath: '/console/orders'
+      preLoaderRoute: typeof AuthenticatedConsoleOrdersRouteImport
+      parentRoute: typeof AuthenticatedConsoleRoute
+    }
     '/_authenticated/console/posts': {
       id: '/_authenticated/console/posts'
       path: '/posts'
       fullPath: '/console/posts'
       preLoaderRoute: typeof AuthenticatedConsolePostsRouteImport
+      parentRoute: typeof AuthenticatedConsoleRoute
+    }
+    '/_authenticated/console/shop': {
+      id: '/_authenticated/console/shop'
+      path: '/shop'
+      fullPath: '/console/shop'
+      preLoaderRoute: typeof AuthenticatedConsoleShopRouteImport
       parentRoute: typeof AuthenticatedConsoleRoute
     }
     '/_authenticated/console/users': {
@@ -428,6 +482,13 @@ declare module '@tanstack/react-router' {
       path: '/api/public/enquiry-attachment'
       fullPath: '/api/public/enquiry-attachment'
       preLoaderRoute: typeof ApiPublicEnquiryAttachmentRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/kopokopo-webhook': {
+      id: '/api/public/kopokopo-webhook'
+      path: '/api/public/kopokopo-webhook'
+      fullPath: '/api/public/kopokopo-webhook'
+      preLoaderRoute: typeof ApiPublicKopokopoWebhookRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated/console/posts/$id': {
@@ -462,13 +523,17 @@ const AuthenticatedConsolePostsRouteWithChildren =
   )
 
 interface AuthenticatedConsoleRouteChildren {
+  AuthenticatedConsoleOrdersRoute: typeof AuthenticatedConsoleOrdersRoute
   AuthenticatedConsolePostsRoute: typeof AuthenticatedConsolePostsRouteWithChildren
+  AuthenticatedConsoleShopRoute: typeof AuthenticatedConsoleShopRoute
   AuthenticatedConsoleUsersRoute: typeof AuthenticatedConsoleUsersRoute
   AuthenticatedConsoleIndexRoute: typeof AuthenticatedConsoleIndexRoute
 }
 
 const AuthenticatedConsoleRouteChildren: AuthenticatedConsoleRouteChildren = {
+  AuthenticatedConsoleOrdersRoute: AuthenticatedConsoleOrdersRoute,
   AuthenticatedConsolePostsRoute: AuthenticatedConsolePostsRouteWithChildren,
+  AuthenticatedConsoleShopRoute: AuthenticatedConsoleShopRoute,
   AuthenticatedConsoleUsersRoute: AuthenticatedConsoleUsersRoute,
   AuthenticatedConsoleIndexRoute: AuthenticatedConsoleIndexRoute,
 }
@@ -514,6 +579,7 @@ const rootRouteChildren: RootRouteChildren = {
   SmartMeteringRoute: SmartMeteringRoute,
   StaffLoginRoute: StaffLoginRoute,
   ApiPublicEnquiryAttachmentRoute: ApiPublicEnquiryAttachmentRoute,
+  ApiPublicKopokopoWebhookRoute: ApiPublicKopokopoWebhookRoute,
   ApiPublicMediaSplatRoute: ApiPublicMediaSplatRoute,
 }
 export const routeTree = rootRouteImport
