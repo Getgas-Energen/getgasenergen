@@ -2,7 +2,7 @@
  * Outbound SMS for marketplace order operations.
  *
  * Providers (first configured one wins):
- *   1. Africa's Talking  — AFRICASTALKING_API_KEY, AFRICASTALKING_USERNAME, AFRICASTALKING_SENDER_ID
+ *   1. Emalify           — EMALIFY_CLIENT_ID, EMALIFY_CLIENT_SECRET, EMALIFY_PROJECT_ID, EMALIFY_SENDER_ID
  *   2. Twilio (gateway)  — TWILIO_API_KEY (connector) + TWILIO_SENDER
  * When none is configured the message is still recorded in sms_log as undelivered,
  * so nothing breaks and staff can see what would have gone out.
