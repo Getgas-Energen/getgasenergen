@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as ContactRouteImport } from './routes/contact'
+import { Route as GasReticulationRouteImport } from './routes/gas-reticulation'
 import { Route as IndustriesRouteImport } from './routes/industries'
 import { Route as InsightsRouteImport } from './routes/insights'
 import { Route as MarketplaceRouteImport } from './routes/marketplace'
@@ -23,6 +24,8 @@ import { Route as SafetySystemsRouteImport } from './routes/safety-systems'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as SmartMeteringRouteImport } from './routes/smart-metering'
 import { Route as StaffLoginRouteImport } from './routes/staff-login'
+import { Route as StorageDesignRouteImport } from './routes/storage-design'
+import { Route as TechnicalSpecificationsRouteImport } from './routes/technical-specifications'
 import { Route as AuthenticatedConsoleRouteImport } from './routes/_authenticated/console'
 import { Route as InsightsSlugRouteImport } from './routes/insights.$slug'
 import { Route as ProjectsSlugRouteImport } from './routes/projects.$slug'
@@ -54,6 +57,11 @@ const AboutRoute = AboutRouteImport.update({
 const ContactRoute = ContactRouteImport.update({
   id: '/contact',
   path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GasReticulationRoute = GasReticulationRouteImport.update({
+  id: '/gas-reticulation',
+  path: '/gas-reticulation',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndustriesRoute = IndustriesRouteImport.update({
@@ -104,6 +112,16 @@ const SmartMeteringRoute = SmartMeteringRouteImport.update({
 const StaffLoginRoute = StaffLoginRouteImport.update({
   id: '/staff-login',
   path: '/staff-login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StorageDesignRoute = StorageDesignRouteImport.update({
+  id: '/storage-design',
+  path: '/storage-design',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TechnicalSpecificationsRoute = TechnicalSpecificationsRouteImport.update({
+  id: '/technical-specifications',
+  path: '/technical-specifications',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedConsoleRoute = AuthenticatedConsoleRouteImport.update({
@@ -184,6 +202,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
+  '/gas-reticulation': typeof GasReticulationRoute
   '/industries': typeof IndustriesRoute
   '/insights': typeof InsightsRouteWithChildren
   '/marketplace': typeof MarketplaceRoute
@@ -194,6 +213,8 @@ export interface FileRoutesByFullPath {
   '/services': typeof ServicesRoute
   '/smart-metering': typeof SmartMeteringRoute
   '/staff-login': typeof StaffLoginRoute
+  '/storage-design': typeof StorageDesignRoute
+  '/technical-specifications': typeof TechnicalSpecificationsRoute
   '/console': typeof AuthenticatedConsoleRouteWithChildren
   '/insights/$slug': typeof InsightsSlugRoute
   '/projects/$slug': typeof ProjectsSlugRoute
@@ -212,6 +233,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
+  '/gas-reticulation': typeof GasReticulationRoute
   '/industries': typeof IndustriesRoute
   '/insights': typeof InsightsRouteWithChildren
   '/marketplace': typeof MarketplaceRoute
@@ -222,6 +244,8 @@ export interface FileRoutesByTo {
   '/services': typeof ServicesRoute
   '/smart-metering': typeof SmartMeteringRoute
   '/staff-login': typeof StaffLoginRoute
+  '/storage-design': typeof StorageDesignRoute
+  '/technical-specifications': typeof TechnicalSpecificationsRoute
   '/insights/$slug': typeof InsightsSlugRoute
   '/projects/$slug': typeof ProjectsSlugRoute
   '/console/orders': typeof AuthenticatedConsoleOrdersRoute
@@ -241,6 +265,7 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
+  '/gas-reticulation': typeof GasReticulationRoute
   '/industries': typeof IndustriesRoute
   '/insights': typeof InsightsRouteWithChildren
   '/marketplace': typeof MarketplaceRoute
@@ -251,6 +276,8 @@ export interface FileRoutesById {
   '/services': typeof ServicesRoute
   '/smart-metering': typeof SmartMeteringRoute
   '/staff-login': typeof StaffLoginRoute
+  '/storage-design': typeof StorageDesignRoute
+  '/technical-specifications': typeof TechnicalSpecificationsRoute
   '/_authenticated/console': typeof AuthenticatedConsoleRouteWithChildren
   '/insights/$slug': typeof InsightsSlugRoute
   '/projects/$slug': typeof ProjectsSlugRoute
@@ -271,6 +298,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/contact'
+    | '/gas-reticulation'
     | '/industries'
     | '/insights'
     | '/marketplace'
@@ -281,6 +309,8 @@ export interface FileRouteTypes {
     | '/services'
     | '/smart-metering'
     | '/staff-login'
+    | '/storage-design'
+    | '/technical-specifications'
     | '/console'
     | '/insights/$slug'
     | '/projects/$slug'
@@ -299,6 +329,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/contact'
+    | '/gas-reticulation'
     | '/industries'
     | '/insights'
     | '/marketplace'
@@ -309,6 +340,8 @@ export interface FileRouteTypes {
     | '/services'
     | '/smart-metering'
     | '/staff-login'
+    | '/storage-design'
+    | '/technical-specifications'
     | '/insights/$slug'
     | '/projects/$slug'
     | '/console/orders'
@@ -327,6 +360,7 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/about'
     | '/contact'
+    | '/gas-reticulation'
     | '/industries'
     | '/insights'
     | '/marketplace'
@@ -337,6 +371,8 @@ export interface FileRouteTypes {
     | '/services'
     | '/smart-metering'
     | '/staff-login'
+    | '/storage-design'
+    | '/technical-specifications'
     | '/_authenticated/console'
     | '/insights/$slug'
     | '/projects/$slug'
@@ -357,6 +393,7 @@ export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AboutRoute: typeof AboutRoute
   ContactRoute: typeof ContactRoute
+  GasReticulationRoute: typeof GasReticulationRoute
   IndustriesRoute: typeof IndustriesRoute
   InsightsRoute: typeof InsightsRouteWithChildren
   MarketplaceRoute: typeof MarketplaceRoute
@@ -367,6 +404,8 @@ export interface RootRouteChildren {
   ServicesRoute: typeof ServicesRoute
   SmartMeteringRoute: typeof SmartMeteringRoute
   StaffLoginRoute: typeof StaffLoginRoute
+  StorageDesignRoute: typeof StorageDesignRoute
+  TechnicalSpecificationsRoute: typeof TechnicalSpecificationsRoute
   ApiPublicEnquiryAttachmentRoute: typeof ApiPublicEnquiryAttachmentRoute
   ApiPublicKopokopoWebhookRoute: typeof ApiPublicKopokopoWebhookRoute
   ApiPublicMediaSplatRoute: typeof ApiPublicMediaSplatRoute
@@ -401,6 +440,13 @@ declare module '@tanstack/react-router' {
       path: '/contact'
       fullPath: '/contact'
       preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/gas-reticulation': {
+      id: '/gas-reticulation'
+      path: '/gas-reticulation'
+      fullPath: '/gas-reticulation'
+      preLoaderRoute: typeof GasReticulationRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/industries': {
@@ -471,6 +517,20 @@ declare module '@tanstack/react-router' {
       path: '/staff-login'
       fullPath: '/staff-login'
       preLoaderRoute: typeof StaffLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/storage-design': {
+      id: '/storage-design'
+      path: '/storage-design'
+      fullPath: '/storage-design'
+      preLoaderRoute: typeof StorageDesignRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/technical-specifications': {
+      id: '/technical-specifications'
+      path: '/technical-specifications'
+      fullPath: '/technical-specifications'
+      preLoaderRoute: typeof TechnicalSpecificationsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated/console': {
@@ -640,6 +700,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AboutRoute: AboutRoute,
   ContactRoute: ContactRoute,
+  GasReticulationRoute: GasReticulationRoute,
   IndustriesRoute: IndustriesRoute,
   InsightsRoute: InsightsRouteWithChildren,
   MarketplaceRoute: MarketplaceRoute,
@@ -650,6 +711,8 @@ const rootRouteChildren: RootRouteChildren = {
   ServicesRoute: ServicesRoute,
   SmartMeteringRoute: SmartMeteringRoute,
   StaffLoginRoute: StaffLoginRoute,
+  StorageDesignRoute: StorageDesignRoute,
+  TechnicalSpecificationsRoute: TechnicalSpecificationsRoute,
   ApiPublicEnquiryAttachmentRoute: ApiPublicEnquiryAttachmentRoute,
   ApiPublicKopokopoWebhookRoute: ApiPublicKopokopoWebhookRoute,
   ApiPublicMediaSplatRoute: ApiPublicMediaSplatRoute,
