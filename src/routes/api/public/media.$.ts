@@ -15,14 +15,28 @@ export const Route = createFileRoute("/api/public/media/$")({
 
         const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
 
+        const publicUrl = `/api/public/media/${objectPath}`;
+
         const { data: post } = await supabaseAdmin
           .from("posts")
           .select("id")
           .eq("status", "published")
-          .eq("cover_url", `/api/public/media/${objectPath}`)
+          .eq("cover_url", publicUrl)
           .maybeSingle();
 
-        if (!post) {
+        let allowed = Boolean(post);
+
+        if (!allowed) {
+          const { data: project } = await supabaseAdmin
+            .from("projects")
+            .select("id")
+            .eq("status", "published")
+            .or(`cover_url.eq.${publicUrl},gallery_urls.cs.{"${publicUrl}"}`)
+            .maybeSingle();
+          allowed = Boolean(project);
+        }
+
+        if (!allowed) {
           return new Response("Not found", { status: 404 });
         }
 

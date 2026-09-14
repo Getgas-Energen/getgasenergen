@@ -155,6 +155,26 @@ export const placeOrder = createServerFn({ method: "POST" })
       },
     });
 
+    const { sendMail } = await import("./mailer.server");
+    const money = (v: number) => `KES ${Number(v).toLocaleString("en-KE")}`;
+    await sendMail({
+      subject: `New marketplace order ${order.order_no} — ${money(Number(order.total_kes))}`,
+      replyTo: data.email || null,
+      text: [
+        `Order: ${order.order_no}`,
+        `Customer: ${data.customerName}`,
+        `Phone: ${phone}`,
+        `Email: ${data.email || "-"}`,
+        `Deliver to: ${data.deliveryAddress}${data.county ? `, ${data.county}` : ""}`,
+        `Payment: ${paymentPrompted ? "M-Pesa prompt sent" : "not prompted — follow up"}`,
+        "",
+        ...lines.map((l) => `${l.quantity} x ${l.product_name} — ${money(l.line_total_kes)}`),
+        "",
+        `Total: ${money(itemsTotal)}`,
+        `Notes: ${data.note || "-"}`,
+      ].join("\n"),
+    });
+
     return {
       orderId: order.id,
       orderNo: order.order_no,
