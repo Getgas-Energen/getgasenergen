@@ -290,6 +290,144 @@ export type Database = {
         }
         Relationships: []
       }
+      projects: {
+        Row: {
+          body: string
+          capacity: string | null
+          category: Database["public"]["Enums"]["project_category"]
+          client_name: string | null
+          completion_date: string | null
+          cover_url: string | null
+          created_at: string
+          featured: boolean
+          gallery_urls: string[]
+          id: string
+          location: string | null
+          pdf_path: string | null
+          scope: string | null
+          sector: string | null
+          slug: string
+          sort_order: number
+          status: Database["public"]["Enums"]["post_status"]
+          summary: string
+          tags: string[]
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          body?: string
+          capacity?: string | null
+          category?: Database["public"]["Enums"]["project_category"]
+          client_name?: string | null
+          completion_date?: string | null
+          cover_url?: string | null
+          created_at?: string
+          featured?: boolean
+          gallery_urls?: string[]
+          id?: string
+          location?: string | null
+          pdf_path?: string | null
+          scope?: string | null
+          sector?: string | null
+          slug: string
+          sort_order?: number
+          status?: Database["public"]["Enums"]["post_status"]
+          summary?: string
+          tags?: string[]
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          body?: string
+          capacity?: string | null
+          category?: Database["public"]["Enums"]["project_category"]
+          client_name?: string | null
+          completion_date?: string | null
+          cover_url?: string | null
+          created_at?: string
+          featured?: boolean
+          gallery_urls?: string[]
+          id?: string
+          location?: string | null
+          pdf_path?: string | null
+          scope?: string | null
+          sector?: string | null
+          slug?: string
+          sort_order?: number
+          status?: Database["public"]["Enums"]["post_status"]
+          summary?: string
+          tags?: string[]
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      quote_requests: {
+        Row: {
+          appliances: string | null
+          building_type: string
+          company: string | null
+          contact_name: string
+          created_at: string
+          email: string
+          estimate_high_kes: number | null
+          estimate_low_kes: number | null
+          id: string
+          internal_note: string | null
+          location: string
+          notes: string | null
+          phone: string
+          reference: string
+          status: Database["public"]["Enums"]["quote_status"]
+          supply_type: string
+          timeline: string | null
+          units: number
+          updated_at: string
+        }
+        Insert: {
+          appliances?: string | null
+          building_type: string
+          company?: string | null
+          contact_name: string
+          created_at?: string
+          email: string
+          estimate_high_kes?: number | null
+          estimate_low_kes?: number | null
+          id?: string
+          internal_note?: string | null
+          location: string
+          notes?: string | null
+          phone: string
+          reference?: string
+          status?: Database["public"]["Enums"]["quote_status"]
+          supply_type?: string
+          timeline?: string | null
+          units?: number
+          updated_at?: string
+        }
+        Update: {
+          appliances?: string | null
+          building_type?: string
+          company?: string | null
+          contact_name?: string
+          created_at?: string
+          email?: string
+          estimate_high_kes?: number | null
+          estimate_low_kes?: number | null
+          id?: string
+          internal_note?: string | null
+          location?: string
+          notes?: string | null
+          phone?: string
+          reference?: string
+          status?: Database["public"]["Enums"]["quote_status"]
+          supply_type?: string
+          timeline?: string | null
+          units?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       sms_log: {
         Row: {
           body: string
@@ -387,6 +525,14 @@ export type Database = {
         | "cylinders"
         | "safety"
         | "other"
+      project_category:
+        | "reticulation"
+        | "storage"
+        | "safety"
+        | "metering"
+        | "maintenance"
+        | "other"
+      quote_status: "new" | "reviewing" | "quoted" | "won" | "lost"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -533,6 +679,15 @@ export const Constants = {
         "safety",
         "other",
       ],
+      project_category: [
+        "reticulation",
+        "storage",
+        "safety",
+        "metering",
+        "maintenance",
+        "other",
+      ],
+      quote_status: ["new", "reviewing", "quoted", "won", "lost"],
     },
   },
 } as const

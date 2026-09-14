@@ -13,26 +13,34 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as ContactRouteImport } from './routes/contact'
+import { Route as GasReticulationRouteImport } from './routes/gas-reticulation'
 import { Route as IndustriesRouteImport } from './routes/industries'
 import { Route as InsightsRouteImport } from './routes/insights'
 import { Route as MarketplaceRouteImport } from './routes/marketplace'
 import { Route as ProjectsRouteImport } from './routes/projects'
+import { Route as QuoteRouteImport } from './routes/quote'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as SafetySystemsRouteImport } from './routes/safety-systems'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as SmartMeteringRouteImport } from './routes/smart-metering'
 import { Route as StaffLoginRouteImport } from './routes/staff-login'
+import { Route as StorageDesignRouteImport } from './routes/storage-design'
+import { Route as TechnicalSpecificationsRouteImport } from './routes/technical-specifications'
 import { Route as AuthenticatedConsoleRouteImport } from './routes/_authenticated/console'
 import { Route as InsightsSlugRouteImport } from './routes/insights.$slug'
+import { Route as ProjectsSlugRouteImport } from './routes/projects.$slug'
 import { Route as AuthenticatedConsoleIndexRouteImport } from './routes/_authenticated/console.index'
 import { Route as AuthenticatedConsoleOrdersRouteImport } from './routes/_authenticated/console.orders'
 import { Route as AuthenticatedConsolePostsRouteImport } from './routes/_authenticated/console.posts'
+import { Route as AuthenticatedConsoleProjectsRouteImport } from './routes/_authenticated/console.projects'
+import { Route as AuthenticatedConsoleQuotesRouteImport } from './routes/_authenticated/console.quotes'
 import { Route as AuthenticatedConsoleShopRouteImport } from './routes/_authenticated/console.shop'
 import { Route as AuthenticatedConsoleUsersRouteImport } from './routes/_authenticated/console.users'
 import { Route as ApiPublicEnquiryAttachmentRouteImport } from './routes/api/public/enquiry-attachment'
 import { Route as ApiPublicKopokopoWebhookRouteImport } from './routes/api/public/kopokopo-webhook'
 import { Route as AuthenticatedConsolePostsIdRouteImport } from './routes/_authenticated/console.posts.$id'
 import { Route as ApiPublicMediaSplatRouteImport } from './routes/api/public/media.$'
+import { Route as ApiPublicProjectPdfSlugRouteImport } from './routes/api/public/project-pdf.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -53,6 +61,11 @@ const ContactRoute = ContactRouteImport.update({
   path: '/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
+const GasReticulationRoute = GasReticulationRouteImport.update({
+  id: '/gas-reticulation',
+  path: '/gas-reticulation',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndustriesRoute = IndustriesRouteImport.update({
   id: '/industries',
   path: '/industries',
@@ -71,6 +84,11 @@ const MarketplaceRoute = MarketplaceRouteImport.update({
 const ProjectsRoute = ProjectsRouteImport.update({
   id: '/projects',
   path: '/projects',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const QuoteRoute = QuoteRouteImport.update({
+  id: '/quote',
+  path: '/quote',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
@@ -98,6 +116,16 @@ const StaffLoginRoute = StaffLoginRouteImport.update({
   path: '/staff-login',
   getParentRoute: () => rootRouteImport,
 } as any)
+const StorageDesignRoute = StorageDesignRouteImport.update({
+  id: '/storage-design',
+  path: '/storage-design',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TechnicalSpecificationsRoute = TechnicalSpecificationsRouteImport.update({
+  id: '/technical-specifications',
+  path: '/technical-specifications',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AuthenticatedConsoleRoute = AuthenticatedConsoleRouteImport.update({
   id: '/console',
   path: '/console',
@@ -107,6 +135,11 @@ const InsightsSlugRoute = InsightsSlugRouteImport.update({
   id: '/$slug',
   path: '/$slug',
   getParentRoute: () => InsightsRoute,
+} as any)
+const ProjectsSlugRoute = ProjectsSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => ProjectsRoute,
 } as any)
 const AuthenticatedConsoleIndexRoute =
   AuthenticatedConsoleIndexRouteImport.update({
@@ -124,6 +157,18 @@ const AuthenticatedConsolePostsRoute =
   AuthenticatedConsolePostsRouteImport.update({
     id: '/posts',
     path: '/posts',
+    getParentRoute: () => AuthenticatedConsoleRoute,
+  } as any)
+const AuthenticatedConsoleProjectsRoute =
+  AuthenticatedConsoleProjectsRouteImport.update({
+    id: '/projects',
+    path: '/projects',
+    getParentRoute: () => AuthenticatedConsoleRoute,
+  } as any)
+const AuthenticatedConsoleQuotesRoute =
+  AuthenticatedConsoleQuotesRouteImport.update({
+    id: '/quotes',
+    path: '/quotes',
     getParentRoute: () => AuthenticatedConsoleRoute,
   } as any)
 const AuthenticatedConsoleShopRoute =
@@ -161,24 +206,36 @@ const ApiPublicMediaSplatRoute = ApiPublicMediaSplatRouteImport.update({
   path: '/api/public/media/$',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicProjectPdfSlugRoute = ApiPublicProjectPdfSlugRouteImport.update({
+  id: '/api/public/project-pdf/$slug',
+  path: '/api/public/project-pdf/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
+  '/gas-reticulation': typeof GasReticulationRoute
   '/industries': typeof IndustriesRoute
   '/insights': typeof InsightsRouteWithChildren
   '/marketplace': typeof MarketplaceRoute
-  '/projects': typeof ProjectsRoute
+  '/projects': typeof ProjectsRouteWithChildren
+  '/quote': typeof QuoteRoute
   '/reset-password': typeof ResetPasswordRoute
   '/safety-systems': typeof SafetySystemsRoute
   '/services': typeof ServicesRoute
   '/smart-metering': typeof SmartMeteringRoute
   '/staff-login': typeof StaffLoginRoute
+  '/storage-design': typeof StorageDesignRoute
+  '/technical-specifications': typeof TechnicalSpecificationsRoute
   '/console': typeof AuthenticatedConsoleRouteWithChildren
   '/insights/$slug': typeof InsightsSlugRoute
+  '/projects/$slug': typeof ProjectsSlugRoute
   '/console/orders': typeof AuthenticatedConsoleOrdersRoute
   '/console/posts': typeof AuthenticatedConsolePostsRouteWithChildren
+  '/console/projects': typeof AuthenticatedConsoleProjectsRoute
+  '/console/quotes': typeof AuthenticatedConsoleQuotesRoute
   '/console/shop': typeof AuthenticatedConsoleShopRoute
   '/console/users': typeof AuthenticatedConsoleUsersRoute
   '/api/public/enquiry-attachment': typeof ApiPublicEnquiryAttachmentRoute
@@ -186,23 +243,31 @@ export interface FileRoutesByFullPath {
   '/console/': typeof AuthenticatedConsoleIndexRoute
   '/console/posts/$id': typeof AuthenticatedConsolePostsIdRoute
   '/api/public/media/$': typeof ApiPublicMediaSplatRoute
+  '/api/public/project-pdf/$slug': typeof ApiPublicProjectPdfSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
+  '/gas-reticulation': typeof GasReticulationRoute
   '/industries': typeof IndustriesRoute
   '/insights': typeof InsightsRouteWithChildren
   '/marketplace': typeof MarketplaceRoute
-  '/projects': typeof ProjectsRoute
+  '/projects': typeof ProjectsRouteWithChildren
+  '/quote': typeof QuoteRoute
   '/reset-password': typeof ResetPasswordRoute
   '/safety-systems': typeof SafetySystemsRoute
   '/services': typeof ServicesRoute
   '/smart-metering': typeof SmartMeteringRoute
   '/staff-login': typeof StaffLoginRoute
+  '/storage-design': typeof StorageDesignRoute
+  '/technical-specifications': typeof TechnicalSpecificationsRoute
   '/insights/$slug': typeof InsightsSlugRoute
+  '/projects/$slug': typeof ProjectsSlugRoute
   '/console/orders': typeof AuthenticatedConsoleOrdersRoute
   '/console/posts': typeof AuthenticatedConsolePostsRouteWithChildren
+  '/console/projects': typeof AuthenticatedConsoleProjectsRoute
+  '/console/quotes': typeof AuthenticatedConsoleQuotesRoute
   '/console/shop': typeof AuthenticatedConsoleShopRoute
   '/console/users': typeof AuthenticatedConsoleUsersRoute
   '/api/public/enquiry-attachment': typeof ApiPublicEnquiryAttachmentRoute
@@ -210,6 +275,7 @@ export interface FileRoutesByTo {
   '/console': typeof AuthenticatedConsoleIndexRoute
   '/console/posts/$id': typeof AuthenticatedConsolePostsIdRoute
   '/api/public/media/$': typeof ApiPublicMediaSplatRoute
+  '/api/public/project-pdf/$slug': typeof ApiPublicProjectPdfSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -217,19 +283,26 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/about': typeof AboutRoute
   '/contact': typeof ContactRoute
+  '/gas-reticulation': typeof GasReticulationRoute
   '/industries': typeof IndustriesRoute
   '/insights': typeof InsightsRouteWithChildren
   '/marketplace': typeof MarketplaceRoute
-  '/projects': typeof ProjectsRoute
+  '/projects': typeof ProjectsRouteWithChildren
+  '/quote': typeof QuoteRoute
   '/reset-password': typeof ResetPasswordRoute
   '/safety-systems': typeof SafetySystemsRoute
   '/services': typeof ServicesRoute
   '/smart-metering': typeof SmartMeteringRoute
   '/staff-login': typeof StaffLoginRoute
+  '/storage-design': typeof StorageDesignRoute
+  '/technical-specifications': typeof TechnicalSpecificationsRoute
   '/_authenticated/console': typeof AuthenticatedConsoleRouteWithChildren
   '/insights/$slug': typeof InsightsSlugRoute
+  '/projects/$slug': typeof ProjectsSlugRoute
   '/_authenticated/console/orders': typeof AuthenticatedConsoleOrdersRoute
   '/_authenticated/console/posts': typeof AuthenticatedConsolePostsRouteWithChildren
+  '/_authenticated/console/projects': typeof AuthenticatedConsoleProjectsRoute
+  '/_authenticated/console/quotes': typeof AuthenticatedConsoleQuotesRoute
   '/_authenticated/console/shop': typeof AuthenticatedConsoleShopRoute
   '/_authenticated/console/users': typeof AuthenticatedConsoleUsersRoute
   '/api/public/enquiry-attachment': typeof ApiPublicEnquiryAttachmentRoute
@@ -237,6 +310,7 @@ export interface FileRoutesById {
   '/_authenticated/console/': typeof AuthenticatedConsoleIndexRoute
   '/_authenticated/console/posts/$id': typeof AuthenticatedConsolePostsIdRoute
   '/api/public/media/$': typeof ApiPublicMediaSplatRoute
+  '/api/public/project-pdf/$slug': typeof ApiPublicProjectPdfSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -244,19 +318,26 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/contact'
+    | '/gas-reticulation'
     | '/industries'
     | '/insights'
     | '/marketplace'
     | '/projects'
+    | '/quote'
     | '/reset-password'
     | '/safety-systems'
     | '/services'
     | '/smart-metering'
     | '/staff-login'
+    | '/storage-design'
+    | '/technical-specifications'
     | '/console'
     | '/insights/$slug'
+    | '/projects/$slug'
     | '/console/orders'
     | '/console/posts'
+    | '/console/projects'
+    | '/console/quotes'
     | '/console/shop'
     | '/console/users'
     | '/api/public/enquiry-attachment'
@@ -264,23 +345,31 @@ export interface FileRouteTypes {
     | '/console/'
     | '/console/posts/$id'
     | '/api/public/media/$'
+    | '/api/public/project-pdf/$slug'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about'
     | '/contact'
+    | '/gas-reticulation'
     | '/industries'
     | '/insights'
     | '/marketplace'
     | '/projects'
+    | '/quote'
     | '/reset-password'
     | '/safety-systems'
     | '/services'
     | '/smart-metering'
     | '/staff-login'
+    | '/storage-design'
+    | '/technical-specifications'
     | '/insights/$slug'
+    | '/projects/$slug'
     | '/console/orders'
     | '/console/posts'
+    | '/console/projects'
+    | '/console/quotes'
     | '/console/shop'
     | '/console/users'
     | '/api/public/enquiry-attachment'
@@ -288,25 +377,33 @@ export interface FileRouteTypes {
     | '/console'
     | '/console/posts/$id'
     | '/api/public/media/$'
+    | '/api/public/project-pdf/$slug'
   id:
     | '__root__'
     | '/'
     | '/_authenticated'
     | '/about'
     | '/contact'
+    | '/gas-reticulation'
     | '/industries'
     | '/insights'
     | '/marketplace'
     | '/projects'
+    | '/quote'
     | '/reset-password'
     | '/safety-systems'
     | '/services'
     | '/smart-metering'
     | '/staff-login'
+    | '/storage-design'
+    | '/technical-specifications'
     | '/_authenticated/console'
     | '/insights/$slug'
+    | '/projects/$slug'
     | '/_authenticated/console/orders'
     | '/_authenticated/console/posts'
+    | '/_authenticated/console/projects'
+    | '/_authenticated/console/quotes'
     | '/_authenticated/console/shop'
     | '/_authenticated/console/users'
     | '/api/public/enquiry-attachment'
@@ -314,6 +411,7 @@ export interface FileRouteTypes {
     | '/_authenticated/console/'
     | '/_authenticated/console/posts/$id'
     | '/api/public/media/$'
+    | '/api/public/project-pdf/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -321,18 +419,23 @@ export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AboutRoute: typeof AboutRoute
   ContactRoute: typeof ContactRoute
+  GasReticulationRoute: typeof GasReticulationRoute
   IndustriesRoute: typeof IndustriesRoute
   InsightsRoute: typeof InsightsRouteWithChildren
   MarketplaceRoute: typeof MarketplaceRoute
-  ProjectsRoute: typeof ProjectsRoute
+  ProjectsRoute: typeof ProjectsRouteWithChildren
+  QuoteRoute: typeof QuoteRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   SafetySystemsRoute: typeof SafetySystemsRoute
   ServicesRoute: typeof ServicesRoute
   SmartMeteringRoute: typeof SmartMeteringRoute
   StaffLoginRoute: typeof StaffLoginRoute
+  StorageDesignRoute: typeof StorageDesignRoute
+  TechnicalSpecificationsRoute: typeof TechnicalSpecificationsRoute
   ApiPublicEnquiryAttachmentRoute: typeof ApiPublicEnquiryAttachmentRoute
   ApiPublicKopokopoWebhookRoute: typeof ApiPublicKopokopoWebhookRoute
   ApiPublicMediaSplatRoute: typeof ApiPublicMediaSplatRoute
+  ApiPublicProjectPdfSlugRoute: typeof ApiPublicProjectPdfSlugRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -365,6 +468,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/gas-reticulation': {
+      id: '/gas-reticulation'
+      path: '/gas-reticulation'
+      fullPath: '/gas-reticulation'
+      preLoaderRoute: typeof GasReticulationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/industries': {
       id: '/industries'
       path: '/industries'
@@ -391,6 +501,13 @@ declare module '@tanstack/react-router' {
       path: '/projects'
       fullPath: '/projects'
       preLoaderRoute: typeof ProjectsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/quote': {
+      id: '/quote'
+      path: '/quote'
+      fullPath: '/quote'
+      preLoaderRoute: typeof QuoteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/reset-password': {
@@ -428,6 +545,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StaffLoginRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/storage-design': {
+      id: '/storage-design'
+      path: '/storage-design'
+      fullPath: '/storage-design'
+      preLoaderRoute: typeof StorageDesignRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/technical-specifications': {
+      id: '/technical-specifications'
+      path: '/technical-specifications'
+      fullPath: '/technical-specifications'
+      preLoaderRoute: typeof TechnicalSpecificationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_authenticated/console': {
       id: '/_authenticated/console'
       path: '/console'
@@ -441,6 +572,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/insights/$slug'
       preLoaderRoute: typeof InsightsSlugRouteImport
       parentRoute: typeof InsightsRoute
+    }
+    '/projects/$slug': {
+      id: '/projects/$slug'
+      path: '/$slug'
+      fullPath: '/projects/$slug'
+      preLoaderRoute: typeof ProjectsSlugRouteImport
+      parentRoute: typeof ProjectsRoute
     }
     '/_authenticated/console/': {
       id: '/_authenticated/console/'
@@ -461,6 +599,20 @@ declare module '@tanstack/react-router' {
       path: '/posts'
       fullPath: '/console/posts'
       preLoaderRoute: typeof AuthenticatedConsolePostsRouteImport
+      parentRoute: typeof AuthenticatedConsoleRoute
+    }
+    '/_authenticated/console/projects': {
+      id: '/_authenticated/console/projects'
+      path: '/projects'
+      fullPath: '/console/projects'
+      preLoaderRoute: typeof AuthenticatedConsoleProjectsRouteImport
+      parentRoute: typeof AuthenticatedConsoleRoute
+    }
+    '/_authenticated/console/quotes': {
+      id: '/_authenticated/console/quotes'
+      path: '/quotes'
+      fullPath: '/console/quotes'
+      preLoaderRoute: typeof AuthenticatedConsoleQuotesRouteImport
       parentRoute: typeof AuthenticatedConsoleRoute
     }
     '/_authenticated/console/shop': {
@@ -505,6 +657,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicMediaSplatRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/project-pdf/$slug': {
+      id: '/api/public/project-pdf/$slug'
+      path: '/api/public/project-pdf/$slug'
+      fullPath: '/api/public/project-pdf/$slug'
+      preLoaderRoute: typeof ApiPublicProjectPdfSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -525,6 +684,8 @@ const AuthenticatedConsolePostsRouteWithChildren =
 interface AuthenticatedConsoleRouteChildren {
   AuthenticatedConsoleOrdersRoute: typeof AuthenticatedConsoleOrdersRoute
   AuthenticatedConsolePostsRoute: typeof AuthenticatedConsolePostsRouteWithChildren
+  AuthenticatedConsoleProjectsRoute: typeof AuthenticatedConsoleProjectsRoute
+  AuthenticatedConsoleQuotesRoute: typeof AuthenticatedConsoleQuotesRoute
   AuthenticatedConsoleShopRoute: typeof AuthenticatedConsoleShopRoute
   AuthenticatedConsoleUsersRoute: typeof AuthenticatedConsoleUsersRoute
   AuthenticatedConsoleIndexRoute: typeof AuthenticatedConsoleIndexRoute
@@ -533,6 +694,8 @@ interface AuthenticatedConsoleRouteChildren {
 const AuthenticatedConsoleRouteChildren: AuthenticatedConsoleRouteChildren = {
   AuthenticatedConsoleOrdersRoute: AuthenticatedConsoleOrdersRoute,
   AuthenticatedConsolePostsRoute: AuthenticatedConsolePostsRouteWithChildren,
+  AuthenticatedConsoleProjectsRoute: AuthenticatedConsoleProjectsRoute,
+  AuthenticatedConsoleQuotesRoute: AuthenticatedConsoleQuotesRoute,
   AuthenticatedConsoleShopRoute: AuthenticatedConsoleShopRoute,
   AuthenticatedConsoleUsersRoute: AuthenticatedConsoleUsersRoute,
   AuthenticatedConsoleIndexRoute: AuthenticatedConsoleIndexRoute,
@@ -564,23 +727,40 @@ const InsightsRouteWithChildren = InsightsRoute._addFileChildren(
   InsightsRouteChildren,
 )
 
+interface ProjectsRouteChildren {
+  ProjectsSlugRoute: typeof ProjectsSlugRoute
+}
+
+const ProjectsRouteChildren: ProjectsRouteChildren = {
+  ProjectsSlugRoute: ProjectsSlugRoute,
+}
+
+const ProjectsRouteWithChildren = ProjectsRoute._addFileChildren(
+  ProjectsRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AboutRoute: AboutRoute,
   ContactRoute: ContactRoute,
+  GasReticulationRoute: GasReticulationRoute,
   IndustriesRoute: IndustriesRoute,
   InsightsRoute: InsightsRouteWithChildren,
   MarketplaceRoute: MarketplaceRoute,
-  ProjectsRoute: ProjectsRoute,
+  ProjectsRoute: ProjectsRouteWithChildren,
+  QuoteRoute: QuoteRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   SafetySystemsRoute: SafetySystemsRoute,
   ServicesRoute: ServicesRoute,
   SmartMeteringRoute: SmartMeteringRoute,
   StaffLoginRoute: StaffLoginRoute,
+  StorageDesignRoute: StorageDesignRoute,
+  TechnicalSpecificationsRoute: TechnicalSpecificationsRoute,
   ApiPublicEnquiryAttachmentRoute: ApiPublicEnquiryAttachmentRoute,
   ApiPublicKopokopoWebhookRoute: ApiPublicKopokopoWebhookRoute,
   ApiPublicMediaSplatRoute: ApiPublicMediaSplatRoute,
+  ApiPublicProjectPdfSlugRoute: ApiPublicProjectPdfSlugRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

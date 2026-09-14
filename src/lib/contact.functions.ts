@@ -32,5 +32,22 @@ export const submitContactForm = createServerFn({ method: "POST" })
       throw new Error("Failed to submit contact form. Please try again.");
     }
 
+    const { sendMail } = await import("./mailer.server");
+    await sendMail({
+      subject: `Website enquiry — ${data.projectType} (${data.name})`,
+      replyTo: data.email,
+      text: [
+        `Name: ${data.name}${data.company ? ` (${data.company})` : ""}`,
+        `Email: ${data.email}`,
+        `Phone: ${data.phone}`,
+        `Enquiry type: ${data.projectType}`,
+        data.attachmentPath ? `Attachment: ${data.attachmentPath} (download from the console)` : "",
+        "",
+        data.message,
+      ]
+        .filter(Boolean)
+        .join("\n"),
+    });
+
     return { success: true };
   });
