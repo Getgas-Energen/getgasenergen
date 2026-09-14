@@ -26,6 +26,7 @@ export const Route = createFileRoute("/contact")({
 function ContactPage() {
   const [submitting, setSubmitting] = useState(false);
   const [projectType, setProjectType] = useState("feasibility");
+  const [file, setFile] = useState<File | null>(null);
   const submitForm = useServerFn(submitContactForm);
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -36,6 +37,19 @@ function ContactPage() {
     const formData = new FormData(form);
 
     try {
+      let attachmentPath: string | null = null;
+
+      if (file) {
+        const upload = new FormData();
+        upload.append("file", file);
+        const res = await fetch("/api/public/enquiry-attachment", { method: "POST", body: upload });
+        const json = (await res.json()) as { path?: string; error?: string };
+        if (!res.ok || !json.path) {
+          throw new Error(json.error || "Could not upload your file.");
+        }
+        attachmentPath = json.path;
+      }
+
       await submitForm({
         data: {
           name: String(formData.get("name") || ""),
@@ -44,10 +58,12 @@ function ContactPage() {
           phone: String(formData.get("phone") || ""),
           projectType,
           message: String(formData.get("message") || ""),
+          attachmentPath,
         },
       });
       toast.success("Thanks — we'll get back to you within one business day.");
       form.reset();
+      setFile(null);
       setProjectType("feasibility");
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Something went wrong. Please try again.");
@@ -55,6 +71,7 @@ function ContactPage() {
       setSubmitting(false);
     }
   };
+
 
   return (
     <>
@@ -112,6 +129,21 @@ function ContactPage() {
             <Label htmlFor="message">Project details</Label>
             <Textarea id="message" name="message" required rows={5} placeholder="Site location, scope, units, timeline…" />
           </div>
+          <div className="space-y-2">
+            <Label htmlFor="attachment">Attachment (optional)</Label>
+            <Input
+              id="attachment"
+              name="attachment"
+              type="file"
+              accept=".pdf,.png,.jpg,.jpeg,.webp,.doc,.docx,.xls,.xlsx,.dwg,.zip"
+              onChange={(e) => setFile(e.target.files?.[0] ?? null)}
+              className="cursor-pointer"
+            />
+            <p className="text-xs text-muted-foreground">
+              Drawings, site photos, BOQs or tender documents — up to 15 MB.
+            </p>
+          </div>
+
           <Button type="submit" size="lg" disabled={submitting} className="bg-accent text-accent-foreground hover:bg-accent/90">
             {submitting ? "Sending…" : <>Send enquiry <Send className="ml-2 h-4 w-4" /></>}
           </Button>

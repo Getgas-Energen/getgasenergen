@@ -33,6 +33,7 @@ export function Footer() {
               <li><Link to="/industries" className="hover:text-accent">Industries</Link></li>
               <li><Link to="/projects" className="hover:text-accent">Projects</Link></li>
               <li><Link to="/marketplace" className="hover:text-accent">Marketplace</Link></li>
+              <li><Link to="/insights" className="hover:text-accent">Insights</Link></li>
             </ul>
           </div>
 
@@ -81,7 +82,10 @@ export function Footer() {
 
         <div className="mt-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-t border-white/10 pt-6 text-xs text-white/55">
           <p>© {new Date().getFullYear()} Getgas Energen Ltd · A Getgas Holdings PLC company.</p>
-          <p>EPRA · KEBS · Petroleum Act 2019 compliant</p>
+          <p className="flex items-center gap-3">
+            <span>EPRA · KEBS · Petroleum Act 2019 compliant</span>
+            <Link to="/staff-login" rel="nofollow" className="text-white/40 hover:text-accent">Staff</Link>
+          </p>
         </div>
       </div>
     </footer>
