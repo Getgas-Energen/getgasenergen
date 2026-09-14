@@ -180,3 +180,37 @@ export async function sendOrderSms(args: {
 
   return result;
 }
+
+/** Sends a one-off message (quotes, enquiries) and records it in sms_log. */
+export async function sendPlainSms(phone: string, body: string, template: string) {
+  const to = normalisePhone(phone);
+
+  let result: { provider: string; delivered: boolean; error: string | null } | null = null;
+  try {
+    result = (await sendViaEmalify(to, body)) ?? (await sendViaTwilio(to, body));
+  } catch (error) {
+    result = {
+      provider: "unknown",
+      delivered: false,
+      error: error instanceof Error ? error.message : "send failed",
+    };
+  }
+  if (!result) result = { provider: "none", delivered: false, error: "No SMS provider configured" };
+
+  try {
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    await supabaseAdmin.from("sms_log").insert({
+      order_id: null,
+      phone: to,
+      template,
+      body,
+      provider: result.provider,
+      delivered: result.delivered,
+      error: result.error,
+    });
+  } catch (error) {
+    console.error("[SMS] could not write sms_log", error);
+  }
+
+  return result;
+}
