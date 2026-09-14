@@ -150,7 +150,7 @@ export async function sendOrderSms(args: {
 
   let result: { provider: string; delivered: boolean; error: string | null } | null = null;
   try {
-    result = (await sendViaAfricasTalking(to, body)) ?? (await sendViaTwilio(to, body));
+    result = (await sendViaEmalify(to, body)) ?? (await sendViaTwilio(to, body));
   } catch (error) {
     result = {
       provider: "unknown",
