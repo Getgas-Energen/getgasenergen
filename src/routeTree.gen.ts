@@ -28,6 +28,7 @@ import { Route as AuthenticatedConsoleIndexRouteImport } from './routes/_authent
 import { Route as AuthenticatedConsolePostsRouteImport } from './routes/_authenticated/console.posts'
 import { Route as AuthenticatedConsoleUsersRouteImport } from './routes/_authenticated/console.users'
 import { Route as ApiPublicEnquiryAttachmentRouteImport } from './routes/api/public/enquiry-attachment'
+import { Route as ApiPublicKopokopoWebhookRouteImport } from './routes/api/public/kopokopo-webhook'
 import { Route as AuthenticatedConsolePostsIdRouteImport } from './routes/_authenticated/console.posts.$id'
 import { Route as ApiPublicMediaSplatRouteImport } from './routes/api/public/media.$'
 
@@ -129,6 +130,12 @@ const ApiPublicEnquiryAttachmentRoute =
     path: '/api/public/enquiry-attachment',
     getParentRoute: () => rootRouteImport,
   } as any)
+const ApiPublicKopokopoWebhookRoute =
+  ApiPublicKopokopoWebhookRouteImport.update({
+    id: '/api/public/kopokopo-webhook',
+    path: '/api/public/kopokopo-webhook',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const AuthenticatedConsolePostsIdRoute =
   AuthenticatedConsolePostsIdRouteImport.update({
     id: '/$id',
@@ -159,6 +166,7 @@ export interface FileRoutesByFullPath {
   '/console/posts': typeof AuthenticatedConsolePostsRouteWithChildren
   '/console/users': typeof AuthenticatedConsoleUsersRoute
   '/api/public/enquiry-attachment': typeof ApiPublicEnquiryAttachmentRoute
+  '/api/public/kopokopo-webhook': typeof ApiPublicKopokopoWebhookRoute
   '/console/': typeof AuthenticatedConsoleIndexRoute
   '/console/posts/$id': typeof AuthenticatedConsolePostsIdRoute
   '/api/public/media/$': typeof ApiPublicMediaSplatRoute
@@ -180,6 +188,7 @@ export interface FileRoutesByTo {
   '/console/posts': typeof AuthenticatedConsolePostsRouteWithChildren
   '/console/users': typeof AuthenticatedConsoleUsersRoute
   '/api/public/enquiry-attachment': typeof ApiPublicEnquiryAttachmentRoute
+  '/api/public/kopokopo-webhook': typeof ApiPublicKopokopoWebhookRoute
   '/console': typeof AuthenticatedConsoleIndexRoute
   '/console/posts/$id': typeof AuthenticatedConsolePostsIdRoute
   '/api/public/media/$': typeof ApiPublicMediaSplatRoute
@@ -204,6 +213,7 @@ export interface FileRoutesById {
   '/_authenticated/console/posts': typeof AuthenticatedConsolePostsRouteWithChildren
   '/_authenticated/console/users': typeof AuthenticatedConsoleUsersRoute
   '/api/public/enquiry-attachment': typeof ApiPublicEnquiryAttachmentRoute
+  '/api/public/kopokopo-webhook': typeof ApiPublicKopokopoWebhookRoute
   '/_authenticated/console/': typeof AuthenticatedConsoleIndexRoute
   '/_authenticated/console/posts/$id': typeof AuthenticatedConsolePostsIdRoute
   '/api/public/media/$': typeof ApiPublicMediaSplatRoute
@@ -228,6 +238,7 @@ export interface FileRouteTypes {
     | '/console/posts'
     | '/console/users'
     | '/api/public/enquiry-attachment'
+    | '/api/public/kopokopo-webhook'
     | '/console/'
     | '/console/posts/$id'
     | '/api/public/media/$'
@@ -249,6 +260,7 @@ export interface FileRouteTypes {
     | '/console/posts'
     | '/console/users'
     | '/api/public/enquiry-attachment'
+    | '/api/public/kopokopo-webhook'
     | '/console'
     | '/console/posts/$id'
     | '/api/public/media/$'
@@ -272,6 +284,7 @@ export interface FileRouteTypes {
     | '/_authenticated/console/posts'
     | '/_authenticated/console/users'
     | '/api/public/enquiry-attachment'
+    | '/api/public/kopokopo-webhook'
     | '/_authenticated/console/'
     | '/_authenticated/console/posts/$id'
     | '/api/public/media/$'
@@ -292,6 +305,7 @@ export interface RootRouteChildren {
   SmartMeteringRoute: typeof SmartMeteringRoute
   StaffLoginRoute: typeof StaffLoginRoute
   ApiPublicEnquiryAttachmentRoute: typeof ApiPublicEnquiryAttachmentRoute
+  ApiPublicKopokopoWebhookRoute: typeof ApiPublicKopokopoWebhookRoute
   ApiPublicMediaSplatRoute: typeof ApiPublicMediaSplatRoute
 }
 
@@ -430,6 +444,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicEnquiryAttachmentRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/kopokopo-webhook': {
+      id: '/api/public/kopokopo-webhook'
+      path: '/api/public/kopokopo-webhook'
+      fullPath: '/api/public/kopokopo-webhook'
+      preLoaderRoute: typeof ApiPublicKopokopoWebhookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_authenticated/console/posts/$id': {
       id: '/_authenticated/console/posts/$id'
       path: '/$id'
@@ -514,6 +535,7 @@ const rootRouteChildren: RootRouteChildren = {
   SmartMeteringRoute: SmartMeteringRoute,
   StaffLoginRoute: StaffLoginRoute,
   ApiPublicEnquiryAttachmentRoute: ApiPublicEnquiryAttachmentRoute,
+  ApiPublicKopokopoWebhookRoute: ApiPublicKopokopoWebhookRoute,
   ApiPublicMediaSplatRoute: ApiPublicMediaSplatRoute,
 }
 export const routeTree = rootRouteImport

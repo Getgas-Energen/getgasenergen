@@ -293,3 +293,212 @@ export const revokeStaffAccess = createServerFn({ method: "POST" })
     if (error) throw new Error(error.message);
     return { success: true };
   });
+
+/* ------------------------------------------------------------------ marketplace: products */
+
+export interface AdminProductRow {
+  id: string;
+  name: string;
+  slug: string;
+  category: "pipes" | "regulators" | "fireplaces" | "cylinders" | "safety" | "other";
+  spec: string | null;
+  description: string | null;
+  price_kes: number | null;
+  image_url: string | null;
+  in_stock: boolean;
+  is_active: boolean;
+  sort_order: number;
+}
+
+export const listProductsAdmin = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    await assertStaff(context.supabase, context.userId);
+    const { data, error } = await context.supabase
+      .from("products")
+      .select(
+        "id, name, slug, category, spec, description, price_kes, image_url, in_stock, is_active, sort_order",
+      )
+      .order("sort_order", { ascending: true })
+      .limit(400);
+    if (error) throw new Error(error.message);
+    return { products: (data ?? []) as unknown as AdminProductRow[] };
+  });
+
+const productInput = z.object({
+  id: z.string().uuid().optional().nullable(),
+  name: z.string().min(2).max(180),
+  category: z.enum(["pipes", "regulators", "fireplaces", "cylinders", "safety", "other"]),
+  spec: z.string().max(300).optional().nullable(),
+  description: z.string().max(4000).optional().nullable(),
+  priceKes: z.number().min(0).max(100000000).optional().nullable(),
+  imageUrl: z.string().max(400).optional().nullable(),
+  inStock: z.boolean(),
+  isActive: z.boolean(),
+  sortOrder: z.number().int().min(0).max(9999),
+});
+
+export const saveProduct = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((data) => productInput.parse(data))
+  .handler(async ({ data, context }) => {
+    await assertAdmin(context.supabase, context.userId);
+
+    const payload = {
+      name: data.name,
+      slug: slugify(data.name) || `item-${Date.now()}`,
+      category: data.category,
+      spec: data.spec || null,
+      description: data.description || null,
+      price_kes: data.priceKes ?? null,
+      image_url: data.imageUrl || null,
+      in_stock: data.inStock,
+      is_active: data.isActive,
+      sort_order: data.sortOrder,
+    };
+
+    if (data.id) {
+      const { error } = await context.supabase.from("products").update(payload).eq("id", data.id);
+      if (error) throw new Error(error.message);
+      return { id: data.id };
+    }
+
+    const { data: inserted, error } = await context.supabase
+      .from("products")
+      .insert(payload)
+      .select("id")
+      .single();
+    if (error) throw new Error(error.message);
+    return { id: inserted.id };
+  });
+
+export const deleteProduct = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((data) => z.object({ id: z.string().uuid() }).parse(data))
+  .handler(async ({ data, context }) => {
+    await assertAdmin(context.supabase, context.userId);
+    const { error } = await context.supabase.from("products").delete().eq("id", data.id);
+    if (error) throw new Error(error.message);
+    return { success: true };
+  });
+
+/* ------------------------------------------------------------------ marketplace: orders */
+
+export interface AdminOrderRow {
+  id: string;
+  order_no: string;
+  customer_name: string;
+  phone: string;
+  email: string | null;
+  delivery_address: string;
+  county: string | null;
+  items_total_kes: number;
+  total_kes: number;
+  status: "new" | "confirmed" | "dispatched" | "delivered" | "cancelled";
+  payment_status: "pending" | "paid" | "failed";
+  payment_reference: string | null;
+  customer_note: string | null;
+  created_at: string;
+  order_items: {
+    product_name: string;
+    quantity: number;
+    unit_price_kes: number;
+    line_total_kes: number;
+  }[];
+}
+
+export const listOrders = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    await assertStaff(context.supabase, context.userId);
+    const { data, error } = await context.supabase
+      .from("orders")
+      .select(
+        "id, order_no, customer_name, phone, email, delivery_address, county, items_total_kes, total_kes, status, payment_status, payment_reference, customer_note, created_at, order_items(product_name, quantity, unit_price_kes, line_total_kes)",
+      )
+      .order("created_at", { ascending: false })
+      .limit(200);
+    if (error) throw new Error(error.message);
+    return { orders: (data ?? []) as unknown as AdminOrderRow[] };
+  });
+
+/** Admin changes an order stage; the customer gets an SMS for the stage change. */
+export const updateOrderStatus = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((data) =>
+    z
+      .object({
+        id: z.string().uuid(),
+        status: z.enum(["new", "confirmed", "dispatched", "delivered", "cancelled"]),
+        notify: z.boolean().optional().default(true),
+      })
+      .parse(data),
+  )
+  .handler(async ({ data, context }) => {
+    await assertAdmin(context.supabase, context.userId);
+
+    const { data: order, error } = await context.supabase
+      .from("orders")
+      .update({ status: data.status })
+      .eq("id", data.id)
+      .select("id, order_no, customer_name, phone, total_kes")
+      .single();
+    if (error || !order) throw new Error(error?.message ?? "Could not update the order.");
+
+    let sms: { delivered: boolean; error: string | null } | null = null;
+    if (data.notify && data.status !== "new") {
+      const { sendOrderSms } = await import("./sms.server");
+      const template =
+        data.status === "confirmed"
+          ? "order_confirmed"
+          : data.status === "dispatched"
+            ? "order_dispatched"
+            : data.status === "delivered"
+              ? "order_delivered"
+              : "order_cancelled";
+      const result = await sendOrderSms({
+        orderId: order.id,
+        phone: order.phone,
+        template,
+        ctx: {
+          orderNo: order.order_no,
+          customerName: order.customer_name,
+          totalKes: Number(order.total_kes),
+        },
+      });
+      sms = { delivered: result.delivered, error: result.error };
+    }
+
+    return { success: true, sms };
+  });
+
+export const markOrderPaid = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((data) =>
+    z
+      .object({ id: z.string().uuid(), reference: z.string().max(100).optional().nullable() })
+      .parse(data),
+  )
+  .handler(async ({ data, context }) => {
+    await assertAdmin(context.supabase, context.userId);
+    const { data: order, error } = await context.supabase
+      .from("orders")
+      .update({ payment_status: "paid", payment_reference: data.reference || "manual" })
+      .eq("id", data.id)
+      .select("id, order_no, customer_name, phone, total_kes")
+      .single();
+    if (error || !order) throw new Error(error?.message ?? "Could not update the payment.");
+
+    const { sendOrderSms } = await import("./sms.server");
+    await sendOrderSms({
+      orderId: order.id,
+      phone: order.phone,
+      template: "payment_received",
+      ctx: {
+        orderNo: order.order_no,
+        customerName: order.customer_name,
+        totalKes: Number(order.total_kes),
+      },
+    });
+    return { success: true };
+  });
