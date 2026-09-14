@@ -62,7 +62,7 @@ export const submitQuoteRequest = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { normalisePhone, sendPlainSms } = await import("./sms.server");
-    const { sendMail, notifyAddress } = await import("./mailer.server");
+    const { sendMail } = await import("./mailer.server");
 
     const estimate = estimateRange(data);
     const phone = normalisePhone(data.phone);
