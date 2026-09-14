@@ -53,36 +53,60 @@ export function normalisePhone(raw: string): string {
   return `+${digits}`;
 }
 
-async function sendViaAfricasTalking(to: string, body: string) {
-  const apiKey = process.env["AFRICASTALKING_API_KEY"];
-  const username = process.env["AFRICASTALKING_USERNAME"];
-  if (!apiKey || !username) return null;
+const EMALIFY_HOST = "https://api.emalify.com";
 
-  const form = new URLSearchParams({ username, to, message: body });
-  const sender = process.env["AFRICASTALKING_SENDER_ID"];
-  if (sender) form.set("from", sender);
+/** Emalify wants MSISDN without the leading plus, e.g. 2547XXXXXXXX. */
+const msisdn = (e164: string) => e164.replace(/^\+/, "");
 
-  const host =
-    username === "sandbox"
-      ? "https://api.sandbox.africastalking.com"
-      : "https://api.africastalking.com";
+async function emalifyToken(clientId: string, clientSecret: string) {
+  const res = await fetch(`${EMALIFY_HOST}/oauth/token`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Accept: "application/json" },
+    body: JSON.stringify({
+      client_id: clientId,
+      client_secret: clientSecret,
+      grant_type: "client_credentials",
+    }),
+  });
+  const text = await res.text();
+  if (!res.ok) throw new Error(`auth ${res.status}: ${text}`);
+  const data = JSON.parse(text) as { access_token?: string };
+  if (!data.access_token) throw new Error("no access_token in Emalify auth response");
+  return data.access_token;
+}
 
-  const res = await fetch(`${host}/version1/messaging`, {
+async function sendViaEmalify(to: string, body: string) {
+  const clientId = process.env["EMALIFY_CLIENT_ID"];
+  const clientSecret = process.env["EMALIFY_CLIENT_SECRET"];
+  const projectId = process.env["EMALIFY_PROJECT_ID"];
+  if (!clientId || !clientSecret || !projectId) return null;
+
+  const token = await emalifyToken(clientId, clientSecret);
+
+  const payload: Record<string, unknown> = {
+    to: [msisdn(to)],
+    message: body,
+    messageId: crypto.randomUUID().replace(/-/g, ""),
+  };
+  const sender = process.env["EMALIFY_SENDER_ID"];
+  if (sender) payload["from"] = sender;
+
+  const res = await fetch(`${EMALIFY_HOST}/projects/${projectId}/sms/simple/send`, {
     method: "POST",
     headers: {
-      apiKey,
-      "Content-Type": "application/x-www-form-urlencoded",
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
       Accept: "application/json",
     },
-    body: form.toString(),
+    body: JSON.stringify(payload),
   });
 
   const text = await res.text();
   if (!res.ok) {
-    console.error(`[SMS] Africa's Talking failed [${res.status}]: ${text}`);
-    return { provider: "africastalking", delivered: false, error: `${res.status}: ${text}` };
+    console.error(`[SMS] Emalify failed [${res.status}]: ${text}`);
+    return { provider: "emalify", delivered: false, error: `${res.status}: ${text}` };
   }
-  return { provider: "africastalking", delivered: true, error: null as string | null };
+  return { provider: "emalify", delivered: true, error: null as string | null };
 }
 
 async function sendViaTwilio(to: string, body: string) {
