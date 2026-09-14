@@ -1,9 +1,0 @@
-User-agent: *
-Allow: /
-Disallow: /staff-login
-Disallow: /reset-password
-Disallow: /console
-Disallow: /console/
-Disallow: /api/
-
-Sitemap: https://getgas.co.ke/sitemap.xml

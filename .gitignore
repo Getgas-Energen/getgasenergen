@@ -30,3 +30,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+dist-cpanel
+cpanel-bundle
+getgas-energen-cpanel.zip

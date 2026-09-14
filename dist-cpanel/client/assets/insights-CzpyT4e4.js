@@ -1,1 +1,0 @@
-import{j as t}from"./index-DEMA0Sbd.js";const e=()=>t.jsx("div",{className:"mx-auto max-w-3xl px-4 py-24 text-center",children:t.jsx("h1",{className:"font-display text-2xl font-semibold",children:"Nothing here yet"})});export{e as notFoundComponent};
