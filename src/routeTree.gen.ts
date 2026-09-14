@@ -33,6 +33,7 @@ import { Route as ApiPublicEnquiryAttachmentRouteImport } from './routes/api/pub
 import { Route as ApiPublicKopokopoWebhookRouteImport } from './routes/api/public/kopokopo-webhook'
 import { Route as AuthenticatedConsolePostsIdRouteImport } from './routes/_authenticated/console.posts.$id'
 import { Route as ApiPublicMediaSplatRouteImport } from './routes/api/public/media.$'
+import { Route as ApiPublicProjectPdfSlugRouteImport } from './routes/api/public/project-pdf.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -161,6 +162,11 @@ const ApiPublicMediaSplatRoute = ApiPublicMediaSplatRouteImport.update({
   path: '/api/public/media/$',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicProjectPdfSlugRoute = ApiPublicProjectPdfSlugRouteImport.update({
+  id: '/api/public/project-pdf/$slug',
+  path: '/api/public/project-pdf/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -186,6 +192,7 @@ export interface FileRoutesByFullPath {
   '/console/': typeof AuthenticatedConsoleIndexRoute
   '/console/posts/$id': typeof AuthenticatedConsolePostsIdRoute
   '/api/public/media/$': typeof ApiPublicMediaSplatRoute
+  '/api/public/project-pdf/$slug': typeof ApiPublicProjectPdfSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -210,6 +217,7 @@ export interface FileRoutesByTo {
   '/console': typeof AuthenticatedConsoleIndexRoute
   '/console/posts/$id': typeof AuthenticatedConsolePostsIdRoute
   '/api/public/media/$': typeof ApiPublicMediaSplatRoute
+  '/api/public/project-pdf/$slug': typeof ApiPublicProjectPdfSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -237,6 +245,7 @@ export interface FileRoutesById {
   '/_authenticated/console/': typeof AuthenticatedConsoleIndexRoute
   '/_authenticated/console/posts/$id': typeof AuthenticatedConsolePostsIdRoute
   '/api/public/media/$': typeof ApiPublicMediaSplatRoute
+  '/api/public/project-pdf/$slug': typeof ApiPublicProjectPdfSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -264,6 +273,7 @@ export interface FileRouteTypes {
     | '/console/'
     | '/console/posts/$id'
     | '/api/public/media/$'
+    | '/api/public/project-pdf/$slug'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -288,6 +298,7 @@ export interface FileRouteTypes {
     | '/console'
     | '/console/posts/$id'
     | '/api/public/media/$'
+    | '/api/public/project-pdf/$slug'
   id:
     | '__root__'
     | '/'
@@ -314,6 +325,7 @@ export interface FileRouteTypes {
     | '/_authenticated/console/'
     | '/_authenticated/console/posts/$id'
     | '/api/public/media/$'
+    | '/api/public/project-pdf/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -333,6 +345,7 @@ export interface RootRouteChildren {
   ApiPublicEnquiryAttachmentRoute: typeof ApiPublicEnquiryAttachmentRoute
   ApiPublicKopokopoWebhookRoute: typeof ApiPublicKopokopoWebhookRoute
   ApiPublicMediaSplatRoute: typeof ApiPublicMediaSplatRoute
+  ApiPublicProjectPdfSlugRoute: typeof ApiPublicProjectPdfSlugRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -505,6 +518,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicMediaSplatRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/project-pdf/$slug': {
+      id: '/api/public/project-pdf/$slug'
+      path: '/api/public/project-pdf/$slug'
+      fullPath: '/api/public/project-pdf/$slug'
+      preLoaderRoute: typeof ApiPublicProjectPdfSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -581,6 +601,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiPublicEnquiryAttachmentRoute: ApiPublicEnquiryAttachmentRoute,
   ApiPublicKopokopoWebhookRoute: ApiPublicKopokopoWebhookRoute,
   ApiPublicMediaSplatRoute: ApiPublicMediaSplatRoute,
+  ApiPublicProjectPdfSlugRoute: ApiPublicProjectPdfSlugRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
