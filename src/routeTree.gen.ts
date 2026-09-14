@@ -17,6 +17,7 @@ import { Route as IndustriesRouteImport } from './routes/industries'
 import { Route as InsightsRouteImport } from './routes/insights'
 import { Route as MarketplaceRouteImport } from './routes/marketplace'
 import { Route as ProjectsRouteImport } from './routes/projects'
+import { Route as QuoteRouteImport } from './routes/quote'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as SafetySystemsRouteImport } from './routes/safety-systems'
 import { Route as ServicesRouteImport } from './routes/services'
@@ -73,6 +74,11 @@ const MarketplaceRoute = MarketplaceRouteImport.update({
 const ProjectsRoute = ProjectsRouteImport.update({
   id: '/projects',
   path: '/projects',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const QuoteRoute = QuoteRouteImport.update({
+  id: '/quote',
+  path: '/quote',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
@@ -182,6 +188,7 @@ export interface FileRoutesByFullPath {
   '/insights': typeof InsightsRouteWithChildren
   '/marketplace': typeof MarketplaceRoute
   '/projects': typeof ProjectsRouteWithChildren
+  '/quote': typeof QuoteRoute
   '/reset-password': typeof ResetPasswordRoute
   '/safety-systems': typeof SafetySystemsRoute
   '/services': typeof ServicesRoute
@@ -209,6 +216,7 @@ export interface FileRoutesByTo {
   '/insights': typeof InsightsRouteWithChildren
   '/marketplace': typeof MarketplaceRoute
   '/projects': typeof ProjectsRouteWithChildren
+  '/quote': typeof QuoteRoute
   '/reset-password': typeof ResetPasswordRoute
   '/safety-systems': typeof SafetySystemsRoute
   '/services': typeof ServicesRoute
@@ -237,6 +245,7 @@ export interface FileRoutesById {
   '/insights': typeof InsightsRouteWithChildren
   '/marketplace': typeof MarketplaceRoute
   '/projects': typeof ProjectsRouteWithChildren
+  '/quote': typeof QuoteRoute
   '/reset-password': typeof ResetPasswordRoute
   '/safety-systems': typeof SafetySystemsRoute
   '/services': typeof ServicesRoute
@@ -266,6 +275,7 @@ export interface FileRouteTypes {
     | '/insights'
     | '/marketplace'
     | '/projects'
+    | '/quote'
     | '/reset-password'
     | '/safety-systems'
     | '/services'
@@ -293,6 +303,7 @@ export interface FileRouteTypes {
     | '/insights'
     | '/marketplace'
     | '/projects'
+    | '/quote'
     | '/reset-password'
     | '/safety-systems'
     | '/services'
@@ -320,6 +331,7 @@ export interface FileRouteTypes {
     | '/insights'
     | '/marketplace'
     | '/projects'
+    | '/quote'
     | '/reset-password'
     | '/safety-systems'
     | '/services'
@@ -349,6 +361,7 @@ export interface RootRouteChildren {
   InsightsRoute: typeof InsightsRouteWithChildren
   MarketplaceRoute: typeof MarketplaceRoute
   ProjectsRoute: typeof ProjectsRouteWithChildren
+  QuoteRoute: typeof QuoteRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   SafetySystemsRoute: typeof SafetySystemsRoute
   ServicesRoute: typeof ServicesRoute
@@ -416,6 +429,13 @@ declare module '@tanstack/react-router' {
       path: '/projects'
       fullPath: '/projects'
       preLoaderRoute: typeof ProjectsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/quote': {
+      id: '/quote'
+      path: '/quote'
+      fullPath: '/quote'
+      preLoaderRoute: typeof QuoteRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/reset-password': {
@@ -624,6 +644,7 @@ const rootRouteChildren: RootRouteChildren = {
   InsightsRoute: InsightsRouteWithChildren,
   MarketplaceRoute: MarketplaceRoute,
   ProjectsRoute: ProjectsRouteWithChildren,
+  QuoteRoute: QuoteRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   SafetySystemsRoute: SafetySystemsRoute,
   ServicesRoute: ServicesRoute,
