@@ -33,7 +33,19 @@ export const submitContactForm = createServerFn({ method: "POST" })
     }
 
     const { sendMail } = await import("./mailer.server");
-    await sendMail({
+    const { normalisePhone, sendPlainSms, TEAM_ALERT_PHONE } = await import("./sms.server");
+    const first = data.name.trim().split(/\s+/)[0] || "there";
+
+    // Notifications only — never echo the submitted details back over SMS.
+    const safe = async (label: string, run: () => Promise<unknown>) => {
+      try {
+        await run();
+      } catch (error) {
+        console.error(`[contact] ${label} notification failed`, error);
+      }
+    };
+
+    await safe("team email", () => sendMail({
       subject: `Website enquiry — ${data.projectType} (${data.name})`,
       replyTo: data.email,
       text: [
