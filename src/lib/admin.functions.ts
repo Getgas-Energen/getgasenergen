@@ -35,6 +35,7 @@ export interface EnquiryRow {
   project_type: string;
   message: string;
   status: string;
+  internal_note: string | null;
   attachment_path: string | null;
   created_at: string;
 }
@@ -47,12 +48,14 @@ export const listEnquiries = createServerFn({ method: "GET" })
 
     const { data, error } = await supabase
       .from("contact_submissions")
-      .select("id, name, company, email, phone, project_type, message, status, attachment_path, created_at")
+      .select(
+        "id, name, company, email, phone, project_type, message, status, internal_note, attachment_path, created_at",
+      )
       .order("created_at", { ascending: false })
-      .limit(200);
+      .limit(500);
 
     if (error) throw new Error(error.message);
-    return { enquiries: (data ?? []) as EnquiryRow[] };
+    return { enquiries: (data ?? []) as unknown as EnquiryRow[] };
   });
 
 export const getAttachmentLink = createServerFn({ method: "POST" })
