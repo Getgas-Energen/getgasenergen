@@ -30,6 +30,7 @@ import { Route as AuthenticatedConsoleRouteImport } from './routes/_authenticate
 import { Route as InsightsSlugRouteImport } from './routes/insights.$slug'
 import { Route as ProjectsSlugRouteImport } from './routes/projects.$slug'
 import { Route as AuthenticatedConsoleIndexRouteImport } from './routes/_authenticated/console.index'
+import { Route as AuthenticatedConsoleJobsRouteImport } from './routes/_authenticated/console.jobs'
 import { Route as AuthenticatedConsoleOrdersRouteImport } from './routes/_authenticated/console.orders'
 import { Route as AuthenticatedConsolePostsRouteImport } from './routes/_authenticated/console.posts'
 import { Route as AuthenticatedConsoleProjectsRouteImport } from './routes/_authenticated/console.projects'
@@ -148,6 +149,12 @@ const AuthenticatedConsoleIndexRoute =
     path: '/',
     getParentRoute: () => AuthenticatedConsoleRoute,
   } as any)
+const AuthenticatedConsoleJobsRoute =
+  AuthenticatedConsoleJobsRouteImport.update({
+    id: '/jobs',
+    path: '/jobs',
+    getParentRoute: () => AuthenticatedConsoleRoute,
+  } as any)
 const AuthenticatedConsoleOrdersRoute =
   AuthenticatedConsoleOrdersRouteImport.update({
     id: '/orders',
@@ -239,6 +246,7 @@ export interface FileRoutesByFullPath {
   '/console': typeof AuthenticatedConsoleRouteWithChildren
   '/insights/$slug': typeof InsightsSlugRoute
   '/projects/$slug': typeof ProjectsSlugRoute
+  '/console/jobs': typeof AuthenticatedConsoleJobsRoute
   '/console/orders': typeof AuthenticatedConsoleOrdersRoute
   '/console/posts': typeof AuthenticatedConsolePostsRouteWithChildren
   '/console/projects': typeof AuthenticatedConsoleProjectsRoute
@@ -272,6 +280,7 @@ export interface FileRoutesByTo {
   '/technical-specifications': typeof TechnicalSpecificationsRoute
   '/insights/$slug': typeof InsightsSlugRoute
   '/projects/$slug': typeof ProjectsSlugRoute
+  '/console/jobs': typeof AuthenticatedConsoleJobsRoute
   '/console/orders': typeof AuthenticatedConsoleOrdersRoute
   '/console/posts': typeof AuthenticatedConsolePostsRouteWithChildren
   '/console/projects': typeof AuthenticatedConsoleProjectsRoute
@@ -308,6 +317,7 @@ export interface FileRoutesById {
   '/_authenticated/console': typeof AuthenticatedConsoleRouteWithChildren
   '/insights/$slug': typeof InsightsSlugRoute
   '/projects/$slug': typeof ProjectsSlugRoute
+  '/_authenticated/console/jobs': typeof AuthenticatedConsoleJobsRoute
   '/_authenticated/console/orders': typeof AuthenticatedConsoleOrdersRoute
   '/_authenticated/console/posts': typeof AuthenticatedConsolePostsRouteWithChildren
   '/_authenticated/console/projects': typeof AuthenticatedConsoleProjectsRoute
@@ -344,6 +354,7 @@ export interface FileRouteTypes {
     | '/console'
     | '/insights/$slug'
     | '/projects/$slug'
+    | '/console/jobs'
     | '/console/orders'
     | '/console/posts'
     | '/console/projects'
@@ -377,6 +388,7 @@ export interface FileRouteTypes {
     | '/technical-specifications'
     | '/insights/$slug'
     | '/projects/$slug'
+    | '/console/jobs'
     | '/console/orders'
     | '/console/posts'
     | '/console/projects'
@@ -412,6 +424,7 @@ export interface FileRouteTypes {
     | '/_authenticated/console'
     | '/insights/$slug'
     | '/projects/$slug'
+    | '/_authenticated/console/jobs'
     | '/_authenticated/console/orders'
     | '/_authenticated/console/posts'
     | '/_authenticated/console/projects'
@@ -600,6 +613,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedConsoleIndexRouteImport
       parentRoute: typeof AuthenticatedConsoleRoute
     }
+    '/_authenticated/console/jobs': {
+      id: '/_authenticated/console/jobs'
+      path: '/jobs'
+      fullPath: '/console/jobs'
+      preLoaderRoute: typeof AuthenticatedConsoleJobsRouteImport
+      parentRoute: typeof AuthenticatedConsoleRoute
+    }
     '/_authenticated/console/orders': {
       id: '/_authenticated/console/orders'
       path: '/orders'
@@ -702,6 +722,7 @@ const AuthenticatedConsolePostsRouteWithChildren =
   )
 
 interface AuthenticatedConsoleRouteChildren {
+  AuthenticatedConsoleJobsRoute: typeof AuthenticatedConsoleJobsRoute
   AuthenticatedConsoleOrdersRoute: typeof AuthenticatedConsoleOrdersRoute
   AuthenticatedConsolePostsRoute: typeof AuthenticatedConsolePostsRouteWithChildren
   AuthenticatedConsoleProjectsRoute: typeof AuthenticatedConsoleProjectsRoute
@@ -713,6 +734,7 @@ interface AuthenticatedConsoleRouteChildren {
 }
 
 const AuthenticatedConsoleRouteChildren: AuthenticatedConsoleRouteChildren = {
+  AuthenticatedConsoleJobsRoute: AuthenticatedConsoleJobsRoute,
   AuthenticatedConsoleOrdersRoute: AuthenticatedConsoleOrdersRoute,
   AuthenticatedConsolePostsRoute: AuthenticatedConsolePostsRouteWithChildren,
   AuthenticatedConsoleProjectsRoute: AuthenticatedConsoleProjectsRoute,
