@@ -35,6 +35,7 @@ import { Route as AuthenticatedConsolePostsRouteImport } from './routes/_authent
 import { Route as AuthenticatedConsoleProjectsRouteImport } from './routes/_authenticated/console.projects'
 import { Route as AuthenticatedConsoleQuotesRouteImport } from './routes/_authenticated/console.quotes'
 import { Route as AuthenticatedConsoleShopRouteImport } from './routes/_authenticated/console.shop'
+import { Route as AuthenticatedConsoleSubmissionsRouteImport } from './routes/_authenticated/console.submissions'
 import { Route as AuthenticatedConsoleUsersRouteImport } from './routes/_authenticated/console.users'
 import { Route as ApiPublicEnquiryAttachmentRouteImport } from './routes/api/public/enquiry-attachment'
 import { Route as ApiPublicKopokopoWebhookRouteImport } from './routes/api/public/kopokopo-webhook'
@@ -177,6 +178,12 @@ const AuthenticatedConsoleShopRoute =
     path: '/shop',
     getParentRoute: () => AuthenticatedConsoleRoute,
   } as any)
+const AuthenticatedConsoleSubmissionsRoute =
+  AuthenticatedConsoleSubmissionsRouteImport.update({
+    id: '/submissions',
+    path: '/submissions',
+    getParentRoute: () => AuthenticatedConsoleRoute,
+  } as any)
 const AuthenticatedConsoleUsersRoute =
   AuthenticatedConsoleUsersRouteImport.update({
     id: '/users',
@@ -237,6 +244,7 @@ export interface FileRoutesByFullPath {
   '/console/projects': typeof AuthenticatedConsoleProjectsRoute
   '/console/quotes': typeof AuthenticatedConsoleQuotesRoute
   '/console/shop': typeof AuthenticatedConsoleShopRoute
+  '/console/submissions': typeof AuthenticatedConsoleSubmissionsRoute
   '/console/users': typeof AuthenticatedConsoleUsersRoute
   '/api/public/enquiry-attachment': typeof ApiPublicEnquiryAttachmentRoute
   '/api/public/kopokopo-webhook': typeof ApiPublicKopokopoWebhookRoute
@@ -269,6 +277,7 @@ export interface FileRoutesByTo {
   '/console/projects': typeof AuthenticatedConsoleProjectsRoute
   '/console/quotes': typeof AuthenticatedConsoleQuotesRoute
   '/console/shop': typeof AuthenticatedConsoleShopRoute
+  '/console/submissions': typeof AuthenticatedConsoleSubmissionsRoute
   '/console/users': typeof AuthenticatedConsoleUsersRoute
   '/api/public/enquiry-attachment': typeof ApiPublicEnquiryAttachmentRoute
   '/api/public/kopokopo-webhook': typeof ApiPublicKopokopoWebhookRoute
@@ -304,6 +313,7 @@ export interface FileRoutesById {
   '/_authenticated/console/projects': typeof AuthenticatedConsoleProjectsRoute
   '/_authenticated/console/quotes': typeof AuthenticatedConsoleQuotesRoute
   '/_authenticated/console/shop': typeof AuthenticatedConsoleShopRoute
+  '/_authenticated/console/submissions': typeof AuthenticatedConsoleSubmissionsRoute
   '/_authenticated/console/users': typeof AuthenticatedConsoleUsersRoute
   '/api/public/enquiry-attachment': typeof ApiPublicEnquiryAttachmentRoute
   '/api/public/kopokopo-webhook': typeof ApiPublicKopokopoWebhookRoute
@@ -339,6 +349,7 @@ export interface FileRouteTypes {
     | '/console/projects'
     | '/console/quotes'
     | '/console/shop'
+    | '/console/submissions'
     | '/console/users'
     | '/api/public/enquiry-attachment'
     | '/api/public/kopokopo-webhook'
@@ -371,6 +382,7 @@ export interface FileRouteTypes {
     | '/console/projects'
     | '/console/quotes'
     | '/console/shop'
+    | '/console/submissions'
     | '/console/users'
     | '/api/public/enquiry-attachment'
     | '/api/public/kopokopo-webhook'
@@ -405,6 +417,7 @@ export interface FileRouteTypes {
     | '/_authenticated/console/projects'
     | '/_authenticated/console/quotes'
     | '/_authenticated/console/shop'
+    | '/_authenticated/console/submissions'
     | '/_authenticated/console/users'
     | '/api/public/enquiry-attachment'
     | '/api/public/kopokopo-webhook'
@@ -622,6 +635,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedConsoleShopRouteImport
       parentRoute: typeof AuthenticatedConsoleRoute
     }
+    '/_authenticated/console/submissions': {
+      id: '/_authenticated/console/submissions'
+      path: '/submissions'
+      fullPath: '/console/submissions'
+      preLoaderRoute: typeof AuthenticatedConsoleSubmissionsRouteImport
+      parentRoute: typeof AuthenticatedConsoleRoute
+    }
     '/_authenticated/console/users': {
       id: '/_authenticated/console/users'
       path: '/users'
@@ -687,6 +707,7 @@ interface AuthenticatedConsoleRouteChildren {
   AuthenticatedConsoleProjectsRoute: typeof AuthenticatedConsoleProjectsRoute
   AuthenticatedConsoleQuotesRoute: typeof AuthenticatedConsoleQuotesRoute
   AuthenticatedConsoleShopRoute: typeof AuthenticatedConsoleShopRoute
+  AuthenticatedConsoleSubmissionsRoute: typeof AuthenticatedConsoleSubmissionsRoute
   AuthenticatedConsoleUsersRoute: typeof AuthenticatedConsoleUsersRoute
   AuthenticatedConsoleIndexRoute: typeof AuthenticatedConsoleIndexRoute
 }
@@ -697,6 +718,7 @@ const AuthenticatedConsoleRouteChildren: AuthenticatedConsoleRouteChildren = {
   AuthenticatedConsoleProjectsRoute: AuthenticatedConsoleProjectsRoute,
   AuthenticatedConsoleQuotesRoute: AuthenticatedConsoleQuotesRoute,
   AuthenticatedConsoleShopRoute: AuthenticatedConsoleShopRoute,
+  AuthenticatedConsoleSubmissionsRoute: AuthenticatedConsoleSubmissionsRoute,
   AuthenticatedConsoleUsersRoute: AuthenticatedConsoleUsersRoute,
   AuthenticatedConsoleIndexRoute: AuthenticatedConsoleIndexRoute,
 }
