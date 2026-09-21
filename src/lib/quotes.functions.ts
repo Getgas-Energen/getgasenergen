@@ -141,5 +141,16 @@ export const submitQuoteRequest = createServerFn({ method: "POST" })
       "quote_received",
     );
 
+    // Team alert — reference only, no customer details over SMS.
+    try {
+      await sendPlainSms(
+        TEAM_ALERT_PHONE(),
+        `New quote request ${row.reference} received. Details in email/console.`,
+        "quote_alert",
+      );
+    } catch (error) {
+      console.error("[quotes] team alert failed", error);
+    }
+
     return { reference: row.reference, estimate };
   });
