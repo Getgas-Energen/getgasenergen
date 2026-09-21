@@ -59,7 +59,38 @@ export const submitContactForm = createServerFn({ method: "POST" })
       ]
         .filter(Boolean)
         .join("\n"),
-    });
+    }));
+
+    await safe("customer email", () =>
+      sendMail({
+        to: data.email,
+        subject: "We have received your enquiry — Getgas Energen",
+        text: [
+          `Hello ${first},`,
+          "",
+          "Getgas Energen has received your enquiry. Our team will contact you shortly.",
+          "",
+          "Getgas Energen Ltd · Tatu City, Nairobi",
+          "Calls 0702 947 573 · WhatsApp 0747 752 600",
+        ].join("\n"),
+      }),
+    );
+
+    await safe("customer sms", () =>
+      sendPlainSms(
+        normalisePhone(data.phone),
+        `Hi ${first}, Getgas Energen has received your enquiry. Our team will contact you shortly. Calls 0702947573`,
+        "enquiry_received",
+      ),
+    );
+
+    await safe("team sms", () =>
+      sendPlainSms(
+        TEAM_ALERT_PHONE(),
+        "New website enquiry received. Check notifications@getgas.co.ke or the Getgas console.",
+        "enquiry_alert",
+      ),
+    );
 
     return { success: true };
   });
