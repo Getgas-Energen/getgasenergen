@@ -56,6 +56,22 @@ Required:
 - `VITE_SUPABASE_URL`, `VITE_SUPABASE_PUBLISHABLE_KEY`, `VITE_SUPABASE_PROJECT_ID`
 - `SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY`, `SUPABASE_SERVICE_ROLE_KEY`
 
+Email (enquiries, orders and quotes are emailed from the site):
+
+- Create the mailbox **notifications@getgas.co.ke** in cPanel → **Email Accounts**.
+- Add `SMTP_HOST=mail.getgas.co.ke`, `SMTP_PORT=465`,
+  `SMTP_USER=notifications@getgas.co.ke`, `SMTP_PASSWORD=<mailbox password>`,
+  `SMTP_FROM_NAME=Getgas Energen`.
+- Without these the site still works; emails are simply skipped.
+
+Optional, when ready:
+
+- Kopokopo (M-Pesa): `KOPOKOPO_CLIENT_ID`, `KOPOKOPO_CLIENT_SECRET`,
+  `KOPOKOPO_TILL_NUMBER`, `KOPOKOPO_API_KEY` — callback URL to set in the
+  Kopokopo dashboard: `https://getgas.co.ke/api/public/kopokopo-webhook`.
+- Emalify SMS: `EMALIFY_CLIENT_ID`, `EMALIFY_CLIENT_SECRET`,
+  `EMALIFY_PROJECT_ID`, `EMALIFY_SENDER_ID`.
+
 ## 5. Start it
 
 Click **Restart** in Setup Node.js App, then open https://getgas.co.ke.
