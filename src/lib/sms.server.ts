@@ -189,7 +189,7 @@ export async function sendOrderSms(args: {
 
   let result: { provider: string; delivered: boolean; error: string | null } | null = null;
   try {
-    result = (await sendViaEmalify(to, body)) ?? (await sendViaTwilio(to, body));
+    result = (await sendViaEmalifyV2(to, body)) ?? (await sendViaEmalify(to, body)) ?? (await sendViaTwilio(to, body));
   } catch (error) {
     result = {
       provider: "unknown",
@@ -226,7 +226,7 @@ export async function sendPlainSms(phone: string, body: string, template: string
 
   let result: { provider: string; delivered: boolean; error: string | null } | null = null;
   try {
-    result = (await sendViaEmalify(to, body)) ?? (await sendViaTwilio(to, body));
+    result = (await sendViaEmalifyV2(to, body)) ?? (await sendViaEmalify(to, body)) ?? (await sendViaTwilio(to, body));
   } catch (error) {
     result = {
       provider: "unknown",
