@@ -22,6 +22,7 @@ export type Database = {
           created_at: string
           email: string
           id: string
+          internal_note: string | null
           message: string
           name: string
           phone: string
@@ -36,6 +37,7 @@ export type Database = {
           created_at?: string
           email: string
           id?: string
+          internal_note?: string | null
           message: string
           name: string
           phone: string
@@ -50,6 +52,7 @@ export type Database = {
           created_at?: string
           email?: string
           id?: string
+          internal_note?: string | null
           message?: string
           name?: string
           phone?: string
@@ -58,6 +61,140 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      delivery_jobs: {
+        Row: {
+          budget_kes: number
+          client_name: string | null
+          contract_value_kes: number
+          created_at: string
+          id: string
+          invoiced_kes: number
+          job_code: string
+          job_type: string | null
+          location: string | null
+          notes: string | null
+          owner_name: string | null
+          project_id: string | null
+          quote_request_id: string | null
+          received_kes: number
+          spent_kes: number
+          start_date: string | null
+          status: Database["public"]["Enums"]["job_status"]
+          target_end_date: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          budget_kes?: number
+          client_name?: string | null
+          contract_value_kes?: number
+          created_at?: string
+          id?: string
+          invoiced_kes?: number
+          job_code?: string
+          job_type?: string | null
+          location?: string | null
+          notes?: string | null
+          owner_name?: string | null
+          project_id?: string | null
+          quote_request_id?: string | null
+          received_kes?: number
+          spent_kes?: number
+          start_date?: string | null
+          status?: Database["public"]["Enums"]["job_status"]
+          target_end_date?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          budget_kes?: number
+          client_name?: string | null
+          contract_value_kes?: number
+          created_at?: string
+          id?: string
+          invoiced_kes?: number
+          job_code?: string
+          job_type?: string | null
+          location?: string | null
+          notes?: string | null
+          owner_name?: string | null
+          project_id?: string | null
+          quote_request_id?: string | null
+          received_kes?: number
+          spent_kes?: number
+          start_date?: string | null
+          status?: Database["public"]["Enums"]["job_status"]
+          target_end_date?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "delivery_jobs_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "delivery_jobs_quote_request_id_fkey"
+            columns: ["quote_request_id"]
+            isOneToOne: false
+            referencedRelation: "quote_requests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      delivery_tasks: {
+        Row: {
+          created_at: string
+          days_required: number
+          id: string
+          job_id: string
+          name: string
+          notes: string | null
+          progress: number
+          responsible: string | null
+          sort_order: number
+          start_date: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          days_required?: number
+          id?: string
+          job_id: string
+          name: string
+          notes?: string | null
+          progress?: number
+          responsible?: string | null
+          sort_order?: number
+          start_date?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          days_required?: number
+          id?: string
+          job_id?: string
+          name?: string
+          notes?: string | null
+          progress?: number
+          responsible?: string | null
+          sort_order?: number
+          start_date?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "delivery_tasks_job_id_fkey"
+            columns: ["job_id"]
+            isOneToOne: false
+            referencedRelation: "delivery_jobs"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       order_items: {
         Row: {
@@ -509,6 +646,7 @@ export type Database = {
     }
     Enums: {
       app_role: "admin" | "staff"
+      job_status: "planning" | "active" | "on_hold" | "complete" | "cancelled"
       order_status:
         | "new"
         | "confirmed"
@@ -661,6 +799,7 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "staff"],
+      job_status: ["planning", "active", "on_hold", "complete", "cancelled"],
       order_status: [
         "new",
         "confirmed",
