@@ -76,6 +76,44 @@ async function emalifyToken(clientId: string, clientSecret: string) {
   return data.access_token;
 }
 
+/** Emalify v2 app API: POST /api/services/sendsms/ with the app token. */
+async function sendViaEmalifyV2(to: string, body: string) {
+  const apiKey = process.env["EMALIFY_APP_TOKEN"];
+  const partnerId = process.env["EMALIFY_PARTNER_ID"];
+  if (!apiKey || !partnerId) return null;
+
+  const payload: Record<string, unknown> = {
+    apikey: apiKey,
+    partnerID: partnerId,
+    mobile: msisdn(to),
+    message: body,
+    pass_type: "plain",
+    clientsmsid: crypto.randomUUID().replace(/-/g, "").slice(0, 20),
+  };
+  const sender = process.env["EMALIFY_SENDER_ID"];
+  if (sender) payload["shortcode"] = sender;
+
+  const res = await fetch("https://api.v2.emalify.com/api/services/sendsms/", {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Accept: "application/json" },
+    body: JSON.stringify(payload),
+  });
+
+  const text = await res.text();
+  let ok = res.ok;
+  try {
+    const data = JSON.parse(text) as { "response-code"?: number };
+    if (typeof data["response-code"] === "number") ok = data["response-code"] === 200;
+  } catch {
+    // non-JSON response — rely on HTTP status
+  }
+  if (!ok) {
+    console.error(`[SMS] Emalify v2 failed [${res.status}]: ${text}`);
+    return { provider: "emalify", delivered: false, error: `${res.status}: ${text}` };
+  }
+  return { provider: "emalify", delivered: true, error: null as string | null };
+}
+
 async function sendViaEmalify(to: string, body: string) {
   const clientId = process.env["EMALIFY_CLIENT_ID"];
   const clientSecret = process.env["EMALIFY_CLIENT_SECRET"];
