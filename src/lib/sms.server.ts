@@ -76,9 +76,9 @@ async function emalifyToken(clientId: string, clientSecret: string) {
   return data.access_token;
 }
 
-/** Emalify v2 app API: POST /api/services/sendsms/ with the app token. */
+/** Emalify v2 app API: POST /api/services/sendsms/ with the REST API key. */
 async function sendViaEmalifyV2(to: string, body: string) {
-  const apiKey = process.env["EMALIFY_APP_TOKEN"];
+  const apiKey = process.env["EMALIFY_API_KEY"] ?? process.env["EMALIFY_APP_TOKEN"];
   const partnerId = process.env["EMALIFY_PARTNER_ID"];
   if (!apiKey || !partnerId) return null;
 
