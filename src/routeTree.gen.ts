@@ -40,6 +40,7 @@ import { Route as AuthenticatedConsoleSubmissionsRouteImport } from './routes/_a
 import { Route as AuthenticatedConsoleUsersRouteImport } from './routes/_authenticated/console.users'
 import { Route as ApiPublicEnquiryAttachmentRouteImport } from './routes/api/public/enquiry-attachment'
 import { Route as ApiPublicKopokopoWebhookRouteImport } from './routes/api/public/kopokopo-webhook'
+import { Route as AuthenticatedConsoleJobsIdRouteImport } from './routes/_authenticated/console.jobs.$id'
 import { Route as AuthenticatedConsolePostsIdRouteImport } from './routes/_authenticated/console.posts.$id'
 import { Route as ApiPublicMediaSplatRouteImport } from './routes/api/public/media.$'
 import { Route as ApiPublicProjectPdfSlugRouteImport } from './routes/api/public/project-pdf.$slug'
@@ -209,6 +210,12 @@ const ApiPublicKopokopoWebhookRoute =
     path: '/api/public/kopokopo-webhook',
     getParentRoute: () => rootRouteImport,
   } as any)
+const AuthenticatedConsoleJobsIdRoute =
+  AuthenticatedConsoleJobsIdRouteImport.update({
+    id: '/$id',
+    path: '/$id',
+    getParentRoute: () => AuthenticatedConsoleJobsRoute,
+  } as any)
 const AuthenticatedConsolePostsIdRoute =
   AuthenticatedConsolePostsIdRouteImport.update({
     id: '/$id',
@@ -246,7 +253,7 @@ export interface FileRoutesByFullPath {
   '/console': typeof AuthenticatedConsoleRouteWithChildren
   '/insights/$slug': typeof InsightsSlugRoute
   '/projects/$slug': typeof ProjectsSlugRoute
-  '/console/jobs': typeof AuthenticatedConsoleJobsRoute
+  '/console/jobs': typeof AuthenticatedConsoleJobsRouteWithChildren
   '/console/orders': typeof AuthenticatedConsoleOrdersRoute
   '/console/posts': typeof AuthenticatedConsolePostsRouteWithChildren
   '/console/projects': typeof AuthenticatedConsoleProjectsRoute
@@ -257,6 +264,7 @@ export interface FileRoutesByFullPath {
   '/api/public/enquiry-attachment': typeof ApiPublicEnquiryAttachmentRoute
   '/api/public/kopokopo-webhook': typeof ApiPublicKopokopoWebhookRoute
   '/console/': typeof AuthenticatedConsoleIndexRoute
+  '/console/jobs/$id': typeof AuthenticatedConsoleJobsIdRoute
   '/console/posts/$id': typeof AuthenticatedConsolePostsIdRoute
   '/api/public/media/$': typeof ApiPublicMediaSplatRoute
   '/api/public/project-pdf/$slug': typeof ApiPublicProjectPdfSlugRoute
@@ -280,7 +288,7 @@ export interface FileRoutesByTo {
   '/technical-specifications': typeof TechnicalSpecificationsRoute
   '/insights/$slug': typeof InsightsSlugRoute
   '/projects/$slug': typeof ProjectsSlugRoute
-  '/console/jobs': typeof AuthenticatedConsoleJobsRoute
+  '/console/jobs': typeof AuthenticatedConsoleJobsRouteWithChildren
   '/console/orders': typeof AuthenticatedConsoleOrdersRoute
   '/console/posts': typeof AuthenticatedConsolePostsRouteWithChildren
   '/console/projects': typeof AuthenticatedConsoleProjectsRoute
@@ -291,6 +299,7 @@ export interface FileRoutesByTo {
   '/api/public/enquiry-attachment': typeof ApiPublicEnquiryAttachmentRoute
   '/api/public/kopokopo-webhook': typeof ApiPublicKopokopoWebhookRoute
   '/console': typeof AuthenticatedConsoleIndexRoute
+  '/console/jobs/$id': typeof AuthenticatedConsoleJobsIdRoute
   '/console/posts/$id': typeof AuthenticatedConsolePostsIdRoute
   '/api/public/media/$': typeof ApiPublicMediaSplatRoute
   '/api/public/project-pdf/$slug': typeof ApiPublicProjectPdfSlugRoute
@@ -317,7 +326,7 @@ export interface FileRoutesById {
   '/_authenticated/console': typeof AuthenticatedConsoleRouteWithChildren
   '/insights/$slug': typeof InsightsSlugRoute
   '/projects/$slug': typeof ProjectsSlugRoute
-  '/_authenticated/console/jobs': typeof AuthenticatedConsoleJobsRoute
+  '/_authenticated/console/jobs': typeof AuthenticatedConsoleJobsRouteWithChildren
   '/_authenticated/console/orders': typeof AuthenticatedConsoleOrdersRoute
   '/_authenticated/console/posts': typeof AuthenticatedConsolePostsRouteWithChildren
   '/_authenticated/console/projects': typeof AuthenticatedConsoleProjectsRoute
@@ -328,6 +337,7 @@ export interface FileRoutesById {
   '/api/public/enquiry-attachment': typeof ApiPublicEnquiryAttachmentRoute
   '/api/public/kopokopo-webhook': typeof ApiPublicKopokopoWebhookRoute
   '/_authenticated/console/': typeof AuthenticatedConsoleIndexRoute
+  '/_authenticated/console/jobs/$id': typeof AuthenticatedConsoleJobsIdRoute
   '/_authenticated/console/posts/$id': typeof AuthenticatedConsolePostsIdRoute
   '/api/public/media/$': typeof ApiPublicMediaSplatRoute
   '/api/public/project-pdf/$slug': typeof ApiPublicProjectPdfSlugRoute
@@ -365,6 +375,7 @@ export interface FileRouteTypes {
     | '/api/public/enquiry-attachment'
     | '/api/public/kopokopo-webhook'
     | '/console/'
+    | '/console/jobs/$id'
     | '/console/posts/$id'
     | '/api/public/media/$'
     | '/api/public/project-pdf/$slug'
@@ -399,6 +410,7 @@ export interface FileRouteTypes {
     | '/api/public/enquiry-attachment'
     | '/api/public/kopokopo-webhook'
     | '/console'
+    | '/console/jobs/$id'
     | '/console/posts/$id'
     | '/api/public/media/$'
     | '/api/public/project-pdf/$slug'
@@ -435,6 +447,7 @@ export interface FileRouteTypes {
     | '/api/public/enquiry-attachment'
     | '/api/public/kopokopo-webhook'
     | '/_authenticated/console/'
+    | '/_authenticated/console/jobs/$id'
     | '/_authenticated/console/posts/$id'
     | '/api/public/media/$'
     | '/api/public/project-pdf/$slug'
@@ -683,6 +696,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicKopokopoWebhookRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/console/jobs/$id': {
+      id: '/_authenticated/console/jobs/$id'
+      path: '/$id'
+      fullPath: '/console/jobs/$id'
+      preLoaderRoute: typeof AuthenticatedConsoleJobsIdRouteImport
+      parentRoute: typeof AuthenticatedConsoleJobsRoute
+    }
     '/_authenticated/console/posts/$id': {
       id: '/_authenticated/console/posts/$id'
       path: '/$id'
@@ -707,6 +727,20 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AuthenticatedConsoleJobsRouteChildren {
+  AuthenticatedConsoleJobsIdRoute: typeof AuthenticatedConsoleJobsIdRoute
+}
+
+const AuthenticatedConsoleJobsRouteChildren: AuthenticatedConsoleJobsRouteChildren =
+  {
+    AuthenticatedConsoleJobsIdRoute: AuthenticatedConsoleJobsIdRoute,
+  }
+
+const AuthenticatedConsoleJobsRouteWithChildren =
+  AuthenticatedConsoleJobsRoute._addFileChildren(
+    AuthenticatedConsoleJobsRouteChildren,
+  )
+
 interface AuthenticatedConsolePostsRouteChildren {
   AuthenticatedConsolePostsIdRoute: typeof AuthenticatedConsolePostsIdRoute
 }
@@ -722,7 +756,7 @@ const AuthenticatedConsolePostsRouteWithChildren =
   )
 
 interface AuthenticatedConsoleRouteChildren {
-  AuthenticatedConsoleJobsRoute: typeof AuthenticatedConsoleJobsRoute
+  AuthenticatedConsoleJobsRoute: typeof AuthenticatedConsoleJobsRouteWithChildren
   AuthenticatedConsoleOrdersRoute: typeof AuthenticatedConsoleOrdersRoute
   AuthenticatedConsolePostsRoute: typeof AuthenticatedConsolePostsRouteWithChildren
   AuthenticatedConsoleProjectsRoute: typeof AuthenticatedConsoleProjectsRoute
@@ -734,7 +768,7 @@ interface AuthenticatedConsoleRouteChildren {
 }
 
 const AuthenticatedConsoleRouteChildren: AuthenticatedConsoleRouteChildren = {
-  AuthenticatedConsoleJobsRoute: AuthenticatedConsoleJobsRoute,
+  AuthenticatedConsoleJobsRoute: AuthenticatedConsoleJobsRouteWithChildren,
   AuthenticatedConsoleOrdersRoute: AuthenticatedConsoleOrdersRoute,
   AuthenticatedConsolePostsRoute: AuthenticatedConsolePostsRouteWithChildren,
   AuthenticatedConsoleProjectsRoute: AuthenticatedConsoleProjectsRoute,
