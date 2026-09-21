@@ -61,7 +61,7 @@ export const submitQuoteRequest = createServerFn({ method: "POST" })
   .inputValidator((data) => quoteInput.parse(data))
   .handler(async ({ data }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    const { normalisePhone, sendPlainSms } = await import("./sms.server");
+    const { normalisePhone, sendPlainSms, TEAM_ALERT_PHONE } = await import("./sms.server");
     const { sendMail } = await import("./mailer.server");
 
     const estimate = estimateRange(data);
@@ -140,6 +140,17 @@ export const submitQuoteRequest = createServerFn({ method: "POST" })
       `Hi ${data.contactName.split(/\s+/)[0]}, Getgas Energen received your gas system request ${row.reference}. Indicative budget ${money(estimate.low)}-${money(estimate.high)}. Our engineer will call you. 0702947573`,
       "quote_received",
     );
+
+    // Team alert — reference only, no customer details over SMS.
+    try {
+      await sendPlainSms(
+        TEAM_ALERT_PHONE(),
+        `New quote request ${row.reference} received. Details in email/console.`,
+        "quote_alert",
+      );
+    } catch (error) {
+      console.error("[quotes] team alert failed", error);
+    }
 
     return { reference: row.reference, estimate };
   });

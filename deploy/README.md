@@ -72,6 +72,8 @@ Optional, when ready:
 - Emalify SMS (v2 app "getgasmsgr"): `EMALIFY_API_KEY`, `EMALIFY_PARTNER_ID`,
   `EMALIFY_SENDER_ID=GETGASKENYA` — the REST API key and Partner ID from the
   Emalify dashboard. The same values are already set in the Lovable backend.
+- `TEAM_ALERT_PHONE` — number that receives the "new enquiry / new quote" text
+  alerts. Defaults to `+254702947573`.
 
 ## 5. Start it
 

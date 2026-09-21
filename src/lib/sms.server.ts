@@ -44,6 +44,11 @@ export function buildOrderMessage(template: SmsTemplate, ctx: OrderSmsContext): 
   }
 }
 
+/** Internal number that receives new-submission alerts. */
+export function TEAM_ALERT_PHONE(): string {
+  return normalisePhone(process.env["TEAM_ALERT_PHONE"] || "+254702947573");
+}
+
 /** Normalise Kenyan numbers to E.164 (+2547...). */
 export function normalisePhone(raw: string): string {
   const digits = (raw || "").replace(/[^\d+]/g, "");
