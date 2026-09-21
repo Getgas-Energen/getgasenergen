@@ -69,9 +69,9 @@ Optional, when ready:
 - Kopokopo (M-Pesa): `KOPOKOPO_CLIENT_ID`, `KOPOKOPO_CLIENT_SECRET`,
   `KOPOKOPO_TILL_NUMBER`, `KOPOKOPO_API_KEY` — callback URL to set in the
   Kopokopo dashboard: `https://getgas.co.ke/api/public/kopokopo-webhook`.
-- Emalify SMS (v2 app "getgasmsgr"): `EMALIFY_APP_TOKEN`, `EMALIFY_PARTNER_ID`,
-  `EMALIFY_SENDER_ID=GETGASKENYA`. The app key and sender ID are already set in
-  the Lovable backend; the same values go here for the cPanel deployment.
+- Emalify SMS (v2 app "getgasmsgr"): `EMALIFY_API_KEY`, `EMALIFY_PARTNER_ID`,
+  `EMALIFY_SENDER_ID=GETGASKENYA` — the REST API key and Partner ID from the
+  Emalify dashboard. The same values are already set in the Lovable backend.
 
 ## 5. Start it
 
