@@ -41,16 +41,13 @@ export const requestDataRoomAccess = createServerFn({ method: "POST" })
         interest_area: data.interestArea || null,
         message: data.message || null,
         nda_version: NDA_VERSION,
-      })
-      .select("reference")
-      .single();
+      });
 
     if (error) {
       console.error("[investors] insert failed", error);
       throw new Error("We could not record your request. Please try again.");
     }
 
-    const reference = (inserted?.reference as string) ?? "pending";
     const first = data.fullName.trim().split(/\s+/)[0] || "there";
 
     const { sendMail } = await import("./mailer.server");
