@@ -196,6 +196,66 @@ export type Database = {
           },
         ]
       }
+      investor_leads: {
+        Row: {
+          created_at: string
+          email: string
+          full_name: string
+          id: string
+          interest_area: string | null
+          internal_note: string | null
+          investor_type: string
+          message: string | null
+          nda_accepted_at: string
+          nda_version: string
+          organisation: string | null
+          phone: string | null
+          reference: string
+          role_title: string | null
+          status: Database["public"]["Enums"]["investor_lead_status"]
+          ticket_band: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          full_name: string
+          id?: string
+          interest_area?: string | null
+          internal_note?: string | null
+          investor_type?: string
+          message?: string | null
+          nda_accepted_at?: string
+          nda_version?: string
+          organisation?: string | null
+          phone?: string | null
+          reference?: string
+          role_title?: string | null
+          status?: Database["public"]["Enums"]["investor_lead_status"]
+          ticket_band?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          full_name?: string
+          id?: string
+          interest_area?: string | null
+          internal_note?: string | null
+          investor_type?: string
+          message?: string | null
+          nda_accepted_at?: string
+          nda_version?: string
+          organisation?: string | null
+          phone?: string | null
+          reference?: string
+          role_title?: string | null
+          status?: Database["public"]["Enums"]["investor_lead_status"]
+          ticket_band?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       order_items: {
         Row: {
           created_at: string
@@ -646,6 +706,12 @@ export type Database = {
     }
     Enums: {
       app_role: "admin" | "staff"
+      investor_lead_status:
+        | "new"
+        | "reviewing"
+        | "nda_signed"
+        | "access_granted"
+        | "declined"
       job_status: "planning" | "active" | "on_hold" | "complete" | "cancelled"
       order_status:
         | "new"
@@ -799,6 +865,13 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "staff"],
+      investor_lead_status: [
+        "new",
+        "reviewing",
+        "nda_signed",
+        "access_granted",
+        "declined",
+      ],
       job_status: ["planning", "active", "on_hold", "complete", "cancelled"],
       order_status: [
         "new",
