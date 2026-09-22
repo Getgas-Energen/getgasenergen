@@ -1031,3 +1031,67 @@ export const getDashboard = createServerFn({ method: "GET" })
       money,
     };
   });
+
+/* ------------------------------------------------------------------ investor relations */
+
+export interface InvestorLeadRow {
+  id: string;
+  reference: string;
+  full_name: string;
+  organisation: string | null;
+  role_title: string | null;
+  email: string;
+  phone: string | null;
+  investor_type: string;
+  ticket_band: string | null;
+  interest_area: string | null;
+  message: string | null;
+  nda_version: string;
+  nda_accepted_at: string;
+  status: "new" | "reviewing" | "nda_signed" | "access_granted" | "declined";
+  internal_note: string | null;
+  created_at: string;
+}
+
+export const listInvestorLeads = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    await assertStaff(context.supabase, context.userId);
+    const { data, error } = await context.supabase
+      .from("investor_leads")
+      .select(
+        "id, reference, full_name, organisation, role_title, email, phone, investor_type, ticket_band, interest_area, message, nda_version, nda_accepted_at, status, internal_note, created_at",
+      )
+      .order("created_at", { ascending: false })
+      .limit(300);
+    if (error) throw new Error(error.message);
+    return { leads: (data ?? []) as unknown as InvestorLeadRow[] };
+  });
+
+export const updateInvestorLead = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((data) =>
+    z
+      .object({
+        id: z.string().uuid(),
+        status: z
+          .enum(["new", "reviewing", "nda_signed", "access_granted", "declined"])
+          .optional(),
+        internalNote: z.string().max(2000).optional().nullable(),
+      })
+      .parse(data),
+  )
+  .handler(async ({ data, context }) => {
+    await assertAdmin(context.supabase, context.userId);
+    const payload: Record<string, unknown> = {};
+    if (data.status) payload["status"] = data.status;
+    if (data.internalNote !== undefined) payload["internal_note"] = data.internalNote || null;
+    if (Object.keys(payload).length === 0) return { success: true };
+
+    const { error } = await context.supabase
+      .from("investor_leads")
+      .update(payload)
+      .eq("id", data.id);
+    if (error) throw new Error(error.message);
+    return { success: true };
+  });
