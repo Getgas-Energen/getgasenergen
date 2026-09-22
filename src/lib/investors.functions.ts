@@ -22,9 +22,15 @@ export const requestDataRoomAccess = createServerFn({ method: "POST" })
   .handler(async ({ data }) => {
     const supabase = createPublicServerClient();
 
-    const { data: inserted, error } = await supabase
+    // The anon role may insert but not read back, so the reference is minted here.
+    const reference = `GIR-${new Date().toISOString().slice(2, 4)}${new Date()
+      .toISOString()
+      .slice(5, 7)}-${Math.random().toString(36).slice(2, 7).toUpperCase()}`;
+
+    const { error } = await supabase
       .from("investor_leads")
       .insert({
+        reference,
         full_name: data.fullName,
         organisation: data.organisation || null,
         role_title: data.roleTitle || null,
