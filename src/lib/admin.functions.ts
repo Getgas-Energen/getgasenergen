@@ -985,12 +985,13 @@ export const getDashboard = createServerFn({ method: "GET" })
     const { supabase, userId } = context;
     await assertStaff(supabase, userId);
 
-    const [enquiries, quotes, jobsRes, tasksRes, orders] = await Promise.all([
+    const [enquiries, quotes, jobsRes, tasksRes, orders, investors] = await Promise.all([
       supabase.from("contact_submissions").select("id, status, created_at").limit(1000),
       supabase.from("quote_requests").select("id, status, created_at").limit(1000),
       supabase.from("delivery_jobs").select(JOB_COLUMNS).limit(300),
       supabase.from("delivery_tasks").select(TASK_COLUMNS).limit(2000),
       supabase.from("orders").select("id, status, payment_status, total_kes").limit(1000),
+      supabase.from("investor_leads").select("id, status").limit(1000),
     ]);
 
     const jobs = (jobsRes.data ?? []) as unknown as DeliveryJobRow[];
@@ -1027,6 +1028,10 @@ export const getDashboard = createServerFn({ method: "GET" })
         jobsActive: jobs.filter((j) => j.status === "active").length,
         ordersOpen: orderRows.filter((o) => o.status === "new" || o.status === "confirmed").length,
         ordersUnpaid: orderRows.filter((o) => o.payment_status === "pending").length,
+        investorsTotal: (investors.data ?? []).length,
+        investorsOpen: ((investors.data ?? []) as { status: string }[]).filter(
+          (i) => i.status === "new" || i.status === "reviewing",
+        ).length,
       },
       money,
     };
