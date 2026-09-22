@@ -16,6 +16,7 @@ import { Route as ContactRouteImport } from './routes/contact'
 import { Route as GasReticulationRouteImport } from './routes/gas-reticulation'
 import { Route as IndustriesRouteImport } from './routes/industries'
 import { Route as InsightsRouteImport } from './routes/insights'
+import { Route as InvestorsRouteImport } from './routes/investors'
 import { Route as MarketplaceRouteImport } from './routes/marketplace'
 import { Route as ProjectsRouteImport } from './routes/projects'
 import { Route as QuoteRouteImport } from './routes/quote'
@@ -77,6 +78,11 @@ const IndustriesRoute = IndustriesRouteImport.update({
 const InsightsRoute = InsightsRouteImport.update({
   id: '/insights',
   path: '/insights',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InvestorsRoute = InvestorsRouteImport.update({
+  id: '/investors',
+  path: '/investors',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MarketplaceRoute = MarketplaceRouteImport.update({
@@ -240,6 +246,7 @@ export interface FileRoutesByFullPath {
   '/gas-reticulation': typeof GasReticulationRoute
   '/industries': typeof IndustriesRoute
   '/insights': typeof InsightsRouteWithChildren
+  '/investors': typeof InvestorsRoute
   '/marketplace': typeof MarketplaceRoute
   '/projects': typeof ProjectsRouteWithChildren
   '/quote': typeof QuoteRoute
@@ -276,6 +283,7 @@ export interface FileRoutesByTo {
   '/gas-reticulation': typeof GasReticulationRoute
   '/industries': typeof IndustriesRoute
   '/insights': typeof InsightsRouteWithChildren
+  '/investors': typeof InvestorsRoute
   '/marketplace': typeof MarketplaceRoute
   '/projects': typeof ProjectsRouteWithChildren
   '/quote': typeof QuoteRoute
@@ -313,6 +321,7 @@ export interface FileRoutesById {
   '/gas-reticulation': typeof GasReticulationRoute
   '/industries': typeof IndustriesRoute
   '/insights': typeof InsightsRouteWithChildren
+  '/investors': typeof InvestorsRoute
   '/marketplace': typeof MarketplaceRoute
   '/projects': typeof ProjectsRouteWithChildren
   '/quote': typeof QuoteRoute
@@ -351,6 +360,7 @@ export interface FileRouteTypes {
     | '/gas-reticulation'
     | '/industries'
     | '/insights'
+    | '/investors'
     | '/marketplace'
     | '/projects'
     | '/quote'
@@ -387,6 +397,7 @@ export interface FileRouteTypes {
     | '/gas-reticulation'
     | '/industries'
     | '/insights'
+    | '/investors'
     | '/marketplace'
     | '/projects'
     | '/quote'
@@ -423,6 +434,7 @@ export interface FileRouteTypes {
     | '/gas-reticulation'
     | '/industries'
     | '/insights'
+    | '/investors'
     | '/marketplace'
     | '/projects'
     | '/quote'
@@ -461,6 +473,7 @@ export interface RootRouteChildren {
   GasReticulationRoute: typeof GasReticulationRoute
   IndustriesRoute: typeof IndustriesRoute
   InsightsRoute: typeof InsightsRouteWithChildren
+  InvestorsRoute: typeof InvestorsRoute
   MarketplaceRoute: typeof MarketplaceRoute
   ProjectsRoute: typeof ProjectsRouteWithChildren
   QuoteRoute: typeof QuoteRoute
@@ -526,6 +539,13 @@ declare module '@tanstack/react-router' {
       path: '/insights'
       fullPath: '/insights'
       preLoaderRoute: typeof InsightsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/investors': {
+      id: '/investors'
+      path: '/investors'
+      fullPath: '/investors'
+      preLoaderRoute: typeof InvestorsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/marketplace': {
@@ -825,6 +845,7 @@ const rootRouteChildren: RootRouteChildren = {
   GasReticulationRoute: GasReticulationRoute,
   IndustriesRoute: IndustriesRoute,
   InsightsRoute: InsightsRouteWithChildren,
+  InvestorsRoute: InvestorsRoute,
   MarketplaceRoute: MarketplaceRoute,
   ProjectsRoute: ProjectsRouteWithChildren,
   QuoteRoute: QuoteRoute,
