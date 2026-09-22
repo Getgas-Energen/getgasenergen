@@ -985,12 +985,13 @@ export const getDashboard = createServerFn({ method: "GET" })
     const { supabase, userId } = context;
     await assertStaff(supabase, userId);
 
-    const [enquiries, quotes, jobsRes, tasksRes, orders] = await Promise.all([
+    const [enquiries, quotes, jobsRes, tasksRes, orders, investors] = await Promise.all([
       supabase.from("contact_submissions").select("id, status, created_at").limit(1000),
       supabase.from("quote_requests").select("id, status, created_at").limit(1000),
       supabase.from("delivery_jobs").select(JOB_COLUMNS).limit(300),
       supabase.from("delivery_tasks").select(TASK_COLUMNS).limit(2000),
       supabase.from("orders").select("id, status, payment_status, total_kes").limit(1000),
+      supabase.from("investor_leads").select("id, status").limit(1000),
     ]);
 
     const jobs = (jobsRes.data ?? []) as unknown as DeliveryJobRow[];
@@ -1027,7 +1028,75 @@ export const getDashboard = createServerFn({ method: "GET" })
         jobsActive: jobs.filter((j) => j.status === "active").length,
         ordersOpen: orderRows.filter((o) => o.status === "new" || o.status === "confirmed").length,
         ordersUnpaid: orderRows.filter((o) => o.payment_status === "pending").length,
+        investorsTotal: (investors.data ?? []).length,
+        investorsOpen: ((investors.data ?? []) as { status: string }[]).filter(
+          (i) => i.status === "new" || i.status === "reviewing",
+        ).length,
       },
       money,
     };
+  });
+
+/* ------------------------------------------------------------------ investor relations */
+
+export interface InvestorLeadRow {
+  id: string;
+  reference: string;
+  full_name: string;
+  organisation: string | null;
+  role_title: string | null;
+  email: string;
+  phone: string | null;
+  investor_type: string;
+  ticket_band: string | null;
+  interest_area: string | null;
+  message: string | null;
+  nda_version: string;
+  nda_accepted_at: string;
+  status: "new" | "reviewing" | "nda_signed" | "access_granted" | "declined";
+  internal_note: string | null;
+  created_at: string;
+}
+
+export const listInvestorLeads = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    await assertStaff(context.supabase, context.userId);
+    const { data, error } = await context.supabase
+      .from("investor_leads")
+      .select(
+        "id, reference, full_name, organisation, role_title, email, phone, investor_type, ticket_band, interest_area, message, nda_version, nda_accepted_at, status, internal_note, created_at",
+      )
+      .order("created_at", { ascending: false })
+      .limit(300);
+    if (error) throw new Error(error.message);
+    return { leads: (data ?? []) as unknown as InvestorLeadRow[] };
+  });
+
+export const updateInvestorLead = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((data) =>
+    z
+      .object({
+        id: z.string().uuid(),
+        status: z
+          .enum(["new", "reviewing", "nda_signed", "access_granted", "declined"])
+          .optional(),
+        internalNote: z.string().max(2000).optional().nullable(),
+      })
+      .parse(data),
+  )
+  .handler(async ({ data, context }) => {
+    await assertAdmin(context.supabase, context.userId);
+    const payload: Record<string, unknown> = {};
+    if (data.status) payload["status"] = data.status;
+    if (data.internalNote !== undefined) payload["internal_note"] = data.internalNote || null;
+    if (Object.keys(payload).length === 0) return { success: true };
+
+    const { error } = await context.supabase
+      .from("investor_leads")
+      .update(payload)
+      .eq("id", data.id);
+    if (error) throw new Error(error.message);
+    return { success: true };
   });
