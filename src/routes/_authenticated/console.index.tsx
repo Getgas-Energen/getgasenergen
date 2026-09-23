@@ -1,148 +1,194 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { useMemo } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
-import { useState } from "react";
-import { toast } from "sonner";
-import { Paperclip, Download, Mail, Phone } from "lucide-react";
-import { listEnquiries, getAttachmentLink, updateEnquiryStatus } from "@/lib/admin.functions";
-import { useAccess } from "./console";
-import { Button } from "@/components/ui/button";
+import { AlertTriangle, ArrowRight } from "lucide-react";
+import { getDashboard } from "@/lib/admin.functions";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+  KES,
+  groupTasksByJob,
+  isTaskOverdue,
+  jobStatusLabel,
+  rollupJob,
+  shortDate,
+  taskEnd,
+} from "@/lib/planner";
 
 export const Route = createFileRoute("/_authenticated/console/")({
   head: () => ({
     meta: [
-      { title: "Enquiries | Energen Console" },
+      { title: "Dashboard | Energen Console" },
       { name: "robots", content: "noindex, nofollow, noarchive" },
     ],
   }),
-  component: EnquiriesPage,
+  component: DashboardPage;
 });
 
-const STATUSES = ["new", "in_progress", "quoted", "won", "closed"] as const;
-
-function EnquiriesPage() {
-  const queryClient = useQueryClient();
-  const { data: access } = useAccess();
-  const fetchEnquiries = useServerFn(listEnquiries);
-  const fetchLink = useServerFn(getAttachmentLink);
-  const setStatus = useServerFn(updateEnquiryStatus);
-  const [expanded, setExpanded] = useState<string | null>(null);
-
+function DashboardPage() {
+  const fetchDashboard = useServerFn(getDashboard);
   const { data, isLoading } = useQuery({
-    queryKey: ["enquiries"],
-    queryFn: () => fetchEnquiries({}),
+    queryKey: ["dashboard"],
+    queryFn: () => fetchDashboard({}),
   });
 
-  const download = async (path: string) => {
-    try {
-      const { url } = await fetchLink({ data: { path } });
-      window.open(url, "_blank", "noopener,noreferrer");
-    } catch (err) {
-      toast.error(err instanceof Error ? err.message : "Could not open the file.");
-    }
-  };
+  const jobs = data?.jobs ?? [];
+  const tasks = data?.tasks ?? [];
+  const tasksByJob = useMemo(() => groupTasksByJob(tasks), [tasks]);
 
-  const changeStatus = async (id: string, status: string) => {
-    try {
-      await setStatus({ data: { id, status: status as (typeof STATUSES)[number] } });
-      toast.success("Status updated");
-      queryClient.invalidateQueries({ queryKey: ["enquiries"] });
-    } catch (err) {
-      toast.error(err instanceof Error ? err.message : "Update failed.");
-    }
-  };
+  const attention = useMemo(
+    () =>
+      tasks
+        .filter((t) => isTaskOverdue(t) || Number(t.progress) < 100)
+        .sort((a, b) => (taskEnd(a)?.getTime() ?? 0) - (taskEnd(b)?.getTime() ?? 0))
+        .slice(0, 8),
+    [tasks],
+  );
+
+  const jobTitle = (id: string) => jobs.find((j) => j.id === id)?.title ?? "—";
+
+  const counts = data?.counts;
+  const money = data?.money;
 
   return (
     <div>
-      <h1 className="font-display text-2xl font-bold text-foreground">Enquiries</h1>
+      <h1 className="font-display text-xl font-semibold text-foreground">Dashboard</h1>
       <p className="mt-1 text-sm text-muted-foreground">
-        Every enquiry submitted through the website, newest first.
+        Delivery, commercial and investor pipeline at a glance.
       </p>
 
       {isLoading && <p className="mt-8 text-sm text-muted-foreground">Loading…</p>}
 
-      {data && data.enquiries.length === 0 && (
-        <p className="mt-8 text-sm text-muted-foreground">No enquiries yet.</p>
+      {counts && (
+        <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {[
+            { label: "Open enquiries", value: counts.enquiriesOpen, sub: `${counts.enquiriesTotal} total`, to: "/console/submissions" as const },
+            { label: "Open quote requests", value: counts.quotesOpen, sub: `${counts.quotesTotal} total`, to: "/console/quotes" as const },
+            { label: "Active delivery jobs", value: counts.jobsActive, sub: `${jobs.length} in register`, to: "/console/jobs" as const },
+            { label: "Open orders", value: counts.ordersOpen, sub: `${counts.ordersUnpaid} awaiting payment`, to: "/console/orders" as const },
+            { label: "Investor requests", value: counts.investorsOpen, sub: `${counts.investorsTotal} total`, to: "/console/investors" as const },
+            { label: "Overdue tasks", value: tasks.filter((t) => isTaskOverdue(t)).length, sub: `${tasks.length} tasks tracked`, to: "/console/jobs" as const },
+          ].map((card) => (
+            <Link
+              key={card.label}
+              to={card.to}
+              className="rounded-xl border border-border bg-card p-5 transition-colors hover:border-primary/40"
+            >
+              <p className="text-xs uppercase tracking-wider text-muted-foreground">{card.label}</p>
+              <p className="mt-2 font-display text-3xl font-bold text-foreground">{card.value}</p>
+              <p className="mt-1 text-xs text-muted-foreground">{card.sub}</p>
+            </Link>
+          ))}
+        </div>
       )}
 
-      <div className="mt-6 space-y-3">
-        {data?.enquiries.map((e) => (
-          <div key={e.id} className="rounded-xl border border-border bg-card p-5">
-            <div className="flex flex-wrap items-start justify-between gap-3">
-              <div>
-                <p className="font-display text-base font-semibold text-foreground">
-                  {e.name}
-                  {e.company ? <span className="text-muted-foreground"> · {e.company}</span> : null}
-                </p>
-                <p className="mt-1 text-xs uppercase tracking-wider text-accent">{e.project_type}</p>
-                <div className="mt-2 flex flex-wrap gap-4 text-sm text-muted-foreground">
-                  <a href={`mailto:${e.email}`} className="inline-flex items-center gap-1.5 hover:text-primary">
-                    <Mail className="h-3.5 w-3.5" /> {e.email}
-                  </a>
-                  <a href={`tel:${e.phone}`} className="inline-flex items-center gap-1.5 hover:text-primary">
-                    <Phone className="h-3.5 w-3.5" /> {e.phone}
-                  </a>
-                </div>
+      {money && (
+        <div className="mt-6 rounded-xl border border-border bg-card p-5">
+          <h2 className="font-display text-base font-semibold text-foreground">
+            Portfolio financials
+          </h2>
+          <dl className="mt-4 grid grid-cols-2 gap-x-6 gap-y-3 text-sm sm:grid-cols-3 lg:grid-cols-6">
+            {[
+              ["Contract value", KES(money.contract)],
+              ["Budget", KES(money.budget)],
+              ["Spent", KES(money.spent)],
+              ["Invoiced", KES(money.invoiced)],
+              ["Received", KES(money.received)],
+              ["Outstanding", KES(money.invoiced - money.received)],
+            ].map(([k, v]) => (
+              <div key={k}>
+                <dt className="text-xs text-muted-foreground">{k}</dt>
+                <dd className="mt-0.5 font-semibold text-foreground">{v}</dd>
               </div>
-              <div className="flex items-center gap-3">
-                <p className="text-xs text-muted-foreground">
-                  {new Date(e.created_at).toLocaleString("en-GB")}
-                </p>
-                {access?.isAdmin ? (
-                  <Select value={e.status} onValueChange={(v) => changeStatus(e.id, v)}>
-                    <SelectTrigger className="h-8 w-[140px] text-xs">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {STATUSES.map((s) => (
-                        <SelectItem key={s} value={s}>
-                          {s.replace("_", " ")}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                ) : (
-                  <span className="rounded-full bg-muted px-2.5 py-1 text-xs font-medium">
-                    {e.status.replace("_", " ")}
-                  </span>
-                )}
-              </div>
-            </div>
+            ))}
+          </dl>
+        </div>
+      )}
 
-            <p
-              className={
-                expanded === e.id
-                  ? "mt-4 whitespace-pre-line text-sm text-foreground"
-                  : "mt-4 line-clamp-2 whitespace-pre-line text-sm text-foreground"
-              }
-            >
-              {e.message}
-            </p>
-
-            <div className="mt-3 flex flex-wrap items-center gap-3">
-              <button
-                onClick={() => setExpanded(expanded === e.id ? null : e.id)}
-                className="text-xs font-semibold text-primary hover:underline"
-              >
-                {expanded === e.id ? "Show less" : "Read full message"}
-              </button>
-              {e.attachment_path && (
-                <Button size="sm" variant="outline" onClick={() => download(e.attachment_path!)}>
-                  <Paperclip className="mr-2 h-3.5 w-3.5" />
-                  Attachment
-                  <Download className="ml-2 h-3.5 w-3.5" />
-                </Button>
-              )}
-            </div>
+      <div className="mt-6 grid gap-4 lg:grid-cols-2">
+        <section className="rounded-xl border border-border bg-card p-5">
+          <div className="flex items-center justify-between">
+            <h2 className="font-display text-base font-semibold text-foreground">
+              Delivery portfolio
+            </h2>
+            <Link to="/console/jobs" className="text-xs font-semibold text-primary hover:underline">
+              All jobs <ArrowRight className="inline h-3 w-3" />
+            </Link>
           </div>
-        ))}
+          {jobs.length === 0 ? (
+            <p className="mt-4 text-sm text-muted-foreground">No jobs in the register yet.</p>
+          ) : (
+            <ul className="mt-4 space-y-3">
+              {jobs.slice(0, 6).map((job) => {
+                const roll = rollupJob(tasksByJob.get(job.id) ?? [], job);
+                return (
+                  <li key={job.id}>
+                    <Link
+                      to="/console/jobs/$id"
+                      params={{ id: job.id }}
+                      className="block rounded-lg border border-border/60 p-3 hover:border-primary/40"
+                    >
+                      <div className="flex flex-wrap items-baseline justify-between gap-2">
+                        <p className="text-sm font-semibold text-foreground">{job.title}</p>
+                        <span className="text-xs text-muted-foreground">
+                          {jobStatusLabel(job.status)} · {shortDate(roll.end)}
+                        </span>
+                      </div>
+                      <div className="mt-2 flex items-center gap-3">
+                        <div className="h-1.5 flex-1 rounded-full bg-muted">
+                          <div
+                            className="h-1.5 rounded-full bg-accent"
+                            style={{ width: `${roll.progress}%` }}
+                          />
+                        </div>
+                        <span className="w-9 text-right text-xs font-semibold">
+                          {roll.progress}%
+                        </span>
+                      </div>
+                      <p className="mt-1 text-xs text-muted-foreground">
+                        Budget {KES(job.budget_kes)} · Spent {KES(job.spent_kes)}
+                      </p>
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          )}
+        </section>
+
+        <section className="rounded-xl border border-border bg-card p-5">
+          <h2 className="font-display text-base font-semibold text-foreground">Tasks to watch</h2>
+          {attention.length === 0 ? (
+            <p className="mt-4 text-sm text-muted-foreground">Nothing outstanding.</p>
+          ) : (
+            <ul className="mt-4 space-y-2 text-sm">
+              {attention.map((task) => {
+                const overdue = isTaskOverdue(task);
+                return (
+                  <li
+                    key={task.id}
+                    className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-border/60 px-3 py-2"
+                  >
+                    <div>
+                      <p className="font-medium text-foreground">
+                        {overdue && (
+                          <AlertTriangle className="mr-1.5 inline h-3.5 w-3.5 text-primary" />
+                        )}
+                        {task.name}
+                      </p>
+                      <p className="text-xs text-muted-foreground">
+                        {jobTitle(task.job_id)}
+                        {task.responsible ? ` · ${task.responsible}` : ""}
+                      </p>
+                    </div>
+                    <span className="text-xs text-muted-foreground">
+                      due {shortDate(taskEnd(task))} · {Number(task.progress)}%
+                    </span>
+                  </li>
+                );
+              })}
+            </ul>
+          )}
+        </section>
       </div>
     </div>
   );
