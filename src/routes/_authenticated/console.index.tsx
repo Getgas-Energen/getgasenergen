@@ -21,7 +21,7 @@ export const Route = createFileRoute("/_authenticated/console/")({
       { name: "robots", content: "noindex, nofollow, noarchive" },
     ],
   }),
-  component: DashboardPage;
+  component: DashboardPage,
 });
 
 function DashboardPage() {
