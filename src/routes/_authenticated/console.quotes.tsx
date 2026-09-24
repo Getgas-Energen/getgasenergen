@@ -154,6 +154,16 @@ function ConsoleQuotes() {
                         ))}
                       </SelectContent>
                     </Select>
+                  ) : null}
+                  {isAdmin ? (
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      disabled={jobMutation.isPending}
+                      onClick={() => jobMutation.mutate(q.id)}
+                    >
+                      Create job
+                    </Button>
                   ) : (
                     <span className="text-xs text-muted-foreground">Status: {q.status}</span>
                   )}
