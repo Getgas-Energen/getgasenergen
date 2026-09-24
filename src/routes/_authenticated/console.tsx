@@ -10,6 +10,9 @@ import {
   Package,
   Building2,
   Calculator,
+  LayoutDashboard,
+  Briefcase,
+  TrendingUp,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { getMyAccess } from "@/lib/auth.functions";
@@ -63,10 +66,13 @@ function ConsoleLayout() {
   }
 
   const tabs = [
-    { to: "/console", label: "Enquiries", icon: Inbox, exact: true },
+    { to: "/console", label: "Dashboard", icon: LayoutDashboard, exact: true },
+    { to: "/console/submissions", label: "Submissions", icon: Inbox, exact: false },
+    { to: "/console/quotes", label: "Quotes", icon: Calculator, exact: false },
+    { to: "/console/jobs", label: "Jobs", icon: Briefcase, exact: false },
+    { to: "/console/investors", label: "Investors", icon: TrendingUp, exact: false },
     { to: "/console/orders", label: "Orders", icon: ShoppingCart, exact: false },
     { to: "/console/shop", label: "Marketplace", icon: Package, exact: false },
-    { to: "/console/quotes", label: "Quotes", icon: Calculator, exact: false },
     { to: "/console/projects", label: "Projects", icon: Building2, exact: false },
     { to: "/console/posts", label: "Insights", icon: FileText, exact: false },
     ...(access.isAdmin ? [{ to: "/console/users", label: "Team", icon: Users, exact: false }] : []),
