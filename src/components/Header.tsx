@@ -10,6 +10,7 @@ const navItems = [
   { to: "/services", label: "Services" },
   { to: "/industries", label: "Industries" },
   { to: "/projects", label: "Projects" },
+  { to: "/marketplace", label: "Shop" },
   { to: "/smart-metering", label: "Smart Metering" },
   { to: "/safety-systems", label: "Safety" },
   { to: "/insights", label: "Insights" },
@@ -47,7 +48,7 @@ export function Header() {
 
         <div className="hidden xl:block">
           <Button asChild className="bg-primary text-primary-foreground hover:bg-primary/90">
-            <Link to="/contact">Request a Quote</Link>
+            <Link to="/quote">Request a Quote</Link>
           </Button>
         </div>
 
@@ -73,7 +74,7 @@ export function Header() {
                 </Link>
               ))}
               <Button asChild className="mt-4 bg-primary text-primary-foreground hover:bg-primary/90">
-                <Link to="/contact" onClick={() => setOpen(false)}>Request a Quote</Link>
+                <Link to="/quote" onClick={() => setOpen(false)}>Request a Quote</Link>
               </Button>
             </div>
           </SheetContent>

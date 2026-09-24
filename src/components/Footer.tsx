@@ -35,16 +35,19 @@ export function Footer() {
               <li><Link to="/projects" className="hover:text-accent">Projects</Link></li>
               <li><Link to="/marketplace" className="hover:text-accent">Marketplace</Link></li>
               <li><Link to="/insights" className="hover:text-accent">Insights</Link></li>
+              <li><Link to="/contact" className="hover:text-accent">Contact</Link></li>
             </ul>
           </div>
 
           <div>
             <h4 className="text-xs font-semibold uppercase tracking-wider text-white/90">Solutions</h4>
             <ul className="mt-4 space-y-2 text-sm text-white/70">
-              <li><Link to="/smart-metering" className="hover:text-accent">Smart Metering & Vending</Link></li>
+              <li><Link to="/gas-reticulation" className="hover:text-accent">Gas Reticulation</Link></li>
+              <li><Link to="/storage-design" className="hover:text-accent">Storage Design</Link></li>
               <li><Link to="/safety-systems" className="hover:text-accent">Safety Systems</Link></li>
-              <li>EPC Delivery</li>
-              <li>Operations & Maintenance</li>
+              <li><Link to="/technical-specifications" className="hover:text-accent">Technical Specifications</Link></li>
+              <li><Link to="/smart-metering" className="hover:text-accent">Smart Metering & Vending</Link></li>
+              <li><Link to="/quote" className="hover:text-accent">Request a Quote</Link></li>
             </ul>
           </div>
 
