@@ -13,5 +13,6 @@
   <url><loc>https://getgas.co.ke/marketplace</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://getgas.co.ke/insights</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://getgas.co.ke/about</loc><changefreq>yearly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://getgas.co.ke/investors</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://getgas.co.ke/contact</loc><changefreq>yearly</changefreq><priority>0.6</priority></url>
 </urlset>
