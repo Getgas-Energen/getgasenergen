@@ -1,4 +1,5 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { useMemo, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useServerFn } from "@tanstack/react-start";
 import { toast } from "sonner";
@@ -9,7 +10,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { listQuoteRequests, updateQuoteRequest } from "@/lib/admin.functions";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { createJobFromQuote, listQuoteRequests, updateQuoteRequest } from "@/lib/admin.functions";
 import { useAccess } from "./console";
 
 export const Route = createFileRoute("/_authenticated/console/quotes")({
@@ -29,9 +32,13 @@ function ConsoleQuotes() {
   const { data: access } = useAccess();
   const isAdmin = Boolean(access?.isAdmin);
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   const fetchQuotes = useServerFn(listQuoteRequests);
   const update = useServerFn(updateQuoteRequest);
+  const toJob = useServerFn(createJobFromQuote);
+  const [filter, setFilter] = useState("all");
+  const [search, setSearch] = useState("");
 
   const { data, isLoading } = useQuery({
     queryKey: ["admin-quotes"],
@@ -48,7 +55,28 @@ function ConsoleQuotes() {
     onError: (error) => toast.error(error instanceof Error ? error.message : "Could not update"),
   });
 
-  const quotes = data?.quotes ?? [];
+  const jobMutation = useMutation({
+    mutationFn: (quoteId: string) => toJob({ data: { quoteId } }),
+    onSuccess: (res) => {
+      toast.success(res.existed ? "Opening existing job." : "Job created.");
+      queryClient.invalidateQueries({ queryKey: ["jobs"] });
+      navigate({ to: "/console/jobs/$id", params: { id: res.id } });
+    },
+    onError: (error) => toast.error(error instanceof Error ? error.message : "Could not create job"),
+  });
+
+  const all = data?.quotes ?? [];
+  const quotes = useMemo(() => {
+    const s = search.trim().toLowerCase();
+    return all.filter(
+      (q) =>
+        (filter === "all" || q.status === filter) &&
+        (!s ||
+          [q.reference, q.contact_name, q.company ?? "", q.location, q.email].some((v) =>
+            String(v ?? "").toLowerCase().includes(s),
+          )),
+    );
+  }, [all, filter, search]);
 
   return (
     <div>
@@ -58,10 +86,31 @@ function ConsoleQuotes() {
         email and SMS.
       </p>
 
+      <div className="mt-4 grid gap-3 rounded-xl border border-border bg-card p-4 sm:grid-cols-2">
+        <Input
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="Reference, name, company, location"
+        />
+        <Select value={filter} onValueChange={setFilter}>
+          <SelectTrigger>
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All statuses ({all.length})</SelectItem>
+            {statuses.map((s) => (
+              <SelectItem key={s} value={s}>
+                {s} ({all.filter((q) => q.status === s).length})
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </div>
+
       {isLoading ? (
         <p className="mt-8 text-sm text-muted-foreground">Loading…</p>
       ) : quotes.length === 0 ? (
-        <p className="mt-8 text-sm text-muted-foreground">No quote requests yet.</p>
+        <p className="mt-8 text-sm text-muted-foreground">No quote requests match.</p>
       ) : (
         <div className="mt-6 space-y-4">
           {quotes.map((q) => (
