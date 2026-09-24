@@ -703,7 +703,7 @@ export const updateEnquiry = createServerFn({ method: "POST" })
 
     const { error } = await context.supabase
       .from("contact_submissions")
-      .update(payload)
+      .update(payload as never)
       .eq("id", data.id);
     if (error) throw new Error(error.message);
     return { success: true };
@@ -1095,7 +1095,7 @@ export const updateInvestorLead = createServerFn({ method: "POST" })
 
     const { error } = await context.supabase
       .from("investor_leads")
-      .update(payload)
+      .update(payload as never)
       .eq("id", data.id);
     if (error) throw new Error(error.message);
     return { success: true };
