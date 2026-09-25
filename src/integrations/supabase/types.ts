@@ -196,6 +196,262 @@ export type Database = {
           },
         ]
       }
+      eng_quote_items: {
+        Row: {
+          created_at: string
+          description: string
+          id: string
+          product_id: string | null
+          qty: number
+          quote_id: string
+          section: string
+          sort_order: number
+          unit: string
+          unit_cost_kes: number | null
+        }
+        Insert: {
+          created_at?: string
+          description: string
+          id?: string
+          product_id?: string | null
+          qty?: number
+          quote_id: string
+          section?: string
+          sort_order?: number
+          unit?: string
+          unit_cost_kes?: number | null
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          id?: string
+          product_id?: string | null
+          qty?: number
+          quote_id?: string
+          section?: string
+          sort_order?: number
+          unit?: string
+          unit_cost_kes?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "eng_quote_items_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "eng_quote_items_quote_id_fkey"
+            columns: ["quote_id"]
+            isOneToOne: false
+            referencedRelation: "eng_quotes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      eng_quote_notifications: {
+        Row: {
+          channel: string
+          created_at: string
+          delivered: boolean
+          error: string | null
+          id: string
+          quote_id: string
+          recipient: string
+          revision: number
+        }
+        Insert: {
+          channel: string
+          created_at?: string
+          delivered?: boolean
+          error?: string | null
+          id?: string
+          quote_id: string
+          recipient: string
+          revision: number
+        }
+        Update: {
+          channel?: string
+          created_at?: string
+          delivered?: boolean
+          error?: string | null
+          id?: string
+          quote_id?: string
+          recipient?: string
+          revision?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "eng_quote_notifications_quote_id_fkey"
+            columns: ["quote_id"]
+            isOneToOne: false
+            referencedRelation: "eng_quotes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      eng_quote_revisions: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          id: string
+          note: string | null
+          quote_id: string
+          revision: number
+          snapshot: Json
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          note?: string | null
+          quote_id: string
+          revision: number
+          snapshot: Json
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          note?: string | null
+          quote_id?: string
+          revision?: number
+          snapshot?: Json
+        }
+        Relationships: [
+          {
+            foreignKeyName: "eng_quote_revisions_quote_id_fkey"
+            columns: ["quote_id"]
+            isOneToOne: false
+            referencedRelation: "eng_quotes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      eng_quotes: {
+        Row: {
+          approved_at: string | null
+          assumptions: string | null
+          client_email: string | null
+          client_name: string
+          client_phone: string | null
+          cost_total_kes: number
+          costs: Json
+          created_at: string
+          estimator_id: string | null
+          exclusions: string | null
+          id: string
+          inputs: Json
+          issued_at: string | null
+          location: string | null
+          margin_pct: number
+          monthly_service_kes: number
+          payment_terms: string | null
+          project_id: string | null
+          project_name: string | null
+          public_token: string
+          quote_class: string
+          quote_no: string
+          quote_request_id: string | null
+          reviewer_id: string | null
+          revision: number
+          risk: string
+          sell_subtotal_kes: number
+          status: string
+          total_kes: number
+          updated_at: string
+          validity_days: number
+          vat_kes: number
+          warnings: Json
+        }
+        Insert: {
+          approved_at?: string | null
+          assumptions?: string | null
+          client_email?: string | null
+          client_name: string
+          client_phone?: string | null
+          cost_total_kes?: number
+          costs?: Json
+          created_at?: string
+          estimator_id?: string | null
+          exclusions?: string | null
+          id?: string
+          inputs?: Json
+          issued_at?: string | null
+          location?: string | null
+          margin_pct?: number
+          monthly_service_kes?: number
+          payment_terms?: string | null
+          project_id?: string | null
+          project_name?: string | null
+          public_token?: string
+          quote_class: string
+          quote_no?: string
+          quote_request_id?: string | null
+          reviewer_id?: string | null
+          revision?: number
+          risk?: string
+          sell_subtotal_kes?: number
+          status?: string
+          total_kes?: number
+          updated_at?: string
+          validity_days?: number
+          vat_kes?: number
+          warnings?: Json
+        }
+        Update: {
+          approved_at?: string | null
+          assumptions?: string | null
+          client_email?: string | null
+          client_name?: string
+          client_phone?: string | null
+          cost_total_kes?: number
+          costs?: Json
+          created_at?: string
+          estimator_id?: string | null
+          exclusions?: string | null
+          id?: string
+          inputs?: Json
+          issued_at?: string | null
+          location?: string | null
+          margin_pct?: number
+          monthly_service_kes?: number
+          payment_terms?: string | null
+          project_id?: string | null
+          project_name?: string | null
+          public_token?: string
+          quote_class?: string
+          quote_no?: string
+          quote_request_id?: string | null
+          reviewer_id?: string | null
+          revision?: number
+          risk?: string
+          sell_subtotal_kes?: number
+          status?: string
+          total_kes?: number
+          updated_at?: string
+          validity_days?: number
+          vat_kes?: number
+          warnings?: Json
+        }
+        Relationships: [
+          {
+            foreignKeyName: "eng_quotes_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "eng_quotes_quote_request_id_fkey"
+            columns: ["quote_request_id"]
+            isOneToOne: false
+            referencedRelation: "quote_requests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       investor_leads: {
         Row: {
           created_at: string
@@ -417,49 +673,85 @@ export type Database = {
       }
       products: {
         Row: {
+          brand: string | null
           category: Database["public"]["Enums"]["product_category"]
           created_at: string
+          default_margin_pct: number | null
           description: string | null
           id: string
           image_url: string | null
           in_stock: boolean
           is_active: boolean
+          landed_cost_kes: number | null
+          lead_time_days: number | null
+          min_price_kes: number | null
           name: string
           price_kes: number | null
+          price_valid_until: string | null
+          procurement_cost_kes: number | null
+          quote_eligible: boolean
+          sku: string | null
           slug: string
           sort_order: number
           spec: string | null
+          supplier_name: string | null
+          unit: string
           updated_at: string
+          vat_rated: boolean
         }
         Insert: {
+          brand?: string | null
           category?: Database["public"]["Enums"]["product_category"]
           created_at?: string
+          default_margin_pct?: number | null
           description?: string | null
           id?: string
           image_url?: string | null
           in_stock?: boolean
           is_active?: boolean
+          landed_cost_kes?: number | null
+          lead_time_days?: number | null
+          min_price_kes?: number | null
           name: string
           price_kes?: number | null
+          price_valid_until?: string | null
+          procurement_cost_kes?: number | null
+          quote_eligible?: boolean
+          sku?: string | null
           slug: string
           sort_order?: number
           spec?: string | null
+          supplier_name?: string | null
+          unit?: string
           updated_at?: string
+          vat_rated?: boolean
         }
         Update: {
+          brand?: string | null
           category?: Database["public"]["Enums"]["product_category"]
           created_at?: string
+          default_margin_pct?: number | null
           description?: string | null
           id?: string
           image_url?: string | null
           in_stock?: boolean
           is_active?: boolean
+          landed_cost_kes?: number | null
+          lead_time_days?: number | null
+          min_price_kes?: number | null
           name?: string
           price_kes?: number | null
+          price_valid_until?: string | null
+          procurement_cost_kes?: number | null
+          quote_eligible?: boolean
+          sku?: string | null
           slug?: string
           sort_order?: number
           spec?: string | null
+          supplier_name?: string | null
+          unit?: string
           updated_at?: string
+          vat_rated?: boolean
         }
         Relationships: []
       }
@@ -625,6 +917,66 @@ export type Database = {
         }
         Relationships: []
       }
+      quote_settings: {
+        Row: {
+          contingency_high_pct: number
+          contingency_low_pct: number
+          contingency_medium_pct: number
+          default_assumptions: string
+          default_exclusions: string
+          default_payment_terms: string
+          engineer_hour_kes: number | null
+          id: number
+          labour_day_kes: number | null
+          labour_hour_kes: number | null
+          min_margin_pct: number
+          overhead_pct: number
+          target_margin_pct: number
+          transport_km_kes: number | null
+          updated_at: string
+          validity_days: number
+          vat_pct: number
+        }
+        Insert: {
+          contingency_high_pct?: number
+          contingency_low_pct?: number
+          contingency_medium_pct?: number
+          default_assumptions?: string
+          default_exclusions?: string
+          default_payment_terms?: string
+          engineer_hour_kes?: number | null
+          id?: number
+          labour_day_kes?: number | null
+          labour_hour_kes?: number | null
+          min_margin_pct?: number
+          overhead_pct?: number
+          target_margin_pct?: number
+          transport_km_kes?: number | null
+          updated_at?: string
+          validity_days?: number
+          vat_pct?: number
+        }
+        Update: {
+          contingency_high_pct?: number
+          contingency_low_pct?: number
+          contingency_medium_pct?: number
+          default_assumptions?: string
+          default_exclusions?: string
+          default_payment_terms?: string
+          engineer_hour_kes?: number | null
+          id?: number
+          labour_day_kes?: number | null
+          labour_hour_kes?: number | null
+          min_margin_pct?: number
+          overhead_pct?: number
+          target_margin_pct?: number
+          transport_km_kes?: number | null
+          updated_at?: string
+          validity_days?: number
+          vat_pct?: number
+        }
+        Relationships: []
+      }
       sms_log: {
         Row: {
           body: string
@@ -668,6 +1020,39 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      suppliers: {
+        Row: {
+          contact_name: string | null
+          created_at: string
+          email: string | null
+          id: string
+          name: string
+          notes: string | null
+          phone: string | null
+          updated_at: string
+        }
+        Insert: {
+          contact_name?: string | null
+          created_at?: string
+          email?: string | null
+          id?: string
+          name: string
+          notes?: string | null
+          phone?: string | null
+          updated_at?: string
+        }
+        Update: {
+          contact_name?: string | null
+          created_at?: string
+          email?: string | null
+          id?: string
+          name?: string
+          notes?: string | null
+          phone?: string | null
+          updated_at?: string
+        }
+        Relationships: []
       }
       user_roles: {
         Row: {
