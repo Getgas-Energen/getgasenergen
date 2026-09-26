@@ -36,6 +36,7 @@ import { Route as AuthenticatedConsoleJobsRouteImport } from './routes/_authenti
 import { Route as AuthenticatedConsoleOrdersRouteImport } from './routes/_authenticated/console.orders'
 import { Route as AuthenticatedConsolePostsRouteImport } from './routes/_authenticated/console.posts'
 import { Route as AuthenticatedConsoleProjectsRouteImport } from './routes/_authenticated/console.projects'
+import { Route as AuthenticatedConsoleQuoteBuilderRouteImport } from './routes/_authenticated/console.quote-builder'
 import { Route as AuthenticatedConsoleQuotesRouteImport } from './routes/_authenticated/console.quotes'
 import { Route as AuthenticatedConsoleShopRouteImport } from './routes/_authenticated/console.shop'
 import { Route as AuthenticatedConsoleSubmissionsRouteImport } from './routes/_authenticated/console.submissions'
@@ -187,6 +188,12 @@ const AuthenticatedConsoleProjectsRoute =
     path: '/projects',
     getParentRoute: () => AuthenticatedConsoleRoute,
   } as any)
+const AuthenticatedConsoleQuoteBuilderRoute =
+  AuthenticatedConsoleQuoteBuilderRouteImport.update({
+    id: '/quote-builder',
+    path: '/quote-builder',
+    getParentRoute: () => AuthenticatedConsoleRoute,
+  } as any)
 const AuthenticatedConsoleQuotesRoute =
   AuthenticatedConsoleQuotesRouteImport.update({
     id: '/quotes',
@@ -272,6 +279,7 @@ export interface FileRoutesByFullPath {
   '/console/orders': typeof AuthenticatedConsoleOrdersRoute
   '/console/posts': typeof AuthenticatedConsolePostsRouteWithChildren
   '/console/projects': typeof AuthenticatedConsoleProjectsRoute
+  '/console/quote-builder': typeof AuthenticatedConsoleQuoteBuilderRoute
   '/console/quotes': typeof AuthenticatedConsoleQuotesRoute
   '/console/shop': typeof AuthenticatedConsoleShopRoute
   '/console/submissions': typeof AuthenticatedConsoleSubmissionsRoute
@@ -309,6 +317,7 @@ export interface FileRoutesByTo {
   '/console/orders': typeof AuthenticatedConsoleOrdersRoute
   '/console/posts': typeof AuthenticatedConsolePostsRouteWithChildren
   '/console/projects': typeof AuthenticatedConsoleProjectsRoute
+  '/console/quote-builder': typeof AuthenticatedConsoleQuoteBuilderRoute
   '/console/quotes': typeof AuthenticatedConsoleQuotesRoute
   '/console/shop': typeof AuthenticatedConsoleShopRoute
   '/console/submissions': typeof AuthenticatedConsoleSubmissionsRoute
@@ -349,6 +358,7 @@ export interface FileRoutesById {
   '/_authenticated/console/orders': typeof AuthenticatedConsoleOrdersRoute
   '/_authenticated/console/posts': typeof AuthenticatedConsolePostsRouteWithChildren
   '/_authenticated/console/projects': typeof AuthenticatedConsoleProjectsRoute
+  '/_authenticated/console/quote-builder': typeof AuthenticatedConsoleQuoteBuilderRoute
   '/_authenticated/console/quotes': typeof AuthenticatedConsoleQuotesRoute
   '/_authenticated/console/shop': typeof AuthenticatedConsoleShopRoute
   '/_authenticated/console/submissions': typeof AuthenticatedConsoleSubmissionsRoute
@@ -389,6 +399,7 @@ export interface FileRouteTypes {
     | '/console/orders'
     | '/console/posts'
     | '/console/projects'
+    | '/console/quote-builder'
     | '/console/quotes'
     | '/console/shop'
     | '/console/submissions'
@@ -426,6 +437,7 @@ export interface FileRouteTypes {
     | '/console/orders'
     | '/console/posts'
     | '/console/projects'
+    | '/console/quote-builder'
     | '/console/quotes'
     | '/console/shop'
     | '/console/submissions'
@@ -465,6 +477,7 @@ export interface FileRouteTypes {
     | '/_authenticated/console/orders'
     | '/_authenticated/console/posts'
     | '/_authenticated/console/projects'
+    | '/_authenticated/console/quote-builder'
     | '/_authenticated/console/quotes'
     | '/_authenticated/console/shop'
     | '/_authenticated/console/submissions'
@@ -694,6 +707,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedConsoleProjectsRouteImport
       parentRoute: typeof AuthenticatedConsoleRoute
     }
+    '/_authenticated/console/quote-builder': {
+      id: '/_authenticated/console/quote-builder'
+      path: '/quote-builder'
+      fullPath: '/console/quote-builder'
+      preLoaderRoute: typeof AuthenticatedConsoleQuoteBuilderRouteImport
+      parentRoute: typeof AuthenticatedConsoleRoute
+    }
     '/_authenticated/console/quotes': {
       id: '/_authenticated/console/quotes'
       path: '/quotes'
@@ -801,6 +821,7 @@ interface AuthenticatedConsoleRouteChildren {
   AuthenticatedConsoleOrdersRoute: typeof AuthenticatedConsoleOrdersRoute
   AuthenticatedConsolePostsRoute: typeof AuthenticatedConsolePostsRouteWithChildren
   AuthenticatedConsoleProjectsRoute: typeof AuthenticatedConsoleProjectsRoute
+  AuthenticatedConsoleQuoteBuilderRoute: typeof AuthenticatedConsoleQuoteBuilderRoute
   AuthenticatedConsoleQuotesRoute: typeof AuthenticatedConsoleQuotesRoute
   AuthenticatedConsoleShopRoute: typeof AuthenticatedConsoleShopRoute
   AuthenticatedConsoleSubmissionsRoute: typeof AuthenticatedConsoleSubmissionsRoute
@@ -814,6 +835,7 @@ const AuthenticatedConsoleRouteChildren: AuthenticatedConsoleRouteChildren = {
   AuthenticatedConsoleOrdersRoute: AuthenticatedConsoleOrdersRoute,
   AuthenticatedConsolePostsRoute: AuthenticatedConsolePostsRouteWithChildren,
   AuthenticatedConsoleProjectsRoute: AuthenticatedConsoleProjectsRoute,
+  AuthenticatedConsoleQuoteBuilderRoute: AuthenticatedConsoleQuoteBuilderRoute,
   AuthenticatedConsoleQuotesRoute: AuthenticatedConsoleQuotesRoute,
   AuthenticatedConsoleShopRoute: AuthenticatedConsoleShopRoute,
   AuthenticatedConsoleSubmissionsRoute: AuthenticatedConsoleSubmissionsRoute,
