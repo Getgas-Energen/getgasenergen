@@ -196,6 +196,60 @@ export type Database = {
           },
         ]
       }
+      ebk_rates: {
+        Row: {
+          category: string
+          daily_kes: number
+          description: string
+          hourly_kes: number
+          monthly_kes: number
+          source: string
+          updated_at: string
+        }
+        Insert: {
+          category: string
+          daily_kes: number
+          description: string
+          hourly_kes: number
+          monthly_kes: number
+          source?: string
+          updated_at?: string
+        }
+        Update: {
+          category?: string
+          daily_kes?: number
+          description?: string
+          hourly_kes?: number
+          monthly_kes?: number
+          source?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      ebk_stages: {
+        Row: {
+          code: string
+          label: string
+          pct: number
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          code: string
+          label: string
+          pct: number
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          code?: string
+          label?: string
+          pct?: number
+          sort_order?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       eng_quote_items: {
         Row: {
           created_at: string
@@ -678,10 +732,12 @@ export type Database = {
           created_at: string
           default_margin_pct: number | null
           description: string | null
+          hs_code: string | null
           id: string
           image_url: string | null
           in_stock: boolean
           is_active: boolean
+          kra_tax_category: string | null
           landed_cost_kes: number | null
           lead_time_days: number | null
           min_price_kes: number | null
@@ -690,12 +746,14 @@ export type Database = {
           price_valid_until: string | null
           procurement_cost_kes: number | null
           quote_eligible: boolean
+          quote_only: boolean
           sku: string | null
           slug: string
           sort_order: number
           spec: string | null
           supplier_name: string | null
           unit: string
+          unspsc_code: string | null
           updated_at: string
           vat_rated: boolean
         }
@@ -705,10 +763,12 @@ export type Database = {
           created_at?: string
           default_margin_pct?: number | null
           description?: string | null
+          hs_code?: string | null
           id?: string
           image_url?: string | null
           in_stock?: boolean
           is_active?: boolean
+          kra_tax_category?: string | null
           landed_cost_kes?: number | null
           lead_time_days?: number | null
           min_price_kes?: number | null
@@ -717,12 +777,14 @@ export type Database = {
           price_valid_until?: string | null
           procurement_cost_kes?: number | null
           quote_eligible?: boolean
+          quote_only?: boolean
           sku?: string | null
           slug: string
           sort_order?: number
           spec?: string | null
           supplier_name?: string | null
           unit?: string
+          unspsc_code?: string | null
           updated_at?: string
           vat_rated?: boolean
         }
@@ -732,10 +794,12 @@ export type Database = {
           created_at?: string
           default_margin_pct?: number | null
           description?: string | null
+          hs_code?: string | null
           id?: string
           image_url?: string | null
           in_stock?: boolean
           is_active?: boolean
+          kra_tax_category?: string | null
           landed_cost_kes?: number | null
           lead_time_days?: number | null
           min_price_kes?: number | null
@@ -744,12 +808,14 @@ export type Database = {
           price_valid_until?: string | null
           procurement_cost_kes?: number | null
           quote_eligible?: boolean
+          quote_only?: boolean
           sku?: string | null
           slug?: string
           sort_order?: number
           spec?: string | null
           supplier_name?: string | null
           unit?: string
+          unspsc_code?: string | null
           updated_at?: string
           vat_rated?: boolean
         }
@@ -925,12 +991,15 @@ export type Database = {
           default_assumptions: string
           default_exclusions: string
           default_payment_terms: string
+          ebk_mech_max_pct: number
+          ebk_mech_min_pct: number
           engineer_hour_kes: number | null
           id: number
           labour_day_kes: number | null
           labour_hour_kes: number | null
           min_margin_pct: number
           overhead_pct: number
+          quote_only_threshold_kes: number
           target_margin_pct: number
           transport_km_kes: number | null
           updated_at: string
@@ -944,12 +1013,15 @@ export type Database = {
           default_assumptions?: string
           default_exclusions?: string
           default_payment_terms?: string
+          ebk_mech_max_pct?: number
+          ebk_mech_min_pct?: number
           engineer_hour_kes?: number | null
           id?: number
           labour_day_kes?: number | null
           labour_hour_kes?: number | null
           min_margin_pct?: number
           overhead_pct?: number
+          quote_only_threshold_kes?: number
           target_margin_pct?: number
           transport_km_kes?: number | null
           updated_at?: string
@@ -963,12 +1035,15 @@ export type Database = {
           default_assumptions?: string
           default_exclusions?: string
           default_payment_terms?: string
+          ebk_mech_max_pct?: number
+          ebk_mech_min_pct?: number
           engineer_hour_kes?: number | null
           id?: number
           labour_day_kes?: number | null
           labour_hour_kes?: number | null
           min_margin_pct?: number
           overhead_pct?: number
+          quote_only_threshold_kes?: number
           target_margin_pct?: number
           transport_km_kes?: number | null
           updated_at?: string
